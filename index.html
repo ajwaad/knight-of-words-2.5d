@@ -38,10 +38,18 @@
         </div>
       </div>
 
-      <!-- Center: Chamber Title -->
+      <!-- Center: Chamber Title & Quick Chamber Switcher -->
       <div class="chamber-indicator">
         <div id="chamber-badge" class="chamber-badge">CHAMBER 1 OF 5</div>
         <div id="chamber-title" class="chamber-title">FORGOTTEN HIVE</div>
+        <div class="chamber-nav-row">
+          <button type="button" class="chamber-jump-btn active" data-chamber="0">Ch 1: Hive</button>
+          <button type="button" class="chamber-jump-btn" data-chamber="1">Ch 2: Mantis</button>
+          <button type="button" class="chamber-jump-btn" data-chamber="2">Ch 3: Dung</button>
+          <button type="button" class="chamber-jump-btn" data-chamber="3">Ch 4: Hornet</button>
+          <button type="button" class="chamber-jump-btn" data-chamber="4">Ch 5: Grimm</button>
+          <button type="button" id="btn-mute-audio" class="hud-util-btn">🔊 Audio</button>
+        </div>
       </div>
 
       <!-- Enemy Status: Boss Name & HP Bar -->
@@ -60,37 +68,39 @@
     <!-- Bottom Bar: Controls Guide & Combat Actions Bar -->
     <div class="hud-bottom-bar">
       
-      <!-- Interactive Controls Guide -->
+      <!-- Interactive Controls Guide + On-Screen Touch Buttons -->
       <div class="controls-hint-bar">
-        <span>🎮 <span class="key-pill">A</span> <span class="key-pill">D</span> Run</span>
-        <span><span class="key-pill">Space</span> Jump</span>
-        <span><span class="key-pill">Shift</span> Dash</span>
-        <span><span class="key-pill">W</span> <span class="key-pill">S</span> 2.5D Depth</span>
-        <span>⚔️ <span class="key-pill">J</span> or <span class="key-pill">1-4</span> Question Strike</span>
+        <div class="touch-pad-bar">
+          <button type="button" id="btn-move-left" class="touch-ctrl-btn">◀ Left [A]</button>
+          <button type="button" id="btn-move-right" class="touch-ctrl-btn">Right [D] ▶</button>
+          <button type="button" id="btn-jump" class="touch-ctrl-btn">▲ Jump [Space]</button>
+          <button type="button" id="btn-dash" class="touch-ctrl-btn">💨 Dash [Shift]</button>
+        </div>
+        <span>⚔️ <span class="key-pill">1-4</span> or <span class="key-pill">J/K/L/U</span> Strike</span>
       </div>
 
       <!-- Combat Action Bar -->
       <div class="combat-action-bar">
-        <button id="action-slash" class="action-btn" title="Press [J] or [1] to Strike with Nail">
+        <button id="action-slash" class="action-btn" title="Press [1] or [J] to Strike with Nail">
           <span class="action-hotkey">[1] / J</span>
           <span class="action-title">Nail Slash</span>
           <span class="action-cost">+25 SOUL • 25 DMG</span>
         </button>
 
-        <button id="action-spell" class="action-btn soul-action" title="Press [K] or [2] to Cast Vengeful Spirit">
+        <button id="action-spell" class="action-btn soul-action" title="Press [2] or [K] to Cast Vengeful Spirit">
           <span class="action-hotkey">[2] / K</span>
           <span class="action-title">Soul Spirit</span>
           <span class="action-cost">-33 SOUL • 50 DMG</span>
         </button>
 
-        <button id="action-heal" class="action-btn soul-action" title="Press [L] or [3] to Focus and Recover 1 Mask">
+        <button id="action-heal" class="action-btn soul-action" title="Press [3] or [L] to Focus and Recover 1 Mask">
           <span class="action-hotkey">[3] / L</span>
           <span class="action-title">Focus Heal</span>
           <span class="action-cost">-33 SOUL • +1 MASK</span>
         </button>
 
-        <button id="action-great-slash" class="action-btn" title="Press [4] for Great Slash (Requires 2-Streak)" disabled>
-          <span class="action-hotkey">[4]</span>
+        <button id="action-great-slash" class="action-btn" title="Press [4] or [U] for Great Slash (Requires 2-Streak)" disabled>
+          <span class="action-hotkey">[4] / U</span>
           <span class="action-title">Great Slash</span>
           <span class="action-cost">2-STREAK • 70 DMG</span>
         </button>
@@ -109,8 +119,11 @@
   <!-- Question Trial Modal (Covert Differentiated Modal) -->
   <div id="question-modal">
     <div class="modal-header-row">
-      <span id="modal-standard-pill" class="modal-standard-pill">DSKP 2.1.5 • TIER 1</span>
-      <span id="modal-action-tag" class="modal-action-tag">⚔️ NAIL SLASH</span>
+      <span id="modal-standard-pill" class="modal-standard-pill">DSKP 2.1.5 • UNIT 1</span>
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <span id="modal-action-tag" class="modal-action-tag">⚔️ NAIL SLASH</span>
+        <button id="btn-cancel-trial" type="button" class="hud-util-btn" title="Close (Esc)">✕</button>
+      </div>
     </div>
 
     <div class="question-prompt-box">
@@ -132,7 +145,7 @@
       <button id="clue-toggle-btn" class="clue-toggle-btn" type="button">
         <span>📜 Nailmaster's Clue</span>
       </button>
-      <span style="font-size: 12px; color: var(--text-muted);">Use keyboard [1, 2, 3, 4] or click to answer</span>
+      <span style="font-size: 12px; color: var(--text-muted);">Press [1, 2, 3, 4] or click an option to strike</span>
     </div>
 
     <div id="clue-drawer" class="clue-drawer">
@@ -140,7 +153,7 @@
     </div>
   </div>
 
-  <!-- Chamber Clear / Victory Modal -->
+  <!-- Chamber Clear Modal -->
   <div id="chamber-clear-modal" class="overlay-fullscreen-modal">
     <div class="celebration-card">
       <div id="clear-modal-title" class="celebration-title">CHAMBER CLEARED!</div>
@@ -164,6 +177,34 @@
       </div>
 
       <button id="btn-next-chamber" class="primary-btn">ADVANCE TO NEXT CHAMBER</button>
+    </div>
+  </div>
+
+  <!-- Full Game Victory Modal (After Chamber 5) -->
+  <div id="game-complete-modal" class="overlay-fullscreen-modal">
+    <div class="celebration-card">
+      <div class="celebration-title">HALLOWNEST TRIAL MASTERED!</div>
+      <div class="celebration-subtitle">
+        You conquered all 5 chambers of Hallownest and mastered the Year 3 KSSR English trials!
+      </div>
+      <div class="stats-summary-grid">
+        <div class="stat-item">
+          <div id="complete-total-geo" class="stat-val">445 GEO</div>
+          <div class="stat-lbl">Total Geo Earned</div>
+        </div>
+        <div class="stat-item">
+          <div id="complete-accuracy" class="stat-val">100%</div>
+          <div class="stat-lbl">Trial Accuracy</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-val">Units 1–10</div>
+          <div class="stat-lbl">KSSR Completed</div>
+        </div>
+      </div>
+      <div style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;">
+        <button id="btn-complete-pbs" class="primary-btn" style="background: linear-gradient(135deg, #d97706 0%, #f5bc46 100%);">VIEW PBS REPORT</button>
+        <button id="btn-restart-game" class="primary-btn">PLAY AGAIN</button>
+      </div>
     </div>
   </div>
 

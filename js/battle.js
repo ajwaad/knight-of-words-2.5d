@@ -8,7 +8,7 @@ class BattleManager {
     this.game25d = null;
     this.questions = [];
     this.currentQuestion = null;
-    this.selectedAction = 'slash'; // 'slash', 'spell', 'heal', 'great_slash'
+    this.selectedAction = 'slash';
 
     // Player State
     this.playerMaxMasks = 5;
@@ -35,7 +35,7 @@ class BattleManager {
         enemyType: 'hiveling',
         maxHp: 60,
         hp: 60,
-        scale: 1.15,
+        scale: 1.05,
         lightColor: 0xf59e0b,
         units: [1, 2],
         rewardGeo: 40
@@ -44,10 +44,10 @@ class BattleManager {
         index: 1,
         title: 'Chamber 2: Greenpath Outpost',
         enemyName: 'Mantis Scout',
-        enemyType: 'grimmkin',
+        enemyType: 'mantis',
         maxHp: 90,
         hp: 90,
-        scale: 1.25,
+        scale: 1.1,
         lightColor: 0x10b981,
         units: [3, 4],
         rewardGeo: 55
@@ -59,7 +59,7 @@ class BattleManager {
         enemyType: 'dung_defender',
         maxHp: 120,
         hp: 120,
-        scale: 1.35,
+        scale: 1.15,
         lightColor: 0xb45309,
         units: [5, 6],
         rewardGeo: 80
@@ -71,7 +71,7 @@ class BattleManager {
         enemyType: 'hornet',
         maxHp: 160,
         hp: 160,
-        scale: 1.3,
+        scale: 1.12,
         lightColor: 0x00d4ff,
         units: [7, 8],
         rewardGeo: 110
@@ -83,7 +83,7 @@ class BattleManager {
         enemyType: 'grimm',
         maxHp: 200,
         hp: 200,
-        scale: 1.45,
+        scale: 1.15,
         lightColor: 0xef4444,
         units: [9, 10],
         rewardGeo: 160
@@ -98,13 +98,16 @@ class BattleManager {
   async init(game25dInstance) {
     this.game25d = game25dInstance;
 
-    // Load question dataset
-    try {
-      const resp = await fetch('data/questions.json');
-      this.questions = await resp.json();
-    } catch (err) {
-      console.warn('Using fallback questions', err);
-      this.questions = this.getFallbackQuestions();
+    if (window.INLINE_QUESTIONS && Array.isArray(window.INLINE_QUESTIONS)) {
+      this.questions = window.INLINE_QUESTIONS;
+    } else {
+      try {
+        const resp = await fetch('data/questions.json');
+        this.questions = await resp.json();
+      } catch (err) {
+        console.warn('Using fallback questions', err);
+        this.questions = this.getFallbackQuestions();
+      }
     }
 
     this.bindEvents();
@@ -124,7 +127,35 @@ class BattleManager {
     document.getElementById('action-heal')?.addEventListener('click', () => this.selectAction('heal'));
     document.getElementById('action-great-slash')?.addEventListener('click', () => this.selectAction('great_slash'));
 
-    // Question Modal hotkeys & navigation
+    // Chamber Quick-Select Buttons
+    document.querySelectorAll('.chamber-jump-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt(btn.getAttribute('data-chamber') || '0', 10);
+        document.getElementById('question-modal')?.classList.remove('visible');
+        document.getElementById('chamber-clear-modal')?.classList.remove('visible');
+        document.getElementById('game-over-modal')?.classList.remove('visible');
+        document.getElementById('game-complete-modal')?.classList.remove('visible');
+        this.isInputLocked = false;
+        this.startChamber(idx);
+      });
+    });
+
+    // Audio Mute Toggle
+    const muteBtn = document.getElementById('btn-mute-audio');
+    if (muteBtn) {
+      muteBtn.addEventListener('click', () => {
+        window.soundEngine.isMuted = !window.soundEngine.isMuted;
+        if (window.soundEngine.isMuted) {
+          window.soundEngine.stopAmbient();
+          muteBtn.textContent = '🔇 Muted';
+        } else {
+          window.soundEngine.startAmbient();
+          muteBtn.textContent = '🔊 Audio';
+        }
+      });
+    }
+
+    // Question Modal hotkeys & Escape to close
     window.addEventListener('keydown', (e) => {
       if (this.isInputLocked) return;
 
@@ -135,7 +166,16 @@ class BattleManager {
           if (btns[idx] && !btns[idx].disabled) {
             this.handleAnswer(idx);
           }
+        } else if (e.key === 'Escape') {
+          document.getElementById('question-modal')?.classList.remove('visible');
         }
+      }
+    });
+
+    // Cancel Question Modal Button
+    document.getElementById('btn-cancel-trial')?.addEventListener('click', () => {
+      if (!this.isInputLocked) {
+        document.getElementById('question-modal')?.classList.remove('visible');
       }
     });
 
@@ -158,6 +198,19 @@ class BattleManager {
       this.startChamber(this.currentChamberIndex);
     });
 
+    // Game Complete Modal Buttons
+    document.getElementById('btn-restart-game')?.addEventListener('click', () => {
+      document.getElementById('game-complete-modal')?.classList.remove('visible');
+      this.playerMasks = this.playerMaxMasks;
+      this.playerSoul = 33;
+      this.streak = 0;
+      this.startChamber(0);
+    });
+    document.getElementById('btn-complete-pbs')?.addEventListener('click', () => {
+      document.getElementById('game-complete-modal')?.classList.remove('visible');
+      this.showAssessmentReport();
+    });
+
     // Assessment Report Modal
     document.getElementById('btn-view-assessment')?.addEventListener('click', () => {
       this.showAssessmentReport();
@@ -178,17 +231,19 @@ class BattleManager {
     this.activeEnemy = { ...chamber, hp: chamber.maxHp };
     this.chamberCleared = false;
 
-    // Update 2.5D visual stage
     this.game25d.setChamberStage(index, chamber.enemyType);
     this.game25d.setEnemyData(this.activeEnemy);
 
-    // Update HUD text
-    document.getElementById('chamber-badge').textContent = `CHAMBER ${index + 1} OF 5`;
+    document.getElementById('chamber-badge').textContent = `CHAMBER ${index + 1} OF 5 • GEO: ${this.playerGeo}`;
     document.getElementById('chamber-title').textContent = chamber.title.toUpperCase();
     document.getElementById('enemy-name').textContent = chamber.enemyName;
 
+    document.querySelectorAll('.chamber-jump-btn').forEach((btn) => {
+      const bIdx = parseInt(btn.getAttribute('data-chamber') || '0', 10);
+      btn.classList.toggle('active', bIdx === index);
+    });
+
     this.updateHUD();
-    window.soundEngine.startAmbient();
   }
 
   selectAction(actionType) {
@@ -223,7 +278,6 @@ class BattleManager {
     const chamber = this.chambers[this.currentChamberIndex];
     const unitList = chamber.units;
 
-    // Filter questions by chamber's curriculum units
     const eligible = this.questions.filter(q => unitList.includes(q.unit));
     const pool = eligible.length > 0 ? eligible : this.questions;
 
@@ -255,7 +309,7 @@ class BattleManager {
       'great_slash': '⚡ GREAT SLASH (70 DMG)'
     };
     if (actionTag) actionTag.textContent = actionLabels[this.selectedAction] || 'TRIAL';
-    if (badge) badge.textContent = `DSKP ${this.currentQuestion.dskp || '2.1.5'} • TIER ${this.currentQuestion.tier || 1}`;
+    if (badge) badge.textContent = `DSKP ${this.currentQuestion.dskp || '2.1.5'} • UNIT ${this.currentQuestion.unit || 1}`;
 
     const formattedPrompt = this.currentQuestion.question.replace('___', '<span class="question-blank-highlight">_____</span>');
     if (promptText) promptText.innerHTML = formattedPrompt;
@@ -311,7 +365,7 @@ class BattleManager {
       setTimeout(() => {
         modal.classList.remove('visible');
         this.executePlayerSuccessAction();
-      }, 1100);
+      }, 950);
 
     } else {
       this.streak = 0;
@@ -329,7 +383,7 @@ class BattleManager {
       setTimeout(() => {
         modal.classList.remove('visible');
         this.executePlayerFailureAction();
-      }, 1800);
+      }, 1600);
     }
   }
 
@@ -344,7 +398,7 @@ class BattleManager {
 
         this.playerSoul = Math.min(100, this.playerSoul + 25);
         this.applyDamageToEnemy(totalDmg);
-      });
+      }, false);
 
     } else if (this.selectedAction === 'spell') {
       this.playerSoul = Math.max(0, this.playerSoul - 33);
@@ -369,8 +423,9 @@ class BattleManager {
       window.soundEngine.playSlash();
       this.game25d.triggerKnightNailSlash(() => {
         window.soundEngine.playHit();
+        this.playerSoul = Math.min(100, this.playerSoul + 15);
         this.applyDamageToEnemy(70);
-      });
+      }, true);
     }
 
     this.updateHUD();
@@ -412,6 +467,12 @@ class BattleManager {
     this.playerGeo += this.activeEnemy.rewardGeo || 50;
     this.updateHUD();
 
+    if (this.currentChamberIndex >= this.chambers.length - 1) {
+      this.showGameComplete();
+      this.isInputLocked = false;
+      return;
+    }
+
     const modal = document.getElementById('chamber-clear-modal');
     const title = document.getElementById('clear-modal-title');
     const desc = document.getElementById('clear-modal-desc');
@@ -435,8 +496,19 @@ class BattleManager {
   showGameComplete() {
     window.soundEngine.playVictory();
     const modal = document.getElementById('game-complete-modal');
-    if (modal) modal.classList.add('visible');
-    this.showAssessmentReport();
+    const geoEl = document.getElementById('complete-total-geo');
+    const accEl = document.getElementById('complete-accuracy');
+    const total = this.assessment.totalAnswered;
+    const correct = this.assessment.totalCorrect;
+    const pct = total > 0 ? Math.round((correct / total) * 100) : 100;
+
+    if (geoEl) geoEl.textContent = `${this.playerGeo} GEO`;
+    if (accEl) accEl.textContent = `${pct}%`;
+    if (modal) {
+      modal.classList.add('visible');
+    } else {
+      this.showAssessmentReport();
+    }
   }
 
   showAssessmentReport() {
@@ -492,17 +564,26 @@ class BattleManager {
     const maskRow = document.getElementById('masks-row');
     if (maskRow) {
       maskRow.innerHTML = '';
+      const fullSrc = (window.ASSET_DATA_URIS && window.ASSET_DATA_URIS['assets/ui/mask_full.png']) || 'assets/ui/mask_full.png';
+      const emptySrc = (window.ASSET_DATA_URIS && window.ASSET_DATA_URIS['assets/ui/mask_empty.png']) || 'assets/ui/mask_empty.png';
       for (let i = 0; i < this.playerMaxMasks; i++) {
         const img = document.createElement('img');
         img.className = 'mask-icon';
+        img.alt = i < this.playerMasks ? 'Full Mask' : 'Empty Mask';
         if (i < this.playerMasks) {
-          img.src = 'assets/ui/mask_full.png';
+          img.src = fullSrc;
         } else {
-          img.src = 'assets/ui/mask_empty.png';
+          img.src = emptySrc;
           img.classList.add('lost');
         }
         maskRow.appendChild(img);
       }
+    }
+
+    // Streak & Geo Badge
+    const chamberBadge = document.getElementById('chamber-badge');
+    if (chamberBadge) {
+      chamberBadge.textContent = `CHAMBER ${this.currentChamberIndex + 1} OF 5 • STREAK: ${this.streak}🔥 • ${this.playerGeo} GEO`;
     }
 
     // Soul Meter

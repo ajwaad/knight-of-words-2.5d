@@ -1,200 +1,187 @@
 import os
-import re
+import sys
+import glob
+import json
 import shutil
+import argparse
 import numpy as np
 from PIL import Image
-from scipy.ndimage import label, find_objects
 
-base_src = r"C:\Users\AMAL\Downloads\sprites\assets"
-proj_assets = r"C:\Users\AMAL\knight-of-words-2.5d\assets"
+DEFAULT_SRC = r"C:\Users\AMAL\Downloads\sprites\assets"
+PROJ_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PROJ_ASSETS = os.path.join(PROJ_ROOT, "assets")
 
-def extract_all():
-    print("=== EXTRACTING FULL MULTI-FRAME ANIMATION SEQUENCES ===")
+def standardize_frame(img, canvas_size=(300, 300), bottom_pad=12, auto_upright=False):
+    """Crops transparent bounds, optionally fixes 90-degree rotated Unity atlas sprites, and centers on a uniform canvas."""
+    img = img.convert("RGBA")
+    arr = np.array(img)
+    alpha = arr[:, :, 3] > 12
+    if not np.any(alpha):
+        return Image.new("RGBA", canvas_size, (0, 0, 0, 0))
 
-    # 1. HORNET: 41 individual frames!
-    # - Idle: Hornet - idle0000.png, idle0001.png
-    # - Jump: Hornet - jump0000.png to jump0009.png (10 frames)
-    # - Throw/Attack: Hornet - throw_side0000.png to throw_side0007.png (8 frames)
-    # - Harpoon Thread: 9 frames
-    # - Land: 6 frames
-    hornet_src = os.path.join(base_src, "Bosses", "Hornet")
-    hornet_dst = os.path.join(proj_assets, "bosses", "hornet")
-    os.makedirs(os.path.join(hornet_dst, "idle"), exist_ok=True)
-    os.makedirs(os.path.join(hornet_dst, "jump"), exist_ok=True)
-    os.makedirs(os.path.join(hornet_dst, "attack"), exist_ok=True)
-    os.makedirs(os.path.join(hornet_dst, "land"), exist_ok=True)
+    ys, xs = np.where(alpha)
+    crop = img.crop((int(xs.min()), int(ys.min()), int(xs.max()) + 1, int(ys.max()) + 1))
 
-    for f in os.listdir(hornet_src):
-        fp = os.path.join(hornet_src, f)
-        if "idle" in f:
-            shutil.copy2(fp, os.path.join(hornet_dst, "idle", f))
-        elif "jump" in f:
-            shutil.copy2(fp, os.path.join(hornet_dst, "jump", f))
-        elif "throw_side" in f or "harpoon" in f:
-            shutil.copy2(fp, os.path.join(hornet_dst, "attack", f))
-        elif "hard_land" in f:
-            shutil.copy2(fp, os.path.join(hornet_dst, "land", f))
+    if auto_upright:
+        # In Unity tk2d atlases, upright Knight sprites have the bright white mask at the top
+        # If packed sideways (90 deg), the brightest region is on the left or right edge.
+        c_arr = np.array(crop)
+        c_alpha = c_arr[:, :, 3] > 40
+        luma = (0.299 * c_arr[:, :, 0] + 0.587 * c_arr[:, :, 1] + 0.114 * c_arr[:, :, 2]) * c_alpha
+        h, w = luma.shape
+        if w > h * 1.15:
+            top_b = luma[:max(1, h // 3), :].mean()
+            left_b = luma[:, :max(1, w // 3)].mean()
+            right_b = luma[:, -max(1, w // 3):].mean()
+            if left_b > top_b * 1.25 and left_b >= right_b:
+                crop = crop.rotate(-90, expand=True)
+            elif right_b > top_b * 1.25 and right_b > left_b:
+                crop = crop.rotate(90, expand=True)
 
-    print(f"Hornet animation cycles organized into idle, jump, attack, land.")
+    cw, ch = canvas_size
+    max_w, max_h = int(cw * 0.86), int(ch * 0.86)
+    if crop.width > max_w or crop.height > max_h:
+        scale = min(max_w / max(crop.width, 1), max_h / max(crop.height, 1))
+        crop = crop.resize((max(1, int(crop.width * scale)), max(1, int(crop.height * scale))), Image.Resampling.LANCZOS)
 
-    # 2. GRIMM:
-    # - Bow: GG_grimm_bow0000.png to 0006.png (7 frames)
-    # - Heartbeat: Grimm_sleep_heartbeat0000.png to 0003.png (4 frames)
-    # - Eye Appear: Nightmare_Grimm_eye_appear0000.png to 0002.png (3 frames)
-    grimm_src = os.path.join(base_src, "Bosses", "Grimm")
-    grimm_dst = os.path.join(proj_assets, "bosses", "grimm")
-    os.makedirs(os.path.join(grimm_dst, "bow"), exist_ok=True)
-    os.makedirs(os.path.join(grimm_dst, "idle"), exist_ok=True)
+    out = Image.new("RGBA", canvas_size, (0, 0, 0, 0))
+    px = (cw - crop.width) // 2
+    py = max(0, ch - crop.height - bottom_pad)
+    out.paste(crop, (px, py), crop)
+    return out
 
-    for f in os.listdir(grimm_src):
-        fp = os.path.join(grimm_src, f)
-        if "bow" in f:
-            shutil.copy2(fp, os.path.join(grimm_dst, "bow", f))
-        elif "heartbeat" in f:
-            shutil.copy2(fp, os.path.join(grimm_dst, "idle", f))
-
-    print(f"Grimm animation cycles organized.")
-
-    # 3. HIVELING:
-    # - Fly: Hiveling - fly0000.png to fly0004.png (5 frames)
-    enemies_src = os.path.join(base_src, "Enemies & Corpses")
-    hiveling_dst = os.path.join(proj_assets, "enemies", "hiveling", "fly")
-    os.makedirs(hiveling_dst, exist_ok=True)
-    for f in os.listdir(enemies_src):
-        if f.startswith("Hiveling - fly") and f.endswith(".png"):
-            shutil.copy2(os.path.join(enemies_src, f), os.path.join(hiveling_dst, f))
-    print(f"Hiveling fly cycle copied (5 frames).")
-
-    # 4. GRIMMKIN / GHOST CROWD:
-    # - Grimm_crowd0000.png to 0007.png (8 frames)
-    grimmkin_dst = os.path.join(proj_assets, "enemies", "grimmkin", "float")
-    os.makedirs(grimmkin_dst, exist_ok=True)
-    for f in os.listdir(enemies_src):
-        if "Grimm_crowd" in f and f.endswith(".png"):
-            shutil.copy2(os.path.join(enemies_src, f), os.path.join(grimmkin_dst, f))
-    print(f"Grimmkin floating cycle copied (8 frames).")
-
-    # 5. DUNG DEFENDER:
-    dung_src = os.path.join(base_src, "Bosses", "Dung Defender & White Defender")
-    dung_dst = os.path.join(proj_assets, "bosses", "dung_defender")
-    os.makedirs(os.path.join(dung_dst, "sleep"), exist_ok=True)
-    for f in os.listdir(dung_src):
-        if "sleep" in f:
-            shutil.copy2(os.path.join(dung_src, f), os.path.join(dung_dst, "sleep", f))
-    print(f"Dung Defender sleep/emerge cycle copied.")
-
-    # 6. VFX SLASHES: Radiance_GG_slashes0000.png to 0010.png (11 frames!)
-    vfx_src = os.path.join(base_src, "Particles & Effects")
-    slash_dst = os.path.join(proj_assets, "vfx", "slashes")
-    os.makedirs(slash_dst, exist_ok=True)
-    for f in os.listdir(vfx_src):
-        if f.startswith("Radiance_GG_slashes") and f.endswith(".png"):
-            shutil.copy2(os.path.join(vfx_src, f), os.path.join(slash_dst, f))
-    print(f"Radiance multi-frame slashes copied (11 frames).")
-
-    # 7. THE KNIGHT ANIMATION SEQUENCES FROM ATLAS:
-    # Let's extract real sequential animation strips from 'The Knight main sprites - atlas0 #00000357.png'
-    knight_atlas_path = os.path.join(base_src, "The Knight", "The Knight main sprites - atlas0 #00000357.png")
-    atlas = Image.open(knight_atlas_path)
-    alpha = np.array(atlas.split()[-1]) > 10
-    labeled, num_features = label(alpha)
-    objs = find_objects(labeled)
-
-    knight_dst = os.path.join(proj_assets, "knight")
-    os.makedirs(os.path.join(knight_dst, "idle"), exist_ok=True)
-    os.makedirs(os.path.join(knight_dst, "run"), exist_ok=True)
-    os.makedirs(os.path.join(knight_dst, "attack"), exist_ok=True)
-    os.makedirs(os.path.join(knight_dst, "jump"), exist_ok=True)
-    os.makedirs(os.path.join(knight_dst, "cast"), exist_ok=True)
-
-    # Collect body-sized sprites with coordinates
-    sprites = []
-    for i, sl in enumerate(objs):
-        h = sl[0].stop - sl[0].start
-        w = sl[1].stop - sl[1].start
-        y = sl[0].start
-        x = sl[1].start
-        if 110 <= h <= 280 and 70 <= w <= 260:
-            sprites.append({'id': i, 'x': x, 'y': y, 'w': w, 'h': h, 'sl': sl})
-
-    # Sort primarily by Y, then X to get animation strips
-    sprites.sort(key=lambda s: (round(s['y'] / 35) * 35, s['x']))
-
-    # Group into strips of 4 to 8 frames
-    strips = []
-    current_strip = []
-    for s in sprites:
-        if not current_strip:
-            current_strip.append(s)
+def copy_named_sequence(src_files, dst_folder, prefix=None, canvas_size=None, max_frames=12):
+    os.makedirs(dst_folder, exist_ok=True)
+    selected = sorted(src_files)[:max_frames]
+    saved = []
+    for idx, fp in enumerate(selected):
+        fname = f"{prefix}_{idx:02d}.png" if prefix else os.path.basename(fp)
+        out_path = os.path.join(dst_folder, fname)
+        if canvas_size:
+            im = standardize_frame(Image.open(fp), canvas_size=canvas_size)
+            im.save(out_path, "PNG")
         else:
-            prev = current_strip[-1]
-            if abs(s['y'] - prev['y']) < 30 and (s['x'] - prev['x']) < 400:
-                current_strip.append(s)
-            else:
-                if len(current_strip) >= 4:
-                    strips.append(current_strip)
-                current_strip = [s]
-    if len(current_strip) >= 4:
-        strips.append(current_strip)
+            shutil.copy2(fp, out_path)
+        saved.append(out_path)
+    return saved
 
-    print(f"Extracted {len(strips)} contiguous Knight animation strips from atlas!")
+def find_files_matching(root_dir, keywords, exclude=()):
+    matches = []
+    for dirpath, _, filenames in os.walk(root_dir):
+        for fn in filenames:
+            if not fn.lower().endswith(".png"):
+                continue
+            low = fn.lower()
+            if any(k.lower() in low for k in keywords) and not any(x.lower() in low for x in exclude):
+                matches.append(os.path.join(dirpath, fn))
+    return sorted(matches)
 
-    # Categorize strips by aspect ratio / width
-    # 1. Run/Walk: Typically 6-8 frames with moderate width (~120-170px)
-    # 2. Idle: 4-6 frames upright (~100-140px)
-    # 3. Slash/Attack: wide frames (>180px with weapon arc)
-    # 4. Jump/Fall: vertical frames
-    run_strip = None
-    idle_strip = None
-    attack_strip = None
-    jump_strip = None
-    cast_strip = None
+def rebuild_manifests():
+    manifest = {}
+    animations = {}
+    for dirpath, _, filenames in os.walk(PROJ_ASSETS):
+        pngs = sorted([f for f in filenames if f.lower().endswith(".png")])
+        if not pngs:
+            continue
+        rel_dir = os.path.relpath(dirpath, PROJ_ASSETS).replace("\\", "/")
+        if rel_dir == ".":
+            continue
+        manifest[rel_dir] = pngs
+        animations[rel_dir] = [f"assets/{rel_dir}/{f}" for f in pngs]
 
-    for strip in strips:
-        avg_w = np.mean([s['w'] for s in strip])
-        avg_h = np.mean([s['h'] for s in strip])
-        n = len(strip)
-        print(f"Strip: {n} frames, avg_w: {avg_w:.1f}, avg_h: {avg_h:.1f}, Y: {strip[0]['y']}")
+    with open(os.path.join(PROJ_ASSETS, "manifest.json"), "w", encoding="utf-8") as f:
+        json.dump(manifest, f, indent=2)
+    os.makedirs(os.path.join(PROJ_ROOT, "data"), exist_ok=True)
+    with open(os.path.join(PROJ_ROOT, "data", "animations.json"), "w", encoding="utf-8") as f:
+        json.dump(animations, f, indent=2)
+    print(f"Updated assets/manifest.json and data/animations.json ({sum(len(v) for v in manifest.values())} PNGs indexed).")
 
-        if n >= 6 and 120 <= avg_w <= 175 and run_strip is None:
-            run_strip = strip
-        elif n >= 4 and avg_w > 180 and attack_strip is None:
-            attack_strip = strip
-        elif n >= 4 and avg_w < 130 and idle_strip is None:
-            idle_strip = strip
-        elif n >= 4 and jump_strip is None:
-            jump_strip = strip
-        elif n >= 4 and cast_strip is None:
-            cast_strip = strip
+def extract_from_drive_dump(base_src):
+    if not os.path.exists(base_src):
+        print(f"[INFO] External sprite dump '{base_src}' not found on this machine.")
+        print("[INFO] Retaining bundled ready-to-play PNG assets in assets/ and refreshing manifests.")
+        rebuild_manifests()
+        return
 
-    # Fallbacks if any category is none
-    if not run_strip and strips: run_strip = strips[0]
-    if not idle_strip and len(strips) > 1: idle_strip = strips[1]
-    if not attack_strip and len(strips) > 2: attack_strip = strips[2]
-    if not jump_strip and len(strips) > 3: jump_strip = strips[3]
-    if not cast_strip and len(strips) > 4: cast_strip = strips[4]
+    print(f"=== SYNCING PROPERLY NAMED ASSETS FROM {base_src} ===")
 
-    def save_strip(strip, target_folder, prefix):
-        if not strip: return
-        for idx, s in enumerate(strip):
-            sl = s['sl']
-            crop = atlas.crop((sl[1].start, sl[0].start, sl[1].stop, sl[0].stop))
-            # Standardize canvas size to prevent jitter
-            out_img = Image.new("RGBA", (300, 300), (0, 0, 0, 0))
-            # Anchor at bottom-center
-            paste_x = (300 - crop.width) // 2
-            paste_y = 300 - crop.height - 10
-            out_img.paste(crop, (paste_x, paste_y))
-            out_img.save(os.path.join(target_folder, f"{prefix}_{idx:02d}.png"))
-        print(f"Saved {len(strip)} frames to {target_folder}")
+    # 1. THE KNIGHT: Prefer named frames in 'The Knight' subfolder over raw packed atlas
+    knight_dir = os.path.join(base_src, "The Knight")
+    if os.path.exists(knight_dir):
+        idle_files = find_files_matching(knight_dir, ["idle"], exclude=["atlas"])
+        run_files = find_files_matching(knight_dir, ["run", "walk"], exclude=["atlas"])
+        jump_files = find_files_matching(knight_dir, ["jump", "airborne", "fall"], exclude=["atlas"])
+        atk_files = find_files_matching(knight_dir, ["slash", "attack", "nail"], exclude=["atlas"])
+        cast_files = find_files_matching(knight_dir, ["fireball", "cast", "focus", "scream"], exclude=["atlas"])
+        hurt_files = find_files_matching(knight_dir, ["hurt", "damage", "recoil", "stun"], exclude=["atlas"])
 
-    save_strip(idle_strip, os.path.join(knight_dst, "idle"), "knight_idle")
-    save_strip(run_strip, os.path.join(knight_dst, "run"), "knight_run")
-    save_strip(attack_strip, os.path.join(knight_dst, "attack"), "knight_attack")
-    save_strip(jump_strip, os.path.join(knight_dst, "jump"), "knight_jump")
-    save_strip(cast_strip, os.path.join(knight_dst, "cast"), "knight_cast")
+        if idle_files:
+            copy_named_sequence(idle_files, os.path.join(PROJ_ASSETS, "knight", "idle"), "knight_idle", (300, 300), 4)
+        if run_files:
+            copy_named_sequence(run_files, os.path.join(PROJ_ASSETS, "knight", "run"), "knight_run", (300, 300), 7)
+        if jump_files:
+            copy_named_sequence(jump_files, os.path.join(PROJ_ASSETS, "knight", "jump"), "knight_jump", (300, 300), 5)
+        if atk_files:
+            copy_named_sequence(atk_files, os.path.join(PROJ_ASSETS, "knight", "attack"), "knight_attack", (300, 300), 5)
+        if cast_files:
+            copy_named_sequence(cast_files, os.path.join(PROJ_ASSETS, "knight", "cast"), "knight_cast", (300, 300), 5)
+        if hurt_files:
+            im = standardize_frame(Image.open(hurt_files[0]), (300, 300))
+            im.save(os.path.join(PROJ_ASSETS, "knight", "hurt.png"), "PNG")
 
-    print("=== ALL ANIMATION CYCLES SUCCESSFULLY PROCESSED AND ORGANIZED! ===")
+    # 2. CHAMBER 1: HIVELING
+    hiveling_files = find_files_matching(base_src, ["Hiveling - fly"])
+    if hiveling_files:
+        copy_named_sequence(hiveling_files, os.path.join(PROJ_ASSETS, "enemies", "hiveling", "fly"), None, None, 5)
+        copy_named_sequence(hiveling_files, os.path.join(PROJ_ASSETS, "enemies", "hiveling"), None, None, 5)
+
+    # 3. CHAMBER 2: MANTIS SCOUT / MANTIS YOUTH / MANTIS WARRIOR
+    mantis_idle = find_files_matching(base_src, ["Mantis Youth - idle", "Mantis Warrior - idle", "Mantis - idle", "Mantis_fly"])
+    mantis_atk = find_files_matching(base_src, ["Mantis Youth - attack", "Mantis Warrior - slash", "Mantis - attack", "Mantis - lance"])
+    if mantis_idle:
+        copy_named_sequence(mantis_idle, os.path.join(PROJ_ASSETS, "enemies", "mantis", "idle"), "Mantis_Scout_idle", (340, 320), 6)
+    if mantis_atk:
+        copy_named_sequence(mantis_atk, os.path.join(PROJ_ASSETS, "enemies", "mantis", "attack"), "Mantis_Scout_attack", (340, 320), 6)
+
+    # 4. CHAMBER 3: DUNG DEFENDER
+    dung_idle = find_files_matching(base_src, ["Dung Defender - idle", "Dung_Def_Body", "dung_def_idle"])
+    dung_atk = find_files_matching(base_src, ["Dung Defender - throw", "Dung Defender - roll", "Dung Defender - punch", "dung_def_sleep"])
+    if dung_idle:
+        copy_named_sequence(dung_idle, os.path.join(PROJ_ASSETS, "bosses", "dung_defender", "idle"), "dung_def_idle", (360, 320), 4)
+    if dung_atk:
+        copy_named_sequence(dung_atk, os.path.join(PROJ_ASSETS, "bosses", "dung_defender", "attack"), "dung_def_attack", (360, 320), 4)
+
+    # 5. CHAMBER 4: HORNET
+    hornet_idle = find_files_matching(base_src, ["Hornet - idle"])
+    hornet_jump = find_files_matching(base_src, ["Hornet - jump"])
+    hornet_atk = find_files_matching(base_src, ["Hornet - throw_side"])
+    hornet_land = find_files_matching(base_src, ["Hornet - hard_land"])
+    if hornet_idle:
+        copy_named_sequence(hornet_idle, os.path.join(PROJ_ASSETS, "bosses", "hornet", "idle"), None, None, 2)
+    if hornet_jump:
+        copy_named_sequence(hornet_jump, os.path.join(PROJ_ASSETS, "bosses", "hornet", "jump"), None, None, 10)
+    if hornet_atk:
+        copy_named_sequence(hornet_atk, os.path.join(PROJ_ASSETS, "bosses", "hornet", "attack"), None, None, 8)
+    if hornet_land:
+        copy_named_sequence(hornet_land, os.path.join(PROJ_ASSETS, "bosses", "hornet", "land"), None, None, 6)
+
+    # 6. CHAMBER 5: TROUPE MASTER GRIMM (Use standing/bow/cast frames, NOT sleep_heartbeat organ!)
+    grimm_bow = find_files_matching(base_src, ["GG_grimm_bow", "Grimm - bow"])
+    grimm_idle = find_files_matching(base_src, ["Grimm - idle", "GG_grimm_bow", "Grimm - stand", "Grimm - cape"])
+    if grimm_bow:
+        copy_named_sequence(grimm_bow, os.path.join(PROJ_ASSETS, "bosses", "grimm", "bow"), None, None, 7)
+    if grimm_idle:
+        for i in range(4):
+            src_fp = grimm_idle[min(i, len(grimm_idle) - 1)]
+            dst_fp = os.path.join(PROJ_ASSETS, "bosses", "grimm", "idle", f"Grimm_sleep_heartbeat000{i}.png")
+            os.makedirs(os.path.dirname(dst_fp), exist_ok=True)
+            shutil.copy2(src_fp, dst_fp)
+
+    rebuild_manifests()
+    print("=== DRIVE SPRITE SYNC COMPLETE ===")
 
 if __name__ == "__main__":
-    extract_all()
+    parser = argparse.ArgumentParser(description="Sync Hollow Knight 1.5.12459 named sprites into Knight of Words 2.5D.")
+    parser.add_argument("--src", default=DEFAULT_SRC, help="Path to extracted Hollow Knight sprites Drive folder")
+    args = parser.parse_args()
+    extract_from_drive_dump(args.src)
