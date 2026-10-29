@@ -1,0 +1,31 @@
+# Binary image and media assets (see manifest.txt for full asset inventory)
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+assets/**/*.png
+assets/*.png
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+
+# OS and Editor files
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
+.vscode/
+.idea/
+
+# Logs
+*.log

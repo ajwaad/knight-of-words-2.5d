@@ -1,0 +1,307 @@
+# Knight of Words: 2.5D Hallownest Trial - Asset Manifest
+# This manifest specifies all required sprite, UI, VFX, and background assets.
+# Total Asset Files: 300 PNGs
+# Total Processed: 300 images
+#
+# FORMAT: <relative_path> | <file_size_bytes> | <dimensions_WxH>
+# -------------------------------------------------------------------------
+assets/bg/Area_Abyss.png | 95155 B | 736x117
+assets/bg/Area_Art_City_of_Tears.png | 124777 B | 732x117
+assets/bg/Area_Art_Godshome.png | 240855 B | 732x117
+assets/bg/Area_Art_Mantis_Village.png | 114068 B | 732x117
+assets/bg/Area_Crystal_Mines.png | 136293 B | 736x117
+assets/bg/Lighthouse_Room_Interior_0007_lit_lantern.png | 643830 B | 1219x888
+assets/bg/Lighthouse_Room_Interior_0015_1.png | 500876 B | 1776x1149
+assets/bg/Nailmaster_03__0001_Floor.png | 77523 B | 2048x131
+assets/bg/nailmaster_03_0003_FG.png | 456460 B | 2048x1021
+assets/bg/nailmaster_03_0006_curtain_MID.png | 190564 B | 2048x281
+assets/bg/nailmaster_03_0008_BG.png | 1075946 B | 2048x518
+assets/bg/station_BG_tunnel.png | 136869 B | 937x1024
+assets/bg/station_FG_tunnel_02.png | 229556 B | 985x1024
+assets/bg/tram_BG_wrecked.png | 430020 B | 1242x635
+assets/bosses/dung_defender/Dung Defender head - atlas0 #84007.png | 101392 B | 512x512
+assets/bosses/dung_defender/Dung_Def_Body.png | 31995 B | 228x206
+assets/bosses/dung_defender/dung_def_sleep0000.png | 22578 B | 352x183
+assets/bosses/dung_defender/dung_def_sleep0001.png | 24465 B | 354x183
+assets/bosses/dung_defender/dung_def_sleep0002.png | 24018 B | 345x183
+assets/bosses/dung_defender/sleep/dung_def_sleep0000.png | 22578 B | 352x183
+assets/bosses/dung_defender/sleep/dung_def_sleep0001.png | 24465 B | 354x183
+assets/bosses/dung_defender/sleep/dung_def_sleep0002.png | 24018 B | 345x183
+assets/bosses/grimm/GG_grimm_bow0000.png | 40517 B | 525x562
+assets/bosses/grimm/GG_grimm_bow0001.png | 36845 B | 525x562
+assets/bosses/grimm/GG_grimm_bow0002.png | 33102 B | 525x562
+assets/bosses/grimm/GG_grimm_bow0003.png | 34725 B | 525x562
+assets/bosses/grimm/GG_grimm_bow0004.png | 34928 B | 525x562
+assets/bosses/grimm/GG_grimm_bow0005.png | 36064 B | 525x562
+assets/bosses/grimm/GG_grimm_bow0006.png | 35648 B | 525x562
+assets/bosses/grimm/Grimm_sleep_heartbeat0000.png | 25517 B | 184x501
+assets/bosses/grimm/Grimm_sleep_heartbeat0001.png | 25577 B | 179x502
+assets/bosses/grimm/Grimm_sleep_heartbeat0002.png | 29717 B | 186x503
+assets/bosses/grimm/Grimm_sleep_heartbeat0003.png | 26111 B | 188x502
+assets/bosses/grimm/Nightmare_Grimm_eye_appear0000.png | 27239 B | 162x292
+assets/bosses/grimm/Nightmare_Grimm_eye_appear0001.png | 21582 B | 162x292
+assets/bosses/grimm/Nightmare_Grimm_eye_appear0002.png | 23234 B | 162x292
+assets/bosses/grimm/bow/GG_grimm_bow0000.png | 40517 B | 525x562
+assets/bosses/grimm/bow/GG_grimm_bow0001.png | 36845 B | 525x562
+assets/bosses/grimm/bow/GG_grimm_bow0002.png | 33102 B | 525x562
+assets/bosses/grimm/bow/GG_grimm_bow0003.png | 34725 B | 525x562
+assets/bosses/grimm/bow/GG_grimm_bow0004.png | 34928 B | 525x562
+assets/bosses/grimm/bow/GG_grimm_bow0005.png | 36064 B | 525x562
+assets/bosses/grimm/bow/GG_grimm_bow0006.png | 35648 B | 525x562
+assets/bosses/grimm/idle/Grimm_sleep_heartbeat0000.png | 25517 B | 184x501
+assets/bosses/grimm/idle/Grimm_sleep_heartbeat0001.png | 25577 B | 179x502
+assets/bosses/grimm/idle/Grimm_sleep_heartbeat0002.png | 29717 B | 186x503
+assets/bosses/grimm/idle/Grimm_sleep_heartbeat0003.png | 26111 B | 188x502
+assets/bosses/hornet/Hornet - harpoon_side0000.png | 30508 B | 381x249
+assets/bosses/hornet/Hornet - harpoon_side0001.png | 31064 B | 381x249
+assets/bosses/hornet/Hornet - idle0000.png | 17297 B | 381x249
+assets/bosses/hornet/Hornet - idle0001.png | 17494 B | 381x249
+assets/bosses/hornet/Hornet - jump0000.png | 16867 B | 381x249
+assets/bosses/hornet/Hornet - jump0001.png | 16315 B | 381x249
+assets/bosses/hornet/Hornet - jump0002.png | 17734 B | 381x249
+assets/bosses/hornet/Hornet - jump0003.png | 16554 B | 381x249
+assets/bosses/hornet/Hornet - jump0004.png | 16323 B | 381x249
+assets/bosses/hornet/Hornet - jump0005.png | 17301 B | 381x249
+assets/bosses/hornet/Hornet - jump0006.png | 17403 B | 381x249
+assets/bosses/hornet/Hornet - jump0007.png | 17039 B | 381x249
+assets/bosses/hornet/Hornet - jump0008.png | 17849 B | 381x249
+assets/bosses/hornet/Hornet - jump0009.png | 17073 B | 381x249
+assets/bosses/hornet/Hornet - throw_side0000.png | 15582 B | 381x249
+assets/bosses/hornet/Hornet - throw_side0001.png | 18372 B | 381x249
+assets/bosses/hornet/Hornet - throw_side0002.png | 16457 B | 381x249
+assets/bosses/hornet/Hornet - throw_side0003.png | 13083 B | 381x249
+assets/bosses/hornet/Hornet - throw_side0004.png | 13694 B | 381x249
+assets/bosses/hornet/Hornet - throw_side0005.png | 13481 B | 381x249
+assets/bosses/hornet/Hornet - throw_side0006.png | 12906 B | 381x249
+assets/bosses/hornet/Hornet - throw_side0007.png | 12522 B | 381x249
+assets/bosses/hornet/Hornet weapon - harpoon_thread_v020000.png | 564 B | 440x118
+assets/bosses/hornet/Hornet weapon - harpoon_thread_v020001.png | 564 B | 440x118
+assets/bosses/hornet/Hornet weapon - harpoon_thread_v020002.png | 21811 B | 440x118
+assets/bosses/hornet/Hornet weapon - harpoon_thread_v020003.png | 10102 B | 440x118
+assets/bosses/hornet/Hornet weapon - harpoon_thread_v020004.png | 8431 B | 440x118
+assets/bosses/hornet/Hornet weapon - harpoon_thread_v020005.png | 7921 B | 440x118
+assets/bosses/hornet/Hornet weapon - harpoon_thread_v020006.png | 2847 B | 440x118
+assets/bosses/hornet/Hornet weapon - harpoon_thread_v020007.png | 3965 B | 440x118
+assets/bosses/hornet/Hornet weapon - harpoon_thread_v020008.png | 3260 B | 440x118
+assets/bosses/hornet/attack/Hornet - harpoon_side0000.png | 30508 B | 381x249
+assets/bosses/hornet/attack/Hornet - harpoon_side0001.png | 31064 B | 381x249
+assets/bosses/hornet/attack/Hornet - throw_side0000.png | 15582 B | 381x249
+assets/bosses/hornet/attack/Hornet - throw_side0001.png | 18372 B | 381x249
+assets/bosses/hornet/attack/Hornet - throw_side0002.png | 16457 B | 381x249
+assets/bosses/hornet/attack/Hornet - throw_side0003.png | 13083 B | 381x249
+assets/bosses/hornet/attack/Hornet - throw_side0004.png | 13694 B | 381x249
+assets/bosses/hornet/attack/Hornet - throw_side0005.png | 13481 B | 381x249
+assets/bosses/hornet/attack/Hornet - throw_side0006.png | 12906 B | 381x249
+assets/bosses/hornet/attack/Hornet - throw_side0007.png | 12522 B | 381x249
+assets/bosses/hornet/attack/Hornet weapon - harpoon_thread_v020000.png | 564 B | 440x118
+assets/bosses/hornet/attack/Hornet weapon - harpoon_thread_v020001.png | 564 B | 440x118
+assets/bosses/hornet/attack/Hornet weapon - harpoon_thread_v020002.png | 21811 B | 440x118
+assets/bosses/hornet/attack/Hornet weapon - harpoon_thread_v020003.png | 10102 B | 440x118
+assets/bosses/hornet/attack/Hornet weapon - harpoon_thread_v020004.png | 8431 B | 440x118
+assets/bosses/hornet/attack/Hornet weapon - harpoon_thread_v020005.png | 7921 B | 440x118
+assets/bosses/hornet/attack/Hornet weapon - harpoon_thread_v020006.png | 2847 B | 440x118
+assets/bosses/hornet/attack/Hornet weapon - harpoon_thread_v020007.png | 3965 B | 440x118
+assets/bosses/hornet/attack/Hornet weapon - harpoon_thread_v020008.png | 3260 B | 440x118
+assets/bosses/hornet/idle/Hornet - idle0000.png | 17297 B | 381x249
+assets/bosses/hornet/idle/Hornet - idle0001.png | 17494 B | 381x249
+assets/bosses/hornet/jump/Hornet - jump0000.png | 16867 B | 381x249
+assets/bosses/hornet/jump/Hornet - jump0001.png | 16315 B | 381x249
+assets/bosses/hornet/jump/Hornet - jump0002.png | 17734 B | 381x249
+assets/bosses/hornet/jump/Hornet - jump0003.png | 16554 B | 381x249
+assets/bosses/hornet/jump/Hornet - jump0004.png | 16323 B | 381x249
+assets/bosses/hornet/jump/Hornet - jump0005.png | 17301 B | 381x249
+assets/bosses/hornet/jump/Hornet - jump0006.png | 17403 B | 381x249
+assets/bosses/hornet/jump/Hornet - jump0007.png | 17039 B | 381x249
+assets/bosses/hornet/jump/Hornet - jump0008.png | 17849 B | 381x249
+assets/bosses/hornet/jump/Hornet - jump0009.png | 17073 B | 381x249
+assets/bosses/hornet/land/Hornet - hard_land0000.png | 14825 B | 381x249
+assets/bosses/hornet/land/Hornet - hard_land0001.png | 14974 B | 381x249
+assets/bosses/hornet/land/Hornet - hard_land0002.png | 15489 B | 381x249
+assets/bosses/hornet/land/Hornet - hard_land0003.png | 16464 B | 381x249
+assets/bosses/hornet/land/Hornet - hard_land0004.png | 16002 B | 381x249
+assets/bosses/hornet/land/Hornet - hard_land0005.png | 17447 B | 381x249
+assets/enemies/grimmkin/Grimmkin Novice, Grimmkin Master, Grimmkin Nightmare, Troupe Master Grimm audience - Grimm_crowd0000.png | 37409 B | 389x247
+assets/enemies/grimmkin/Grimmkin Novice, Grimmkin Master, Grimmkin Nightmare, Troupe Master Grimm audience - Grimm_crowd0001.png | 37759 B | 388x248
+assets/enemies/grimmkin/Grimmkin Novice, Grimmkin Master, Grimmkin Nightmare, Troupe Master Grimm audience - Grimm_crowd0002.png | 37517 B | 390x245
+assets/enemies/grimmkin/Grimmkin Novice, Grimmkin Master, Grimmkin Nightmare, Troupe Master Grimm audience - Grimm_crowd0003.png | 38244 B | 388x247
+assets/enemies/grimmkin/Grimmkin Novice, Grimmkin Master, Grimmkin Nightmare, Troupe Master Grimm audience - Grimm_crowd0004.png | 37844 B | 389x248
+assets/enemies/grimmkin/Grimmkin Novice, Grimmkin Master, Grimmkin Nightmare, Troupe Master Grimm audience - Grimm_crowd0005.png | 41223 B | 389x247
+assets/enemies/grimmkin/Grimmkin Novice, Grimmkin Master, Grimmkin Nightmare, Troupe Master Grimm audience - Grimm_crowd0006.png | 41345 B | 391x250
+assets/enemies/grimmkin/Grimmkin Novice, Grimmkin Master, Grimmkin Nightmare, Troupe Master Grimm audience - Grimm_crowd0007.png | 40568 B | 390x253
+assets/enemies/grimmkin/float/Grimmkin Novice, Grimmkin Master, Grimmkin Nightmare, Troupe Master Grimm audience - Grimm_crowd0000.png | 37409 B | 389x247
+assets/enemies/grimmkin/float/Grimmkin Novice, Grimmkin Master, Grimmkin Nightmare, Troupe Master Grimm audience - Grimm_crowd0001.png | 37759 B | 388x248
+assets/enemies/grimmkin/float/Grimmkin Novice, Grimmkin Master, Grimmkin Nightmare, Troupe Master Grimm audience - Grimm_crowd0002.png | 37517 B | 390x245
+assets/enemies/grimmkin/float/Grimmkin Novice, Grimmkin Master, Grimmkin Nightmare, Troupe Master Grimm audience - Grimm_crowd0003.png | 38244 B | 388x247
+assets/enemies/grimmkin/float/Grimmkin Novice, Grimmkin Master, Grimmkin Nightmare, Troupe Master Grimm audience - Grimm_crowd0004.png | 37844 B | 389x248
+assets/enemies/grimmkin/float/Grimmkin Novice, Grimmkin Master, Grimmkin Nightmare, Troupe Master Grimm audience - Grimm_crowd0005.png | 41223 B | 389x247
+assets/enemies/grimmkin/float/Grimmkin Novice, Grimmkin Master, Grimmkin Nightmare, Troupe Master Grimm audience - Grimm_crowd0006.png | 41345 B | 391x250
+assets/enemies/grimmkin/float/Grimmkin Novice, Grimmkin Master, Grimmkin Nightmare, Troupe Master Grimm audience - Grimm_crowd0007.png | 40568 B | 390x253
+assets/enemies/hiveling/Hiveling - fly0000.png | 9202 B | 121x136
+assets/enemies/hiveling/Hiveling - fly0001.png | 10068 B | 121x136
+assets/enemies/hiveling/Hiveling - fly0002.png | 12163 B | 121x136
+assets/enemies/hiveling/Hiveling - fly0003.png | 10943 B | 121x136
+assets/enemies/hiveling/Hiveling - fly0004.png | 10467 B | 121x136
+assets/enemies/hiveling/fly/Hiveling - fly0000.png | 9202 B | 121x136
+assets/enemies/hiveling/fly/Hiveling - fly0001.png | 10068 B | 121x136
+assets/enemies/hiveling/fly/Hiveling - fly0002.png | 12163 B | 121x136
+assets/enemies/hiveling/fly/Hiveling - fly0003.png | 10943 B | 121x136
+assets/enemies/hiveling/fly/Hiveling - fly0004.png | 10467 B | 121x136
+assets/knight/attack.png | 117238 B | 241x270
+assets/knight/cast.png | 43523 B | 276x317
+assets/knight/hurt.png | 17371 B | 145x240
+assets/knight/idle.png | 39417 B | 152x245
+assets/knight/knight_pose_00_276x317.png | 43523 B | 276x317
+assets/knight/knight_pose_01_257x286.png | 80399 B | 257x286
+assets/knight/knight_pose_02_241x270.png | 117238 B | 241x270
+assets/knight/knight_pose_03_312x156.png | 67825 B | 312x156
+assets/knight/knight_pose_04_235x182.png | 73512 B | 235x182
+assets/knight/knight_pose_05_179x236.png | 69646 B | 179x236
+assets/knight/knight_pose_06_152x245.png | 39417 B | 152x245
+assets/knight/knight_pose_07_277x134.png | 23550 B | 277x134
+assets/knight/knight_pose_08_270x134.png | 34382 B | 270x134
+assets/knight/knight_pose_09_170x209.png | 65655 B | 170x209
+assets/knight/knight_pose_10_145x240.png | 17371 B | 145x240
+assets/knight/knight_pose_11_147x232.png | 18424 B | 147x232
+assets/knight/knight_pose_12_199x165.png | 34121 B | 199x165
+assets/knight/knight_pose_13_154x201.png | 16351 B | 154x201
+assets/knight/knight_pose_14_170x179.png | 40251 B | 170x179
+assets/knight/knight_pose_15_156x195.png | 34650 B | 156x195
+assets/knight/knight_pose_16_154x197.png | 25879 B | 154x197
+assets/knight/knight_pose_17_179x169.png | 24547 B | 179x169
+assets/knight/knight_pose_18_168x180.png | 13920 B | 168x180
+assets/knight/knight_pose_19_224x133.png | 12081 B | 224x133
+assets/knight/knight_pose_20_172x171.png | 7126 B | 172x171
+assets/knight/knight_pose_21_162x181.png | 58624 B | 162x181
+assets/knight/knight_pose_22_161x182.png | 52448 B | 161x182
+assets/knight/knight_pose_23_162x179.png | 52574 B | 162x179
+assets/knight/knight_pose_24_151x190.png | 33863 B | 151x190
+assets/knight/knight_pose_25_210x136.png | 13151 B | 210x136
+assets/knight/knight_pose_26_185x154.png | 17535 B | 185x154
+assets/knight/knight_pose_27_147x192.png | 31230 B | 147x192
+assets/knight/knight_pose_28_128x220.png | 47755 B | 128x220
+assets/knight/knight_pose_29_267x105.png | 20968 B | 267x105
+assets/knight/slash_wave.png | 67825 B | 312x156
+assets/knight/walk.png | 24547 B | 179x169
+assets/knight/attack/knight_attack_00.png | 61789 B | 300x300
+assets/knight/attack/knight_attack_01.png | 55862 B | 300x300
+assets/knight/attack/knight_attack_02.png | 8072 B | 300x300
+assets/knight/attack/knight_attack_03.png | 15400 B | 300x300
+assets/knight/attack/knight_attack_04.png | 33729 B | 300x300
+assets/knight/cast/knight_cast_00.png | 61789 B | 300x300
+assets/knight/cast/knight_cast_01.png | 55862 B | 300x300
+assets/knight/cast/knight_cast_02.png | 8072 B | 300x300
+assets/knight/cast/knight_cast_03.png | 15400 B | 300x300
+assets/knight/cast/knight_cast_04.png | 33729 B | 300x300
+assets/knight/idle/knight_idle_00.png | 10651 B | 300x300
+assets/knight/idle/knight_idle_01.png | 11106 B | 300x300
+assets/knight/idle/knight_idle_02.png | 9545 B | 300x300
+assets/knight/idle/knight_idle_03.png | 9056 B | 300x300
+assets/knight/jump/knight_jump_00.png | 55620 B | 300x300
+assets/knight/jump/knight_jump_01.png | 18902 B | 300x300
+assets/knight/jump/knight_jump_02.png | 11334 B | 300x300
+assets/knight/jump/knight_jump_03.png | 16364 B | 300x300
+assets/knight/jump/knight_jump_04.png | 9414 B | 300x300
+assets/knight/run/knight_run_00.png | 19070 B | 300x300
+assets/knight/run/knight_run_01.png | 19444 B | 300x300
+assets/knight/run/knight_run_02.png | 10772 B | 300x300
+assets/knight/run/knight_run_03.png | 14376 B | 300x300
+assets/knight/run/knight_run_04.png | 9752 B | 300x300
+assets/knight/run/knight_run_05.png | 10888 B | 300x300
+assets/knight/run/knight_run_06.png | 7836 B | 300x300
+assets/ui/Ancient Mask, mask shards - atlas0 #011015.png | 3324068 B | 2048x4096
+assets/ui/Charm_Notch.png | 9206 B | 119x105
+assets/ui/Charms_prompt.png | 86761 B | 454x338
+assets/ui/City Crest - false_knight_statue_crest.png | 9819 B | 67x90
+assets/ui/Dash_Prompt.png | 57358 B | 569x318
+assets/ui/Delicate Flower - flower0000.png | 4610 B | 64x54
+assets/ui/Inv_0014_selection_cursor.png | 2856 B | 55x55
+assets/ui/Inv_0028_spell_ring.png | 28874 B | 252x252
+assets/ui/blessing_prompt.png | 57430 B | 423x408
+assets/ui/charge_dash_slash.png | 230122 B | 850x332
+assets/ui/mask_empty.png | 15786 B | 118x108
+assets/ui/mask_full.png | 15282 B | 118x108
+assets/ui/mask_part_00_228x302.png | 39291 B | 228x302
+assets/ui/mask_part_01_302x228.png | 26985 B | 302x228
+assets/ui/mask_part_02_302x228.png | 36767 B | 302x228
+assets/ui/mask_part_03_302x228.png | 47168 B | 302x228
+assets/ui/mask_part_04_228x302.png | 61850 B | 228x302
+assets/ui/mask_part_05_228x302.png | 82180 B | 228x302
+assets/ui/mask_part_06_302x228.png | 47331 B | 302x228
+assets/ui/mask_part_07_302x228.png | 50351 B | 302x228
+assets/ui/mask_part_08_302x228.png | 61791 B | 302x228
+assets/ui/mask_part_09_302x228.png | 57979 B | 302x228
+assets/ui/mask_part_10_228x300.png | 69548 B | 228x300
+assets/ui/mask_part_11_228x312.png | 66379 B | 228x312
+assets/ui/mask_part_12_300x236.png | 80657 B | 300x236
+assets/ui/mask_part_13_302x228.png | 73337 B | 302x228
+assets/ui/mask_part_14_300x228.png | 56092 B | 300x228
+assets/ui/mask_part_15_315x237.png | 55055 B | 315x237
+assets/ui/mask_part_16_242x300.png | 67794 B | 242x300
+assets/ui/mask_part_17_295x381.png | 80016 B | 295x381
+assets/ui/mask_part_18_340x257.png | 68388 B | 340x257
+assets/ui/mask_part_19_302x233.png | 80999 B | 302x233
+assets/ui/mask_part_20_300x242.png | 66202 B | 300x242
+assets/ui/mask_part_21_334x266.png | 49686 B | 334x266
+assets/ui/mask_part_22_314x244.png | 42671 B | 314x244
+assets/ui/mask_part_23_275x388.png | 81784 B | 275x388
+assets/ui/mask_part_24_273x361.png | 106725 B | 273x361
+assets/ui/mask_part_25_341x248.png | 71629 B | 341x248
+assets/ui/mask_part_26_350x281.png | 50767 B | 350x281
+assets/ui/mask_part_28_104x39.png | 1372 B | 104x39
+assets/ui/mask_part_33_31x52.png | 878 B | 31x52
+assets/ui/mask_part_35_118x108.png | 15282 B | 118x108
+assets/ui/mask_part_36_71x85.png | 1880 B | 71x85
+assets/ui/mask_part_39_135x148.png | 6312 B | 135x148
+assets/ui/mask_part_41_135x144.png | 6330 B | 135x144
+assets/ui/mask_part_47_109x34.png | 2283 B | 109x34
+assets/ui/mask_part_50_118x108.png | 15786 B | 118x108
+assets/ui/mask_part_51_139x132.png | 6207 B | 139x132
+assets/ui/mask_part_53_139x83.png | 4554 B | 139x83
+assets/ui/mask_part_54_243x324.png | 89070 B | 243x324
+assets/ui/mask_part_55_414x311.png | 119990 B | 414x311
+assets/ui/mask_part_56_173x274.png | 13903 B | 173x274
+assets/ui/mask_part_57_196x274.png | 14116 B | 196x274
+assets/ui/mask_part_58_61x49.png | 2282 B | 61x49
+assets/ui/mask_part_61_91x90.png | 7161 B | 91x90
+assets/ui/mask_part_62_132x115.png | 12535 B | 132x115
+assets/ui/mask_part_63_44x47.png | 1773 B | 44x47
+assets/ui/mask_part_67_141x134.png | 5965 B | 141x134
+assets/ui/mask_part_68_60x48.png | 2148 B | 60x48
+assets/ui/mask_part_70_119x130.png | 15420 B | 119x130
+assets/ui/mask_part_71_123x85.png | 4160 B | 123x85
+assets/ui/mask_part_72_132x115.png | 20375 B | 132x115
+assets/ui/mask_part_73_49x96.png | 3363 B | 49x96
+assets/ui/mask_part_74_49x95.png | 3275 B | 49x95
+assets/ui/mask_part_75_47x60.png | 2602 B | 47x60
+assets/ui/mask_part_76_113x39.png | 2640 B | 113x39
+assets/ui/mask_part_80_653x632.png | 130244 B | 653x632
+assets/ui/mask_part_83_649x628.png | 125592 B | 649x628
+assets/ui/mask_part_84_596x564.png | 113816 B | 596x564
+assets/ui/mask_part_90_38x38.png | 142 B | 38x38
+assets/vfx/soul_orb.png | 53270 B | 326x268
+assets/vfx/soul_spell_00_234x667.png | 71728 B | 234x667
+assets/vfx/soul_spell_01_235x607.png | 54460 B | 235x607
+assets/vfx/soul_spell_02_243x409.png | 73119 B | 243x409
+assets/vfx/soul_spell_03_326x268.png | 53270 B | 326x268
+assets/vfx/soul_spell_04_545x136.png | 63477 B | 545x136
+assets/vfx/soul_spell_05_131x548.png | 48245 B | 131x548
+assets/vfx/soul_spell_06_514x129.png | 61842 B | 514x129
+assets/vfx/soul_spell_07_393x157.png | 31707 B | 393x157
+assets/vfx/soul_spell_08_228x265.png | 52009 B | 228x265
+assets/vfx/soul_spell_09_202x270.png | 58928 B | 202x270
+assets/vfx/soul_spell_10_315x167.png | 69372 B | 315x167
+assets/vfx/soul_spell_11_190x256.png | 37383 B | 190x256
+assets/vfx/soul_spell_12_450x106.png | 30789 B | 450x106
+assets/vfx/soul_spell_13_271x170.png | 34697 B | 271x170
+assets/vfx/soul_spell_14_208x210.png | 28233 B | 208x210
+assets/vfx/slashes/Radiance_GG_slashes0000.png | 25571 B | 840x746
+assets/vfx/slashes/Radiance_GG_slashes0001.png | 34240 B | 840x746
+assets/vfx/slashes/Radiance_GG_slashes0002.png | 37318 B | 840x746
+assets/vfx/slashes/Radiance_GG_slashes0003.png | 35394 B | 840x746
+assets/vfx/slashes/Radiance_GG_slashes0004.png | 40742 B | 840x746
+assets/vfx/slashes/Radiance_GG_slashes0005.png | 42904 B | 840x746
+assets/vfx/slashes/Radiance_GG_slashes0006.png | 22201 B | 840x746
+assets/vfx/slashes/Radiance_GG_slashes0007.png | 18446 B | 840x746
+assets/vfx/slashes/Radiance_GG_slashes0008.png | 42396 B | 840x746
+assets/vfx/slashes/Radiance_GG_slashes0009.png | 46832 B | 840x746
+assets/vfx/slashes/Radiance_GG_slashes0010.png | 22862 B | 840x746

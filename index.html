@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Knight of Words: 2.5D Hallownest Trial (KSSR English Year 3)</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Fullscreen 3D WebGL Canvas -->
+  <div id="game-canvas"></div>
+
+  <!-- Ambient Vignette & Damage Flash -->
+  <div id="screen-vignette"></div>
+  <div id="damage-flash"></div>
+
+  <!-- HUD Overlays -->
+  <div id="hud-overlay">
+    
+    <!-- Top Bar: Player Stats, Stage Title, Enemy Status -->
+    <div class="hud-top-bar">
+      
+      <!-- Player Status: Health Masks & Soul Meter -->
+      <div class="player-status-container">
+        <div class="soul-vessel-wrapper" title="Soul Meter (Cast spells & heal)">
+          <div class="soul-vessel-meter">
+            <div id="soul-fill-liquid" class="soul-fill-liquid"></div>
+            <div id="soul-val-text" class="soul-label">33</div>
+          </div>
+        </div>
+        
+        <div class="masks-container">
+          <div class="masks-label">Knight's Health</div>
+          <div id="masks-row" class="masks-row">
+            <!-- Dynamic Mask Icons Injected by JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Center: Chamber Title -->
+      <div class="chamber-indicator">
+        <div id="chamber-badge" class="chamber-badge">CHAMBER 1 OF 5</div>
+        <div id="chamber-title" class="chamber-title">FORGOTTEN HIVE</div>
+      </div>
+
+      <!-- Enemy Status: Boss Name & HP Bar -->
+      <div class="enemy-status-container">
+        <div class="enemy-header">
+          <span id="enemy-name" class="enemy-name">Hiveling Swarm</span>
+          <span id="enemy-hp-text" class="enemy-hp-text">60 / 60</span>
+        </div>
+        <div class="enemy-hp-track">
+          <div id="enemy-hp-fill" class="enemy-hp-fill" style="width: 100%;"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom Bar: Controls Guide & Combat Actions Bar -->
+    <div class="hud-bottom-bar">
+      
+      <!-- Interactive Controls Guide -->
+      <div class="controls-hint-bar">
+        <span>🎮 <span class="key-pill">A</span> <span class="key-pill">D</span> Run</span>
+        <span><span class="key-pill">Space</span> Jump</span>
+        <span><span class="key-pill">Shift</span> Dash</span>
+        <span><span class="key-pill">W</span> <span class="key-pill">S</span> 2.5D Depth</span>
+        <span>⚔️ <span class="key-pill">J</span> or <span class="key-pill">1-4</span> Question Strike</span>
+      </div>
+
+      <!-- Combat Action Bar -->
+      <div class="combat-action-bar">
+        <button id="action-slash" class="action-btn" title="Press [J] or [1] to Strike with Nail">
+          <span class="action-hotkey">[1] / J</span>
+          <span class="action-title">Nail Slash</span>
+          <span class="action-cost">+25 SOUL • 25 DMG</span>
+        </button>
+
+        <button id="action-spell" class="action-btn soul-action" title="Press [K] or [2] to Cast Vengeful Spirit">
+          <span class="action-hotkey">[2] / K</span>
+          <span class="action-title">Soul Spirit</span>
+          <span class="action-cost">-33 SOUL • 50 DMG</span>
+        </button>
+
+        <button id="action-heal" class="action-btn soul-action" title="Press [L] or [3] to Focus and Recover 1 Mask">
+          <span class="action-hotkey">[3] / L</span>
+          <span class="action-title">Focus Heal</span>
+          <span class="action-cost">-33 SOUL • +1 MASK</span>
+        </button>
+
+        <button id="action-great-slash" class="action-btn" title="Press [4] for Great Slash (Requires 2-Streak)" disabled>
+          <span class="action-hotkey">[4]</span>
+          <span class="action-title">Great Slash</span>
+          <span class="action-cost">2-STREAK • 70 DMG</span>
+        </button>
+
+        <button id="btn-view-assessment" class="action-btn" style="border-color: rgba(245, 188, 70, 0.4);" title="View Formative Assessment (PBS)">
+          <span class="action-hotkey">📊</span>
+          <span class="action-title">PBS Report</span>
+          <span class="action-cost">DSKP Mastery</span>
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Question Trial Modal (Covert Differentiated Modal) -->
+  <div id="question-modal">
+    <div class="modal-header-row">
+      <span id="modal-standard-pill" class="modal-standard-pill">DSKP 2.1.5 • TIER 1</span>
+      <span id="modal-action-tag" class="modal-action-tag">⚔️ NAIL SLASH</span>
+    </div>
+
+    <div class="question-prompt-box">
+      <div id="question-text" class="question-text">
+        Loading question trial...
+      </div>
+    </div>
+
+    <!-- 4 Multiple Choice Buttons -->
+    <div id="options-grid" class="options-grid">
+      <!-- Injected dynamically by JS -->
+    </div>
+
+    <!-- Feedback Banner (Shown after answering) -->
+    <div id="modal-feedback-banner" class="modal-feedback-banner"></div>
+
+    <!-- Footer: Invisible Safety Net (Nailmaster's Lore Clue) -->
+    <div class="modal-footer-row">
+      <button id="clue-toggle-btn" class="clue-toggle-btn" type="button">
+        <span>📜 Nailmaster's Clue</span>
+      </button>
+      <span style="font-size: 12px; color: var(--text-muted);">Use keyboard [1, 2, 3, 4] or click to answer</span>
+    </div>
+
+    <div id="clue-drawer" class="clue-drawer">
+      💡 <strong id="clue-text">Think about the subject and verb!</strong>
+    </div>
+  </div>
+
+  <!-- Chamber Clear / Victory Modal -->
+  <div id="chamber-clear-modal" class="overlay-fullscreen-modal">
+    <div class="celebration-card">
+      <div id="clear-modal-title" class="celebration-title">CHAMBER CLEARED!</div>
+      <div id="clear-modal-desc" class="celebration-subtitle">
+        Your English knowledge triumphed! The shadows retreat.
+      </div>
+      
+      <div class="stats-summary-grid">
+        <div class="stat-item">
+          <div id="clear-geo-reward" class="stat-val">+50 GEO</div>
+          <div class="stat-lbl">Reward</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-val">100%</div>
+          <div class="stat-lbl">Chamber Mastery</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-val">DSKP Pass</div>
+          <div class="stat-lbl">Curriculum</div>
+        </div>
+      </div>
+
+      <button id="btn-next-chamber" class="primary-btn">ADVANCE TO NEXT CHAMBER</button>
+    </div>
+  </div>
+
+  <!-- Game Over Modal (Void Revival) -->
+  <div id="game-over-modal" class="overlay-fullscreen-modal">
+    <div class="celebration-card" style="border-color: rgba(239, 68, 68, 0.6); box-shadow: 0 0 40px rgba(239, 68, 68, 0.4);">
+      <div class="celebration-title" style="color: #ef4444;">MASKS SHATTERED</div>
+      <div class="celebration-subtitle">
+        Do not despair! Every trial teaches wisdom. Focus your mind and rise once more.
+      </div>
+      <button id="btn-retry-chamber" class="primary-btn" style="background: linear-gradient(135deg, #b91c1c 0%, #ef4444 100%);">RETRY CHAMBER</button>
+    </div>
+  </div>
+
+  <!-- Assessment / PBS Report Modal -->
+  <div id="assessment-modal" class="overlay-fullscreen-modal">
+    <div class="celebration-card" style="width: min(720px, 94vw); text-align: left; align-items: stretch;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.12); padding-bottom: 12px;">
+        <h2 style="font-family: var(--font-game); color: var(--amber-gold); font-size: 22px;">Teacher's PBS Assessment Report</h2>
+        <span style="font-size: 13px; color: var(--text-muted);">Year 3 KSSR English • SK Dataran Muda</span>
+      </div>
+
+      <div class="stats-summary-grid">
+        <div class="stat-item" style="text-align: center;">
+          <div id="stat-total-ans" class="stat-val">0</div>
+          <div class="stat-lbl">Questions Tried</div>
+        </div>
+        <div class="stat-item" style="text-align: center;">
+          <div id="stat-accuracy-pct" class="stat-val">0%</div>
+          <div class="stat-lbl">Accuracy Rate</div>
+        </div>
+        <div class="stat-item" style="text-align: center;">
+          <div id="stat-dskp-mastered" class="stat-val">0</div>
+          <div class="stat-lbl">DSKP Standards Mastered</div>
+        </div>
+      </div>
+
+      <div style="max-height: 240px; overflow-y: auto; background: rgba(0,0,0,0.3); border-radius: 8px; padding: 8px 12px;">
+        <div style="font-size: 13px; font-weight: 700; color: var(--soul-cyan); margin-bottom: 6px;">Unit Practiced Log:</div>
+        <div id="assessment-units-list"></div>
+      </div>
+
+      <button id="btn-close-assessment" class="primary-btn" style="align-self: center; margin-top: 10px;">RETURN TO TRIAL</button>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="libs/three.min.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/game25d.js"></script>
+  <script src="js/battle.js"></script>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const game25d = new Game25D('game-canvas');
+      window.battleManager.init(game25d);
+      console.log('Knight of Words: 2.5D KSSR English Trial loaded successfully.');
+    });
+  </script>
+
+</body>
+</html>

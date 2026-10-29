@@ -1,0 +1,767 @@
+[
+  {
+    "id": "u1_01",
+    "unit": 1,
+    "unit_title": "Welcome! (Appearance & Has/Have Got)",
+    "tier": 1,
+    "dskp": "2.1.5",
+    "question": "Look at Adam. He ___ short curly hair.",
+    "options": [
+      "has got",
+      "have got",
+      "is got",
+      "are having"
+    ],
+    "answer": 0,
+    "clue": "Remember: Use 'has got' with He, She, It, or singular names.",
+    "explanation": "Correct! We use 'has got' with singular subjects like He and She."
+  },
+  {
+    "id": "u1_02",
+    "unit": 1,
+    "unit_title": "Welcome! (Appearance & Has/Have Got)",
+    "tier": 2,
+    "dskp": "2.1.5",
+    "question": "Sarah and Mia ___ big brown eyes and bright smiles.",
+    "options": [
+      "have got",
+      "has got",
+      "is having",
+      "has get"
+    ],
+    "answer": 0,
+    "clue": "Sarah and Mia are two people (plural: they), so use 'have got'.",
+    "explanation": "Spot on! For two or more people (plural), we use 'have got'."
+  },
+  {
+    "id": "u1_03",
+    "unit": 1,
+    "unit_title": "Welcome! (Appearance & Has/Have Got)",
+    "tier": 1,
+    "dskp": "1.2.2",
+    "question": "Count the stickers: 10, 20, 30, 40, ___. What comes next?",
+    "options": [
+      "fifty",
+      "fifteen",
+      "five",
+      "fifth"
+    ],
+    "answer": 0,
+    "clue": "Counting in tens: 10 (ten), 20 (twenty), 30 (thirty), 40 (forty), 50 (fifty).",
+    "explanation": "Great job! 50 in words is 'fifty'."
+  },
+  {
+    "id": "u1_04",
+    "unit": 1,
+    "unit_title": "Welcome! (Appearance & Has/Have Got)",
+    "tier": 3,
+    "dskp": "3.2.2",
+    "question": "Hafiz has sharp 20/20 eyesight, so he ___ glasses.",
+    "options": [
+      "hasn't got",
+      "haven't got",
+      "not got",
+      "no have"
+    ],
+    "answer": 0,
+    "clue": "Negative form for singular 'he' is 'has not got' or 'hasn't got'.",
+    "explanation": "Excellent! He doesn't need glasses, so 'he hasn't got glasses'."
+  },
+  {
+    "id": "u1_05",
+    "unit": 1,
+    "unit_title": "Welcome! (Appearance & Has/Have Got)",
+    "tier": 2,
+    "dskp": "2.1.5",
+    "question": "I ___ fifty shiny marbles in my pouch.",
+    "options": [
+      "have got",
+      "has got",
+      "am got",
+      "got have"
+    ],
+    "answer": 0,
+    "clue": "With subject 'I', we always use 'have got'.",
+    "explanation": "Correct! The pronoun 'I' pairs with 'have got'."
+  },
+  {
+    "id": "u2_01",
+    "unit": 2,
+    "unit_title": "Everyday Routines (Time & Daily Habits)",
+    "tier": 1,
+    "dskp": "1.2.5",
+    "question": "The long hand is on 6 and the short hand is between 8 and 9. It is ___.",
+    "options": [
+      "half past eight",
+      "eight o'clock",
+      "quarter to eight",
+      "half past nine"
+    ],
+    "answer": 0,
+    "clue": "Long hand on 6 = half past. It has passed 8, so it's half past eight!",
+    "explanation": "Well done! Half past eight means 8:30."
+  },
+  {
+    "id": "u2_02",
+    "unit": 2,
+    "unit_title": "Everyday Routines (Time & Daily Habits)",
+    "tier": 2,
+    "dskp": "4.3.2",
+    "question": "Every morning before school, Danial ___ his teeth.",
+    "options": [
+      "brushes",
+      "brush",
+      "brushing",
+      "brushed"
+    ],
+    "answer": 0,
+    "clue": "Present simple habit: add '-es' to 'brush' for singular subjects (he/she).",
+    "explanation": "Super! 'Danial brushes his teeth' is the correct present simple tense."
+  },
+  {
+    "id": "u2_03",
+    "unit": 2,
+    "unit_title": "Everyday Routines (Time & Daily Habits)",
+    "tier": 2,
+    "dskp": "4.3.2",
+    "question": "The pupils always ___ their homework after dinner.",
+    "options": [
+      "do",
+      "does",
+      "doing",
+      "did"
+    ],
+    "answer": 0,
+    "clue": "'The pupils' is plural (they), so use the base verb 'do'.",
+    "explanation": "That's right! Plural subjects take 'do', not 'does'."
+  },
+  {
+    "id": "u2_04",
+    "unit": 2,
+    "unit_title": "Everyday Routines (Time & Daily Habits)",
+    "tier": 1,
+    "dskp": "1.2.5",
+    "question": "Both clock hands point straight up to 12. What time is it?",
+    "options": [
+      "twelve o'clock",
+      "half past twelve",
+      "quarter past twelve",
+      "one o'clock"
+    ],
+    "answer": 0,
+    "clue": "Both hands on 12 means exactly twelve o'clock!",
+    "explanation": "Correct! 12:00 is twelve o'clock."
+  },
+  {
+    "id": "u2_05",
+    "unit": 2,
+    "unit_title": "Everyday Routines (Time & Daily Habits)",
+    "tier": 3,
+    "dskp": "3.2.1",
+    "question": "Aini ___ up at six o'clock every morning to catch the school bus.",
+    "options": [
+      "wakes",
+      "wake",
+      "waking",
+      "is wake"
+    ],
+    "answer": 0,
+    "clue": "Singular subject 'Aini' takes verb with '-s' for daily routines.",
+    "explanation": "Terrific! 'Aini wakes up' is the right third-person singular form."
+  },
+  {
+    "id": "u3_01",
+    "unit": 3,
+    "unit_title": "Right Now (Present Continuous)",
+    "tier": 1,
+    "dskp": "2.1.2",
+    "question": "What is Yusuf doing right now? He is ___ in the swimming pool.",
+    "options": [
+      "swimming",
+      "swim",
+      "swims",
+      "swam"
+    ],
+    "answer": 0,
+    "clue": "Actions happening right now use 'is + verb-ing'. Double the 'm' in swim!",
+    "explanation": "Great! 'is swimming' describes an action happening at this moment."
+  },
+  {
+    "id": "u3_02",
+    "unit": 3,
+    "unit_title": "Right Now (Present Continuous)",
+    "tier": 2,
+    "dskp": "2.1.2",
+    "question": "Look outside! The children ___ football on the school pitch.",
+    "options": [
+      "are playing",
+      "is playing",
+      "plays",
+      "are play"
+    ],
+    "answer": 0,
+    "clue": "'The children' is plural, so pair with 'are playing'.",
+    "explanation": "Spot on! 'children' is plural, so we say 'are playing'."
+  },
+  {
+    "id": "u3_03",
+    "unit": 3,
+    "unit_title": "Right Now (Present Continuous)",
+    "tier": 2,
+    "dskp": "3.2.2",
+    "question": "Is the teacher writing on the whiteboard? Yes, she ___.",
+    "options": [
+      "is",
+      "are",
+      "does",
+      "can"
+    ],
+    "answer": 0,
+    "clue": "Match the question starter 'Is she...?': 'Yes, she is.'",
+    "explanation": "Correct! Short answer matching 'Is she...?' is 'Yes, she is.'"
+  },
+  {
+    "id": "u3_04",
+    "unit": 3,
+    "unit_title": "Right Now (Present Continuous)",
+    "tier": 3,
+    "dskp": "4.3.3",
+    "question": "The little kitten is ___ soundly under the shady tree.",
+    "options": [
+      "sleeping",
+      "sleep",
+      "sleeps",
+      "slept"
+    ],
+    "answer": 0,
+    "clue": "'is' needs a verb ending in '-ing' for actions in progress.",
+    "explanation": "Awesome! 'is sleeping' is the correct continuous form."
+  },
+  {
+    "id": "u3_05",
+    "unit": 3,
+    "unit_title": "Right Now (Present Continuous)",
+    "tier": 1,
+    "dskp": "2.1.2",
+    "question": "Are you listening to the teacher? Yes, I ___.",
+    "options": [
+      "am",
+      "is",
+      "are",
+      "do"
+    ],
+    "answer": 0,
+    "clue": "With subject 'I', the present continuous verb to be is 'am'.",
+    "explanation": "Super! 'Yes, I am.' is the correct response."
+  },
+  {
+    "id": "u4_01",
+    "unit": 4,
+    "unit_title": "Year In, Year Out (Weather & Seasons)",
+    "tier": 1,
+    "dskp": "1.2.2",
+    "question": "It is ___ heavily outside! Take your umbrella with you.",
+    "options": [
+      "raining",
+      "rainy",
+      "rain",
+      "rains"
+    ],
+    "answer": 0,
+    "clue": "'It is' + action verb ending in '-ing': raining.",
+    "explanation": "Correct! 'It is raining' describes the active weather."
+  },
+  {
+    "id": "u4_02",
+    "unit": 4,
+    "unit_title": "Year In, Year Out (Weather & Seasons)",
+    "tier": 2,
+    "dskp": "3.2.2",
+    "question": "Malaysia celebrates National Day (Hari Kebangsaan) in the month of ___.",
+    "options": [
+      "August",
+      "January",
+      "December",
+      "April"
+    ],
+    "answer": 0,
+    "clue": "Hari Kebangsaan is on 31st August!",
+    "explanation": "Proudly Malaysian! 31st August is our National Day."
+  },
+  {
+    "id": "u4_03",
+    "unit": 4,
+    "unit_title": "Year In, Year Out (Weather & Seasons)",
+    "tier": 2,
+    "dskp": "2.1.1",
+    "question": "In the autumn season, dry leaves turn yellow and ___ from the trees.",
+    "options": [
+      "fall",
+      "falls",
+      "falling",
+      "fell"
+    ],
+    "answer": 0,
+    "clue": "'Leaves' is plural, so use the base verb 'fall'.",
+    "explanation": "Great! Plural 'leaves' match with 'fall'."
+  },
+  {
+    "id": "u4_04",
+    "unit": 4,
+    "unit_title": "Year In, Year Out (Weather & Seasons)",
+    "tier": 3,
+    "dskp": "3.2.1",
+    "question": "When it is hot and ___, remember to drink plenty of water.",
+    "options": [
+      "sunny",
+      "snowy",
+      "freezing",
+      "icy"
+    ],
+    "answer": 0,
+    "clue": "Hot weather pairs with bright 'sunny' days in Malaysia!",
+    "explanation": "Correct! Hot and sunny days require staying hydrated."
+  },
+  {
+    "id": "u5_01",
+    "unit": 5,
+    "unit_title": "My New House (Prepositions & Rooms)",
+    "tier": 1,
+    "dskp": "2.1.5",
+    "question": "The naughty cat is hiding ___ the bed. You can only see its ears.",
+    "options": [
+      "under",
+      "on",
+      "above",
+      "between"
+    ],
+    "answer": 0,
+    "clue": "Hiding beneath the mattress means it is 'under' the bed.",
+    "explanation": "Well done! 'Under' means directly beneath something."
+  },
+  {
+    "id": "u5_02",
+    "unit": 5,
+    "unit_title": "My New House (Prepositions & Rooms)",
+    "tier": 2,
+    "dskp": "2.1.5",
+    "question": "The study desk is placed ___ the wardrobe and the window.",
+    "options": [
+      "between",
+      "in",
+      "under",
+      "next"
+    ],
+    "answer": 0,
+    "clue": "When an object is in the middle of TWO things, use 'between'.",
+    "explanation": "Exact! 'Between' describes position between two objects."
+  },
+  {
+    "id": "u5_03",
+    "unit": 5,
+    "unit_title": "My New House (Prepositions & Rooms)",
+    "tier": 1,
+    "dskp": "1.2.1",
+    "question": "Mother is frying fish and boiling soup in the ___.",
+    "options": [
+      "kitchen",
+      "bedroom",
+      "living room",
+      "garage"
+    ],
+    "answer": 0,
+    "clue": "Cooking meals is done in the kitchen.",
+    "explanation": "Correct! The kitchen is where food is prepared."
+  },
+  {
+    "id": "u5_04",
+    "unit": 5,
+    "unit_title": "My New House (Prepositions & Rooms)",
+    "tier": 3,
+    "dskp": "4.2.4",
+    "question": "The slippers are placed neatly right ___ the front door on the shoe rack.",
+    "options": [
+      "next to",
+      "between",
+      "under of",
+      "in middle"
+    ],
+    "answer": 0,
+    "clue": "Beside or by the side of the door = 'next to'.",
+    "explanation": "Super! 'Next to' means beside."
+  },
+  {
+    "id": "u6_01",
+    "unit": 6,
+    "unit_title": "Food, Please! (Countable/Uncountable & Some/Any)",
+    "tier": 2,
+    "dskp": "2.1.5",
+    "question": "There ___ some fresh milk left in the carton.",
+    "options": [
+      "is",
+      "are",
+      "were",
+      "am"
+    ],
+    "answer": 0,
+    "clue": "'Milk' is uncountable (liquid), so we treat it as singular: 'There is'.",
+    "explanation": "Spot on! Uncountable nouns like milk and water take 'is'."
+  },
+  {
+    "id": "u6_02",
+    "unit": 6,
+    "unit_title": "Food, Please! (Countable/Uncountable & Some/Any)",
+    "tier": 1,
+    "dskp": "2.1.5",
+    "question": "There ___ four sweet bananas on the dining table.",
+    "options": [
+      "are",
+      "is",
+      "be",
+      "was"
+    ],
+    "answer": 0,
+    "clue": "'Four bananas' is a plural countable noun, so use 'There are'.",
+    "explanation": "Correct! Countable plural items use 'There are'."
+  },
+  {
+    "id": "u6_03",
+    "unit": 6,
+    "unit_title": "Food, Please! (Countable/Uncountable & Some/Any)",
+    "tier": 3,
+    "dskp": "3.2.2",
+    "question": "Is there ___ cheese in the refrigerator? No, there isn't.",
+    "options": [
+      "any",
+      "some",
+      "many",
+      "a"
+    ],
+    "answer": 0,
+    "clue": "Use 'any' in questions and negative statements!",
+    "explanation": "Brilliant! We use 'any' in questions: 'Is there any cheese?'"
+  },
+  {
+    "id": "u6_04",
+    "unit": 6,
+    "unit_title": "Food, Please! (Countable/Uncountable & Some/Any)",
+    "tier": 2,
+    "dskp": "1.2.4",
+    "question": "Eating fresh fruits and vegetables makes your body strong and ___.",
+    "options": [
+      "healthy",
+      "sick",
+      "tired",
+      "weak"
+    ],
+    "answer": 0,
+    "clue": "Healthy food keeps your body energetic and strong!",
+    "explanation": "Good health choice! Fruits make our bodies healthy."
+  },
+  {
+    "id": "u7_01",
+    "unit": 7,
+    "unit_title": "Out and About (Directions & Rules)",
+    "tier": 1,
+    "dskp": "1.2.3",
+    "question": "School corridor rule: Do not ___ in the corridor. Walk slowly.",
+    "options": [
+      "run",
+      "running",
+      "runs",
+      "ran"
+    ],
+    "answer": 0,
+    "clue": "Negative imperative: 'Do not' is followed by the base verb 'run'.",
+    "explanation": "Correct! 'Do not run' is the proper classroom safety command."
+  },
+  {
+    "id": "u7_02",
+    "unit": 7,
+    "unit_title": "Out and About (Directions & Rules)",
+    "tier": 2,
+    "dskp": "2.1.3",
+    "question": "To go to the library, walk straight ahead and ___ left at the stairs.",
+    "options": [
+      "turn",
+      "turned",
+      "turning",
+      "turns"
+    ],
+    "answer": 0,
+    "clue": "Direction instructions use command verbs: 'turn left'.",
+    "explanation": "That's right! 'Turn left' gives a clear directional instruction."
+  },
+  {
+    "id": "u7_03",
+    "unit": 7,
+    "unit_title": "Out and About (Directions & Rules)",
+    "tier": 3,
+    "dskp": "3.2.3",
+    "question": "Pupils ___ keep quiet when studying inside the resource centre.",
+    "options": [
+      "must",
+      "mustn't",
+      "cannot",
+      "are not"
+    ],
+    "answer": 0,
+    "clue": "It is an important obligation/rule, so use 'must'.",
+    "explanation": "Excellent! 'Must' indicates a compulsory school rule."
+  },
+  {
+    "id": "u7_04",
+    "unit": 7,
+    "unit_title": "Out and About (Directions & Rules)",
+    "tier": 2,
+    "dskp": "1.2.3",
+    "question": "When the traffic pedestrian light turns green, you may ___ the road safely.",
+    "options": [
+      "cross",
+      "crossed",
+      "crossing",
+      "crosses"
+    ],
+    "answer": 0,
+    "clue": "Modal verb 'may' is followed by the base verb 'cross'.",
+    "explanation": "Safety first! 'You may cross the road safely.'"
+  },
+  {
+    "id": "u8_01",
+    "unit": 8,
+    "unit_title": "Where Were You Yesterday? (Was/Were)",
+    "tier": 1,
+    "dskp": "2.1.5",
+    "question": "Where were you yesterday afternoon? I ___ at the town library.",
+    "options": [
+      "was",
+      "were",
+      "am",
+      "are"
+    ],
+    "answer": 0,
+    "clue": "Past tense for subject 'I' is 'was'.",
+    "explanation": "Well done! 'I was' is the correct first-person past tense."
+  },
+  {
+    "id": "u8_02",
+    "unit": 8,
+    "unit_title": "Where Were You Yesterday? (Was/Were)",
+    "tier": 2,
+    "dskp": "2.1.5",
+    "question": "The children ___ very cheerful at the zoo last Saturday.",
+    "options": [
+      "were",
+      "was",
+      "are",
+      "is"
+    ],
+    "answer": 0,
+    "clue": "'The children' is plural (they), so use 'were'.",
+    "explanation": "Spot on! Plural subjects in the past use 'were'."
+  },
+  {
+    "id": "u8_03",
+    "unit": 8,
+    "unit_title": "Where Were You Yesterday? (Was/Were)",
+    "tier": 3,
+    "dskp": "3.2.2",
+    "question": "Farhan ___ at football practice yesterday because he had a sore leg.",
+    "options": [
+      "wasn't",
+      "weren't",
+      "isn't",
+      "aren't"
+    ],
+    "answer": 0,
+    "clue": "Singular subject 'Farhan' in the past negative is 'was not' or 'wasn't'.",
+    "explanation": "Terrific! 'Farhan wasn't at practice' is correct."
+  },
+  {
+    "id": "u8_04",
+    "unit": 8,
+    "unit_title": "Where Were You Yesterday? (Was/Were)",
+    "tier": 2,
+    "dskp": "2.1.2",
+    "question": "___ Siti and her mother at the market yesterday morning? Yes, they were.",
+    "options": [
+      "Were",
+      "Was",
+      "Did",
+      "Are"
+    ],
+    "answer": 0,
+    "clue": "Two people (plural: Siti and mother) take 'Were' in the past question.",
+    "explanation": "Correct! 'Were Siti and her mother...?' matches the plural subject."
+  },
+  {
+    "id": "u9_01",
+    "unit": 9,
+    "unit_title": "On Holiday (Past Simple Verbs)",
+    "tier": 1,
+    "dskp": "2.1.5",
+    "question": "Last school holiday, our family ___ to Cameron Highlands.",
+    "options": [
+      "went",
+      "go",
+      "goes",
+      "going"
+    ],
+    "answer": 0,
+    "clue": "The irregular past tense of 'go' is 'went'.",
+    "explanation": "Great! 'went' is the past simple of 'go'."
+  },
+  {
+    "id": "u9_02",
+    "unit": 9,
+    "unit_title": "On Holiday (Past Simple Verbs)",
+    "tier": 2,
+    "dskp": "2.1.5",
+    "question": "We ___ many colorful tropical fish while diving in the sea.",
+    "options": [
+      "saw",
+      "see",
+      "sees",
+      "seeing"
+    ],
+    "answer": 0,
+    "clue": "The past tense of 'see' is 'saw'.",
+    "explanation": "Correct! 'saw' is the past simple of 'see'."
+  },
+  {
+    "id": "u9_03",
+    "unit": 9,
+    "unit_title": "On Holiday (Past Simple Verbs)",
+    "tier": 2,
+    "dskp": "4.3.2",
+    "question": "Hakim ___ a delicious coconut shake at the beach stall yesterday.",
+    "options": [
+      "drank",
+      "drink",
+      "drinks",
+      "drinking"
+    ],
+    "answer": 0,
+    "clue": "The past tense of 'drink' is 'drank'.",
+    "explanation": "Delicious! 'drank' is the past form of 'drink'."
+  },
+  {
+    "id": "u9_04",
+    "unit": 9,
+    "unit_title": "On Holiday (Past Simple Verbs)",
+    "tier": 3,
+    "dskp": "3.2.2",
+    "question": "The pupils ___ beautiful seashells on the sandy shore last Sunday.",
+    "options": [
+      "collected",
+      "collect",
+      "collects",
+      "collecting"
+    ],
+    "answer": 0,
+    "clue": "Regular past simple verb: add '-ed' to collect: 'collected'.",
+    "explanation": "Spot on! 'collected' is the regular past tense."
+  },
+  {
+    "id": "u9_05",
+    "unit": 9,
+    "unit_title": "On Holiday (Past Simple Verbs)",
+    "tier": 1,
+    "dskp": "2.1.5",
+    "question": "My father ___ fresh sweet strawberries directly from the farm.",
+    "options": [
+      "bought",
+      "buy",
+      "buys",
+      "buying"
+    ],
+    "answer": 0,
+    "clue": "The irregular past tense of 'buy' is 'bought'.",
+    "explanation": "Super! 'bought' is the past tense of 'buy'."
+  },
+  {
+    "id": "u10_01",
+    "unit": 10,
+    "unit_title": "The World Around Us (Comparatives & Superlatives)",
+    "tier": 1,
+    "dskp": "2.1.5",
+    "question": "An elephant is ___ than a cat.",
+    "options": [
+      "bigger",
+      "big",
+      "biggest",
+      "more big"
+    ],
+    "answer": 0,
+    "clue": "Comparing two animals: add '-er + than'. Double the 'g' in big: bigger.",
+    "explanation": "Correct! 'bigger than' is the comparative form of big."
+  },
+  {
+    "id": "u10_02",
+    "unit": 10,
+    "unit_title": "The World Around Us (Comparatives & Superlatives)",
+    "tier": 2,
+    "dskp": "2.1.5",
+    "question": "The cheetah is the ___ land animal on Earth.",
+    "options": [
+      "fastest",
+      "faster",
+      "fast",
+      "most fast"
+    ],
+    "answer": 0,
+    "clue": "Superlative comparing one animal to all others: 'the' + adjective + '-est'.",
+    "explanation": "Zoom! 'the fastest' is the superlative form."
+  },
+  {
+    "id": "u10_03",
+    "unit": 10,
+    "unit_title": "The World Around Us (Comparatives & Superlatives)",
+    "tier": 2,
+    "dskp": "3.2.2",
+    "question": "Mount Kinabalu is ___ than Mount Ophir (Gunung Ledang).",
+    "options": [
+      "higher",
+      "highest",
+      "high",
+      "more high"
+    ],
+    "answer": 0,
+    "clue": "Comparing two mountains with 'than': high + '-er' = higher.",
+    "explanation": "Majestic! 'higher than' compares the height of two mountains."
+  },
+  {
+    "id": "u10_04",
+    "unit": 10,
+    "unit_title": "The World Around Us (Comparatives & Superlatives)",
+    "tier": 3,
+    "dskp": "4.2.4",
+    "question": "The blue whale is the ___ living creature in the ocean.",
+    "options": [
+      "largest",
+      "larger",
+      "large",
+      "most large"
+    ],
+    "answer": 0,
+    "clue": "Use superlative 'largest' when stating the #1 biggest animal in the sea.",
+    "explanation": "Giant success! 'the largest' is the superlative of large."
+  },
+  {
+    "id": "u10_05",
+    "unit": 10,
+    "unit_title": "The World Around Us (Comparatives & Superlatives)",
+    "tier": 1,
+    "dskp": "2.1.5",
+    "question": "A garden snail crawls ___ than a racing horse.",
+    "options": [
+      "slower",
+      "slow",
+      "slowest",
+      "more slow"
+    ],
+    "answer": 0,
+    "clue": "Comparing two speeds: slow + '-er' + than = slower than.",
+    "explanation": "Spot on! 'slower than' is the correct comparative."
+  }
+]
