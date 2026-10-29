@@ -49,6 +49,8 @@
           <button type="button" class="chamber-jump-btn" data-chamber="3">Ch 4: Hornet</button>
           <button type="button" class="chamber-jump-btn" data-chamber="4">Ch 5: Grimm</button>
           <button type="button" id="btn-mute-audio" class="hud-util-btn">🔊 Audio</button>
+          <button type="button" id="btn-link-assets" class="hud-util-btn" title="Optional: Point browser directly to local assets/ folder">📂 Link assets/</button>
+          <input type="file" id="assets-folder-input" webkitdirectory directory multiple hidden>
         </div>
       </div>
 
@@ -253,6 +255,7 @@
 
   <!-- Scripts -->
   <script src="libs/three.min.js"></script>
+  <script src="js/fallbacks.js"></script>
   <script src="js/audio.js"></script>
   <script src="js/game25d.js"></script>
   <script src="js/battle.js"></script>

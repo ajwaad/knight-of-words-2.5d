@@ -1,244 +1,209 @@
 {
-  "bg": [
-    "assets/bg/Area_Abyss.png",
-    "assets/bg/Area_Art_City_of_Tears.png",
-    "assets/bg/Area_Art_Godshome.png",
-    "assets/bg/Area_Art_Mantis_Village.png",
-    "assets/bg/Area_Crystal_Mines.png",
-    "assets/bg/Lighthouse_Room_Interior_0007_lit_lantern.png",
-    "assets/bg/Lighthouse_Room_Interior_0015_1.png",
-    "assets/bg/Nailmaster_03__0001_Floor.png",
-    "assets/bg/chamber_gate_arch.png",
-    "assets/bg/nailmaster_03_0003_FG.png",
-    "assets/bg/nailmaster_03_0006_curtain_MID.png",
-    "assets/bg/nailmaster_03_0008_BG.png",
-    "assets/bg/station_BG_tunnel.png",
-    "assets/bg/station_FG_tunnel_02.png",
-    "assets/bg/tram_BG_wrecked.png"
-  ],
-  "bosses/dung_defender": [
-    "assets/bosses/dung_defender/Dung Defender head - atlas0 #84007.png",
-    "assets/bosses/dung_defender/Dung_Def_Body.png",
-    "assets/bosses/dung_defender/dung_def_sleep0000.png",
-    "assets/bosses/dung_defender/dung_def_sleep0001.png",
-    "assets/bosses/dung_defender/dung_def_sleep0002.png"
-  ],
-  "bosses/dung_defender/attack": [
-    "assets/bosses/dung_defender/attack/dung_def_attack_00.png",
-    "assets/bosses/dung_defender/attack/dung_def_attack_01.png",
-    "assets/bosses/dung_defender/attack/dung_def_attack_02.png",
-    "assets/bosses/dung_defender/attack/dung_def_attack_03.png"
-  ],
-  "bosses/dung_defender/idle": [
-    "assets/bosses/dung_defender/idle/dung_def_idle_00.png",
-    "assets/bosses/dung_defender/idle/dung_def_idle_01.png",
-    "assets/bosses/dung_defender/idle/dung_def_idle_02.png",
-    "assets/bosses/dung_defender/idle/dung_def_idle_03.png"
-  ],
-  "bosses/dung_defender/sleep": [
-    "assets/bosses/dung_defender/sleep/dung_def_sleep0000.png",
-    "assets/bosses/dung_defender/sleep/dung_def_sleep0001.png",
-    "assets/bosses/dung_defender/sleep/dung_def_sleep0002.png"
-  ],
-  "bosses/grimm": [
-    "assets/bosses/grimm/GG_grimm_bow0000.png",
-    "assets/bosses/grimm/GG_grimm_bow0001.png",
-    "assets/bosses/grimm/GG_grimm_bow0002.png",
-    "assets/bosses/grimm/GG_grimm_bow0003.png",
-    "assets/bosses/grimm/GG_grimm_bow0004.png",
-    "assets/bosses/grimm/GG_grimm_bow0005.png",
-    "assets/bosses/grimm/GG_grimm_bow0006.png",
-    "assets/bosses/grimm/Grimm_sleep_heartbeat0000.png",
-    "assets/bosses/grimm/Grimm_sleep_heartbeat0001.png",
-    "assets/bosses/grimm/Grimm_sleep_heartbeat0002.png",
-    "assets/bosses/grimm/Grimm_sleep_heartbeat0003.png",
-    "assets/bosses/grimm/Nightmare_Grimm_eye_appear0000.png",
-    "assets/bosses/grimm/Nightmare_Grimm_eye_appear0001.png",
-    "assets/bosses/grimm/Nightmare_Grimm_eye_appear0002.png"
-  ],
-  "bosses/grimm/bow": [
-    "assets/bosses/grimm/bow/GG_grimm_bow0000.png",
-    "assets/bosses/grimm/bow/GG_grimm_bow0001.png",
-    "assets/bosses/grimm/bow/GG_grimm_bow0002.png",
-    "assets/bosses/grimm/bow/GG_grimm_bow0003.png",
-    "assets/bosses/grimm/bow/GG_grimm_bow0004.png",
-    "assets/bosses/grimm/bow/GG_grimm_bow0005.png",
-    "assets/bosses/grimm/bow/GG_grimm_bow0006.png"
-  ],
-  "bosses/grimm/idle": [
-    "assets/bosses/grimm/idle/Grimm_sleep_heartbeat0000.png",
-    "assets/bosses/grimm/idle/Grimm_sleep_heartbeat0001.png",
-    "assets/bosses/grimm/idle/Grimm_sleep_heartbeat0002.png",
-    "assets/bosses/grimm/idle/Grimm_sleep_heartbeat0003.png"
-  ],
-  "bosses/hornet": [
-    "assets/bosses/hornet/Hornet - idle0000.png",
-    "assets/bosses/hornet/Hornet - idle0001.png",
-    "assets/bosses/hornet/Hornet - jump0000.png",
-    "assets/bosses/hornet/Hornet - jump0001.png",
-    "assets/bosses/hornet/Hornet - jump0002.png",
-    "assets/bosses/hornet/Hornet - jump0003.png",
-    "assets/bosses/hornet/Hornet - jump0004.png",
-    "assets/bosses/hornet/Hornet - jump0005.png",
-    "assets/bosses/hornet/Hornet - jump0006.png",
-    "assets/bosses/hornet/Hornet - jump0007.png",
-    "assets/bosses/hornet/Hornet - jump0008.png",
-    "assets/bosses/hornet/Hornet - jump0009.png",
-    "assets/bosses/hornet/Hornet - throw_side0000.png",
-    "assets/bosses/hornet/Hornet - throw_side0001.png",
-    "assets/bosses/hornet/Hornet - throw_side0002.png",
-    "assets/bosses/hornet/Hornet - throw_side0003.png",
-    "assets/bosses/hornet/Hornet - throw_side0004.png",
-    "assets/bosses/hornet/Hornet - throw_side0005.png",
-    "assets/bosses/hornet/Hornet - throw_side0006.png",
-    "assets/bosses/hornet/Hornet - throw_side0007.png"
-  ],
-  "bosses/hornet/attack": [
-    "assets/bosses/hornet/attack/Hornet - throw_side0000.png",
-    "assets/bosses/hornet/attack/Hornet - throw_side0001.png",
-    "assets/bosses/hornet/attack/Hornet - throw_side0002.png",
-    "assets/bosses/hornet/attack/Hornet - throw_side0003.png",
-    "assets/bosses/hornet/attack/Hornet - throw_side0004.png",
-    "assets/bosses/hornet/attack/Hornet - throw_side0005.png",
-    "assets/bosses/hornet/attack/Hornet - throw_side0006.png",
-    "assets/bosses/hornet/attack/Hornet - throw_side0007.png"
-  ],
-  "bosses/hornet/idle": [
-    "assets/bosses/hornet/idle/Hornet - idle0000.png",
-    "assets/bosses/hornet/idle/Hornet - idle0001.png"
-  ],
-  "bosses/hornet/jump": [
-    "assets/bosses/hornet/jump/Hornet - jump0000.png",
-    "assets/bosses/hornet/jump/Hornet - jump0001.png",
-    "assets/bosses/hornet/jump/Hornet - jump0002.png",
-    "assets/bosses/hornet/jump/Hornet - jump0003.png",
-    "assets/bosses/hornet/jump/Hornet - jump0004.png",
-    "assets/bosses/hornet/jump/Hornet - jump0005.png",
-    "assets/bosses/hornet/jump/Hornet - jump0006.png",
-    "assets/bosses/hornet/jump/Hornet - jump0007.png",
-    "assets/bosses/hornet/jump/Hornet - jump0008.png",
-    "assets/bosses/hornet/jump/Hornet - jump0009.png"
-  ],
-  "bosses/hornet/land": [
-    "assets/bosses/hornet/land/Hornet - hard_land0000.png",
-    "assets/bosses/hornet/land/Hornet - hard_land0001.png",
-    "assets/bosses/hornet/land/Hornet - hard_land0002.png",
-    "assets/bosses/hornet/land/Hornet - hard_land0003.png",
-    "assets/bosses/hornet/land/Hornet - hard_land0004.png",
-    "assets/bosses/hornet/land/Hornet - hard_land0005.png"
-  ],
-  "enemies/grimmkin": [
-    "assets/enemies/grimmkin/Grimmkin Novice, Grimmkin Master, Grimmkin Nightmare, Troupe Master Grimm audience - Grimm_crowd0000.png",
-    "assets/enemies/grimmkin/Grimmkin Novice, Grimmkin Master, Grimmkin Nightmare, Troupe Master Grimm audience - Grimm_crowd0001.png",
-    "assets/enemies/grimmkin/Grimmkin Novice, Grimmkin Master, Grimmkin Nightmare, Troupe Master Grimm audience - Grimm_crowd0002.png",
-    "assets/enemies/grimmkin/Grimmkin Novice, Grimmkin Master, Grimmkin Nightmare, Troupe Master Grimm audience - Grimm_crowd0003.png",
-    "assets/enemies/grimmkin/Grimmkin Novice, Grimmkin Master, Grimmkin Nightmare, Troupe Master Grimm audience - Grimm_crowd0004.png",
-    "assets/enemies/grimmkin/Grimmkin Novice, Grimmkin Master, Grimmkin Nightmare, Troupe Master Grimm audience - Grimm_crowd0005.png",
-    "assets/enemies/grimmkin/Grimmkin Novice, Grimmkin Master, Grimmkin Nightmare, Troupe Master Grimm audience - Grimm_crowd0006.png",
-    "assets/enemies/grimmkin/Grimmkin Novice, Grimmkin Master, Grimmkin Nightmare, Troupe Master Grimm audience - Grimm_crowd0007.png"
-  ],
-  "enemies/grimmkin/float": [
-    "assets/enemies/grimmkin/float/Grimmkin Novice, Grimmkin Master, Grimmkin Nightmare, Troupe Master Grimm audience - Grimm_crowd0000.png",
-    "assets/enemies/grimmkin/float/Grimmkin Novice, Grimmkin Master, Grimmkin Nightmare, Troupe Master Grimm audience - Grimm_crowd0001.png",
-    "assets/enemies/grimmkin/float/Grimmkin Novice, Grimmkin Master, Grimmkin Nightmare, Troupe Master Grimm audience - Grimm_crowd0002.png",
-    "assets/enemies/grimmkin/float/Grimmkin Novice, Grimmkin Master, Grimmkin Nightmare, Troupe Master Grimm audience - Grimm_crowd0003.png",
-    "assets/enemies/grimmkin/float/Grimmkin Novice, Grimmkin Master, Grimmkin Nightmare, Troupe Master Grimm audience - Grimm_crowd0004.png",
-    "assets/enemies/grimmkin/float/Grimmkin Novice, Grimmkin Master, Grimmkin Nightmare, Troupe Master Grimm audience - Grimm_crowd0005.png",
-    "assets/enemies/grimmkin/float/Grimmkin Novice, Grimmkin Master, Grimmkin Nightmare, Troupe Master Grimm audience - Grimm_crowd0006.png",
-    "assets/enemies/grimmkin/float/Grimmkin Novice, Grimmkin Master, Grimmkin Nightmare, Troupe Master Grimm audience - Grimm_crowd0007.png"
-  ],
-  "enemies/hiveling": [
-    "assets/enemies/hiveling/Hiveling - fly0000.png",
-    "assets/enemies/hiveling/Hiveling - fly0001.png",
-    "assets/enemies/hiveling/Hiveling - fly0002.png",
-    "assets/enemies/hiveling/Hiveling - fly0003.png",
-    "assets/enemies/hiveling/Hiveling - fly0004.png"
-  ],
-  "enemies/hiveling/fly": [
-    "assets/enemies/hiveling/fly/Hiveling - fly0000.png",
-    "assets/enemies/hiveling/fly/Hiveling - fly0001.png",
-    "assets/enemies/hiveling/fly/Hiveling - fly0002.png",
-    "assets/enemies/hiveling/fly/Hiveling - fly0003.png",
-    "assets/enemies/hiveling/fly/Hiveling - fly0004.png"
-  ],
-  "enemies/mantis/attack": [
-    "assets/enemies/mantis/attack/Mantis_Scout_attack_00.png",
-    "assets/enemies/mantis/attack/Mantis_Scout_attack_01.png",
-    "assets/enemies/mantis/attack/Mantis_Scout_attack_02.png",
-    "assets/enemies/mantis/attack/Mantis_Scout_attack_03.png",
-    "assets/enemies/mantis/attack/Mantis_Scout_attack_04.png",
-    "assets/enemies/mantis/attack/Mantis_Scout_attack_05.png"
-  ],
-  "enemies/mantis/idle": [
-    "assets/enemies/mantis/idle/Mantis_Scout_idle_00.png",
-    "assets/enemies/mantis/idle/Mantis_Scout_idle_01.png",
-    "assets/enemies/mantis/idle/Mantis_Scout_idle_02.png",
-    "assets/enemies/mantis/idle/Mantis_Scout_idle_03.png",
-    "assets/enemies/mantis/idle/Mantis_Scout_idle_04.png",
-    "assets/enemies/mantis/idle/Mantis_Scout_idle_05.png"
-  ],
-  "knight": [
-    "assets/knight/attack.png",
-    "assets/knight/cast.png",
-    "assets/knight/hurt.png",
-    "assets/knight/idle.png",
-    "assets/knight/slash_wave.png",
-    "assets/knight/walk.png"
-  ],
-  "knight/attack": [
-    "assets/knight/attack/knight_attack_00.png",
-    "assets/knight/attack/knight_attack_01.png",
-    "assets/knight/attack/knight_attack_02.png",
-    "assets/knight/attack/knight_attack_03.png",
-    "assets/knight/attack/knight_attack_04.png"
-  ],
-  "knight/cast": [
-    "assets/knight/cast/knight_cast_00.png",
-    "assets/knight/cast/knight_cast_01.png",
-    "assets/knight/cast/knight_cast_02.png",
-    "assets/knight/cast/knight_cast_03.png",
-    "assets/knight/cast/knight_cast_04.png"
-  ],
   "knight/idle": [
-    "assets/knight/idle/knight_idle_00.png",
-    "assets/knight/idle/knight_idle_01.png",
-    "assets/knight/idle/knight_idle_02.png",
-    "assets/knight/idle/knight_idle_03.png"
-  ],
-  "knight/jump": [
-    "assets/knight/jump/knight_jump_00.png",
-    "assets/knight/jump/knight_jump_01.png",
-    "assets/knight/jump/knight_jump_02.png",
-    "assets/knight/jump/knight_jump_03.png",
-    "assets/knight/jump/knight_jump_04.png"
+    "assets/Bosses/The Hollow Knight/The Hollow Knight Path of Pain scene - small_side0000.png",
+    "assets/Bosses/The Hollow Knight/The Hollow Knight Path of Pain scene - small_side0001.png",
+    "assets/Bosses/The Hollow Knight/The Hollow Knight Path of Pain scene - small_side0002.png",
+    "assets/Bosses/The Hollow Knight/The Hollow Knight Path of Pain scene - small_side0003.png",
+    "assets/Bosses/The Hollow Knight/The Hollow Knight Path of Pain scene - small_side0004.png"
   ],
   "knight/run": [
-    "assets/knight/run/knight_run_00.png",
-    "assets/knight/run/knight_run_01.png",
-    "assets/knight/run/knight_run_02.png",
-    "assets/knight/run/knight_run_03.png",
-    "assets/knight/run/knight_run_04.png",
-    "assets/knight/run/knight_run_05.png",
-    "assets/knight/run/knight_run_06.png"
+    "assets/Inventory & UI/Loading icons/loading_icon_new0000.png",
+    "assets/Inventory & UI/Loading icons/loading_icon_new0001.png",
+    "assets/Inventory & UI/Loading icons/loading_icon_new0002.png",
+    "assets/Inventory & UI/Loading icons/loading_icon_new0003.png",
+    "assets/Inventory & UI/Loading icons/loading_icon_new0004.png",
+    "assets/Inventory & UI/Loading icons/loading_icon_new0005.png",
+    "assets/Inventory & UI/Loading icons/loading_icon_new0006.png",
+    "assets/Inventory & UI/Loading icons/loading_icon_new0007.png"
   ],
-  "ui": [
-    "assets/ui/mask_empty.png",
-    "assets/ui/mask_full.png"
+  "knight/jump": [
+    "assets/Particles & Effects/Charm & Spells/Desolate Dive - quake_pickup0003.png",
+    "assets/Particles & Effects/Charm & Spells/Desolate Dive - quake_pickup0004.png",
+    "assets/Particles & Effects/Charm & Spells/Desolate Dive - quake_pickup0005.png",
+    "assets/Particles & Effects/Charm & Spells/Desolate Dive - quake_pickup0006.png",
+    "assets/Particles & Effects/Charm & Spells/Desolate Dive - quake_pickup0007.png",
+    "assets/Particles & Effects/Charm & Spells/Desolate Dive - quake_pickup0008.png"
   ],
-  "vfx": [
-    "assets/vfx/soul_orb.png"
+  "knight/attack": [
+    "assets/Particles & Effects/Charm & Spells/Desolate Dive - quake_pickup0003.png",
+    "assets/Particles & Effects/Charm & Spells/Desolate Dive - quake_pickup0004.png",
+    "assets/Particles & Effects/Charm & Spells/Vengeful Spirit - fireball_collect0004.png",
+    "assets/Particles & Effects/Charm & Spells/Vengeful Spirit - fireball_collect0005.png",
+    "assets/Particles & Effects/Charm & Spells/Vengeful Spirit - fireball_collect0006.png",
+    "assets/Particles & Effects/Charm & Spells/Vengeful Spirit - fireball_collect0007.png",
+    "assets/Particles & Effects/Charm & Spells/Vengeful Spirit - fireball_collect0008.png"
+  ],
+  "knight/cast": [
+    "assets/Particles & Effects/Charm & Spells/Vengeful Spirit - fireball_collect0003.png",
+    "assets/Particles & Effects/Charm & Spells/Vengeful Spirit - fireball_collect0004.png",
+    "assets/Particles & Effects/Charm & Spells/Vengeful Spirit - fireball_collect0005.png",
+    "assets/Particles & Effects/Charm & Spells/Vengeful Spirit - fireball_collect0006.png",
+    "assets/Particles & Effects/Charm & Spells/Vengeful Spirit - fireball_collect0007.png",
+    "assets/Particles & Effects/Charm & Spells/Vengeful Spirit - fireball_collect0008.png",
+    "assets/Particles & Effects/Charm & Spells/Vengeful Spirit - fireball_collect0009.png"
+  ],
+  "knight/focus": [
+    "assets/Particles & Effects/Charm & Spells/Howling Wraiths - scream_spell_pickup0004.png",
+    "assets/Particles & Effects/Charm & Spells/Howling Wraiths - scream_spell_pickup0005.png",
+    "assets/Particles & Effects/Charm & Spells/Howling Wraiths - scream_spell_pickup0006.png",
+    "assets/Particles & Effects/Charm & Spells/Howling Wraiths - scream_spell_pickup0007.png",
+    "assets/Particles & Effects/Charm & Spells/Howling Wraiths - scream_spell_pickup0008.png"
+  ],
+  "knight/hurt": [
+    "assets/Bosses/The Hollow Knight/The Hollow Knight Path of Pain scene - small_side_shake_010000.png",
+    "assets/Bosses/The Hollow Knight/The Hollow Knight Path of Pain scene - small_side_shake_010001.png",
+    "assets/Bosses/The Hollow Knight/The Hollow Knight Path of Pain scene - small_side_shake_010002.png"
+  ],
+  "enemies/hiveling/fly": [
+    "assets/Enemies & Corpses/Hiveling - fly0000.png",
+    "assets/Enemies & Corpses/Hiveling - fly0001.png",
+    "assets/Enemies & Corpses/Hiveling - fly0002.png",
+    "assets/Enemies & Corpses/Hiveling - fly0003.png",
+    "assets/Enemies & Corpses/Hiveling - fly0004.png"
+  ],
+  "enemies/hiveling/attack": [
+    "assets/Enemies & Corpses/Hiveling - spawn_01.png",
+    "assets/Enemies & Corpses/Hiveling - spawn_02.png",
+    "assets/Enemies & Corpses/Hiveling - fly0000.png",
+    "assets/Enemies & Corpses/Hiveling - fly0001.png",
+    "assets/Enemies & Corpses/Hiveling - fly0002.png",
+    "assets/Enemies & Corpses/Hiveling - fly0003.png",
+    "assets/Enemies & Corpses/Hiveling - fly0004.png"
+  ],
+  "enemies/mantis/idle": [
+    "assets/Hunter_s Journal/Mantis Warrior - bestiary_mantis_f.png",
+    "assets/Hunter_s Journal/Mantis Youth - bestiary_mantis_flyer_f.png",
+    "assets/NPCs/Weavers/Weaver - idle0002.png",
+    "assets/NPCs/Weavers/Weaver - idle0003.png",
+    "assets/NPCs/Weavers/Weaver - idle0004.png",
+    "assets/NPCs/Weavers/Weaver - idle0005.png"
+  ],
+  "enemies/mantis/attack": [
+    "assets/Hunter_s Journal/Mantis Warrior - bestiary_mantis_f.png",
+    "assets/Hunter_s Journal/Mantis Lords - bestiary_mantis_lords_f.png",
+    "assets/Hunter_s Journal/Mantis Traitor - bestiary_heavy_mantis_f.png",
+    "assets/NPCs/Weavers/Weaver - crawl0000.png",
+    "assets/NPCs/Weavers/Weaver - crawl0001.png",
+    "assets/NPCs/Weavers/Weaver - crawl0002.png",
+    "assets/NPCs/Weavers/Weaver - crawl0003.png"
+  ],
+  "bosses/dung_defender/idle": [
+    "assets/Hunter_s Journal/Dung Defender - bestiary__0005_dung-defender.png"
+  ],
+  "bosses/dung_defender/attack": [
+    "assets/Hunter_s Journal/Dung Defender - bestiary__0005_dung-defender.png",
+    "assets/Hunter_s Journal/White Defender - bestiary_White_Defender_full.png",
+    "assets/Bosses/Dung Defender & White Defender/dung_statues_0006_1.png"
+  ],
+  "bosses/hornet/idle": [
+    "assets/Bosses/Hornet/Hornet - idle0000.png",
+    "assets/Bosses/Hornet/Hornet - idle0001.png"
+  ],
+  "bosses/hornet/jump": [
+    "assets/Bosses/Hornet/Hornet - jump0000.png",
+    "assets/Bosses/Hornet/Hornet - jump0001.png",
+    "assets/Bosses/Hornet/Hornet - jump0002.png",
+    "assets/Bosses/Hornet/Hornet - jump0003.png",
+    "assets/Bosses/Hornet/Hornet - jump0004.png",
+    "assets/Bosses/Hornet/Hornet - jump0005.png",
+    "assets/Bosses/Hornet/Hornet - jump0006.png",
+    "assets/Bosses/Hornet/Hornet - jump0007.png",
+    "assets/Bosses/Hornet/Hornet - jump0008.png",
+    "assets/Bosses/Hornet/Hornet - jump0009.png"
+  ],
+  "bosses/hornet/attack": [
+    "assets/Bosses/Hornet/Hornet - throw_side0000.png",
+    "assets/Bosses/Hornet/Hornet - throw_side0001.png",
+    "assets/Bosses/Hornet/Hornet - throw_side0002.png",
+    "assets/Bosses/Hornet/Hornet - throw_side0003.png",
+    "assets/Bosses/Hornet/Hornet - throw_side0004.png",
+    "assets/Bosses/Hornet/Hornet - throw_side0005.png",
+    "assets/Bosses/Hornet/Hornet - throw_side0006.png",
+    "assets/Bosses/Hornet/Hornet - throw_side0007.png",
+    "assets/Bosses/Hornet/Hornet - harpoon_side0000.png",
+    "assets/Bosses/Hornet/Hornet - harpoon_side0001.png"
+  ],
+  "bosses/hornet/land": [
+    "assets/Bosses/Hornet/Hornet - hard_land0000.png",
+    "assets/Bosses/Hornet/Hornet - hard_land0001.png",
+    "assets/Bosses/Hornet/Hornet - hard_land0002.png",
+    "assets/Bosses/Hornet/Hornet - hard_land0003.png",
+    "assets/Bosses/Hornet/Hornet - hard_land0004.png",
+    "assets/Bosses/Hornet/Hornet - hard_land0005.png"
+  ],
+  "bosses/grimm/idle": [
+    "assets/Bosses/Grimm/GG_grimm_bow0000.png",
+    "assets/Bosses/Grimm/GG_grimm_bow0001.png",
+    "assets/Hunter_s Journal/Troupe Master Grimm - Bestiary_Grimm_boss.png"
+  ],
+  "bosses/grimm/bow": [
+    "assets/Bosses/Grimm/GG_grimm_bow0000.png",
+    "assets/Bosses/Grimm/GG_grimm_bow0001.png",
+    "assets/Bosses/Grimm/GG_grimm_bow0002.png",
+    "assets/Bosses/Grimm/GG_grimm_bow0003.png",
+    "assets/Bosses/Grimm/GG_grimm_bow0004.png",
+    "assets/Bosses/Grimm/GG_grimm_bow0005.png",
+    "assets/Bosses/Grimm/GG_grimm_bow0006.png"
+  ],
+  "bosses/grimm/attack": [
+    "assets/Bosses/Grimm/GG_grimm_bow0002.png",
+    "assets/Bosses/Grimm/GG_grimm_bow0003.png",
+    "assets/Bosses/Grimm/GG_grimm_bow0004.png",
+    "assets/Bosses/Grimm/GG_grimm_bow0005.png",
+    "assets/Bosses/Grimm/GG_grimm_bow0006.png",
+    "assets/Hunter_s Journal/Nightmare King Grimm - Bestiary_Grimm_Nightmare_boss.png"
   ],
   "vfx/slashes": [
-    "assets/vfx/slashes/Radiance_GG_slashes0000.png",
-    "assets/vfx/slashes/Radiance_GG_slashes0001.png",
-    "assets/vfx/slashes/Radiance_GG_slashes0002.png",
-    "assets/vfx/slashes/Radiance_GG_slashes0003.png",
-    "assets/vfx/slashes/Radiance_GG_slashes0004.png",
-    "assets/vfx/slashes/Radiance_GG_slashes0005.png",
-    "assets/vfx/slashes/Radiance_GG_slashes0006.png",
-    "assets/vfx/slashes/Radiance_GG_slashes0007.png",
-    "assets/vfx/slashes/Radiance_GG_slashes0008.png",
-    "assets/vfx/slashes/Radiance_GG_slashes0009.png",
-    "assets/vfx/slashes/Radiance_GG_slashes0010.png"
+    "assets/Particles & Effects/Radiance_GG_slashes0000.png",
+    "assets/Particles & Effects/Radiance_GG_slashes0001.png",
+    "assets/Particles & Effects/Radiance_GG_slashes0002.png",
+    "assets/Particles & Effects/Radiance_GG_slashes0003.png",
+    "assets/Particles & Effects/Radiance_GG_slashes0004.png",
+    "assets/Particles & Effects/Radiance_GG_slashes0005.png",
+    "assets/Particles & Effects/Radiance_GG_slashes0006.png",
+    "assets/Particles & Effects/Radiance_GG_slashes0007.png",
+    "assets/Particles & Effects/Radiance_GG_slashes0008.png",
+    "assets/Particles & Effects/Radiance_GG_slashes0009.png",
+    "assets/Particles & Effects/Radiance_GG_slashes0010.png"
+  ],
+  "vfx/dash": [
+    "assets/Particles & Effects/dash_effect_020000.png",
+    "assets/Particles & Effects/dash_effect_020001.png",
+    "assets/Particles & Effects/dash_effect_020002.png",
+    "assets/Particles & Effects/dash_effect_020003.png",
+    "assets/Particles & Effects/dash_effect_020004.png"
+  ],
+  "vfx/soul": [
+    "assets/Particles & Effects/soul_orb.png",
+    "assets/Particles & Effects/Soul_burst0000.png",
+    "assets/Particles & Effects/Soul_burst0001.png",
+    "assets/Particles & Effects/Soul_burst0002.png",
+    "assets/Particles & Effects/Soul_burst0003.png",
+    "assets/Particles & Effects/Soul_burst0004.png",
+    "assets/Bosses/The Hollow Knight/Pure Vessel focus ring -  focus_ring.png"
+  ],
+  "bg": [
+    "assets/Architecture & Environment/Nailmaster_03__0001_Floor.png",
+    "assets/Architecture & Environment/nailmaster_03_0008_BG.png",
+    "assets/Architecture & Environment/nailmaster_03_0006_curtain_MID.png",
+    "assets/Architecture & Environment/nailmaster_03_0003_FG.png",
+    "assets/Architecture & Environment/nailmaster_03_0007_door.png",
+    "assets/Architecture & Environment/Area specfic architecture/Greenpath/nailmaster_fung_hut_02.png",
+    "assets/Architecture & Environment/Tram & Stagways/tram_BG_wrecked.png",
+    "assets/Architecture & Environment/Area specfic architecture/City of Tears/Ruins_Houses_0004_1bg.png",
+    "assets/Architecture & Environment/Area specfic architecture/Dirtmouth/Grimm Tents/Divine_Room_0005_1.png",
+    "assets/Area save art/Area_Hive.png",
+    "assets/Area save art/Area_Art_Mantis_Village.png",
+    "assets/Area save art/Area_Waterways.png",
+    "assets/Area save art/Area_Art_City_of_Tears.png",
+    "assets/Area save art/Area_Art_Godshome.png"
+  ],
+  "ui": [
+    "assets/Inventory & UI/select_game_HUD_0001_health.png",
+    "assets/Inventory & UI/select_game_HUD_0001_health_steel.png",
+    "assets/Inventory & UI/soul_orb_full_v020000.png",
+    "assets/Inventory & UI/Geo - HUD_coin_v020004.png",
+    "assets/Inventory & UI/Spell, Vengeful Spirit - Inv_0025_spell_fireball_01.png",
+    "assets/Inventory & UI/Inv_0021_inv_dash_strike_skill.png"
   ]
 }

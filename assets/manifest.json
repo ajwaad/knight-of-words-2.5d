@@ -1,107 +1,99 @@
 {
-  "bg": [
-    "Area_Abyss.png",
-    "Area_Art_City_of_Tears.png",
-    "Area_Art_Godshome.png",
-    "Area_Art_Mantis_Village.png",
-    "Area_Crystal_Mines.png",
-    "Lighthouse_Room_Interior_0007_lit_lantern.png",
-    "Lighthouse_Room_Interior_0015_1.png",
-    "Nailmaster_03__0001_Floor.png",
-    "chamber_gate_arch.png",
-    "nailmaster_03_0003_FG.png",
-    "nailmaster_03_0006_curtain_MID.png",
-    "nailmaster_03_0008_BG.png",
-    "station_BG_tunnel.png",
-    "station_FG_tunnel_02.png",
-    "tram_BG_wrecked.png"
+  "knight/idle": [
+    "The Hollow Knight Path of Pain scene - small_side0000.png",
+    "The Hollow Knight Path of Pain scene - small_side0001.png",
+    "The Hollow Knight Path of Pain scene - small_side0002.png",
+    "The Hollow Knight Path of Pain scene - small_side0003.png",
+    "The Hollow Knight Path of Pain scene - small_side0004.png"
   ],
-  "bosses/dung_defender": [
-    "Dung Defender head - atlas0 #84007.png",
-    "Dung_Def_Body.png",
-    "dung_def_sleep0000.png",
-    "dung_def_sleep0001.png",
-    "dung_def_sleep0002.png"
+  "knight/run": [
+    "loading_icon_new0000.png",
+    "loading_icon_new0001.png",
+    "loading_icon_new0002.png",
+    "loading_icon_new0003.png",
+    "loading_icon_new0004.png",
+    "loading_icon_new0005.png",
+    "loading_icon_new0006.png",
+    "loading_icon_new0007.png"
   ],
-  "bosses/dung_defender/attack": [
-    "dung_def_attack_00.png",
-    "dung_def_attack_01.png",
-    "dung_def_attack_02.png",
-    "dung_def_attack_03.png"
+  "knight/jump": [
+    "Desolate Dive - quake_pickup0003.png",
+    "Desolate Dive - quake_pickup0004.png",
+    "Desolate Dive - quake_pickup0005.png",
+    "Desolate Dive - quake_pickup0006.png",
+    "Desolate Dive - quake_pickup0007.png",
+    "Desolate Dive - quake_pickup0008.png"
+  ],
+  "knight/attack": [
+    "Desolate Dive - quake_pickup0003.png",
+    "Desolate Dive - quake_pickup0004.png",
+    "Vengeful Spirit - fireball_collect0004.png",
+    "Vengeful Spirit - fireball_collect0005.png",
+    "Vengeful Spirit - fireball_collect0006.png",
+    "Vengeful Spirit - fireball_collect0007.png",
+    "Vengeful Spirit - fireball_collect0008.png"
+  ],
+  "knight/cast": [
+    "Vengeful Spirit - fireball_collect0003.png",
+    "Vengeful Spirit - fireball_collect0004.png",
+    "Vengeful Spirit - fireball_collect0005.png",
+    "Vengeful Spirit - fireball_collect0006.png",
+    "Vengeful Spirit - fireball_collect0007.png",
+    "Vengeful Spirit - fireball_collect0008.png",
+    "Vengeful Spirit - fireball_collect0009.png"
+  ],
+  "knight/focus": [
+    "Howling Wraiths - scream_spell_pickup0004.png",
+    "Howling Wraiths - scream_spell_pickup0005.png",
+    "Howling Wraiths - scream_spell_pickup0006.png",
+    "Howling Wraiths - scream_spell_pickup0007.png",
+    "Howling Wraiths - scream_spell_pickup0008.png"
+  ],
+  "knight/hurt": [
+    "The Hollow Knight Path of Pain scene - small_side_shake_010000.png",
+    "The Hollow Knight Path of Pain scene - small_side_shake_010001.png",
+    "The Hollow Knight Path of Pain scene - small_side_shake_010002.png"
+  ],
+  "enemies/hiveling/fly": [
+    "Hiveling - fly0000.png",
+    "Hiveling - fly0001.png",
+    "Hiveling - fly0002.png",
+    "Hiveling - fly0003.png",
+    "Hiveling - fly0004.png"
+  ],
+  "enemies/hiveling/attack": [
+    "Hiveling - spawn_01.png",
+    "Hiveling - spawn_02.png",
+    "Hiveling - fly0000.png",
+    "Hiveling - fly0001.png",
+    "Hiveling - fly0002.png",
+    "Hiveling - fly0003.png",
+    "Hiveling - fly0004.png"
+  ],
+  "enemies/mantis/idle": [
+    "Mantis Warrior - bestiary_mantis_f.png",
+    "Mantis Youth - bestiary_mantis_flyer_f.png",
+    "Weaver - idle0002.png",
+    "Weaver - idle0003.png",
+    "Weaver - idle0004.png",
+    "Weaver - idle0005.png"
+  ],
+  "enemies/mantis/attack": [
+    "Mantis Warrior - bestiary_mantis_f.png",
+    "Mantis Lords - bestiary_mantis_lords_f.png",
+    "Mantis Traitor - bestiary_heavy_mantis_f.png",
+    "Weaver - crawl0000.png",
+    "Weaver - crawl0001.png",
+    "Weaver - crawl0002.png",
+    "Weaver - crawl0003.png"
   ],
   "bosses/dung_defender/idle": [
-    "dung_def_idle_00.png",
-    "dung_def_idle_01.png",
-    "dung_def_idle_02.png",
-    "dung_def_idle_03.png"
+    "Dung Defender - bestiary__0005_dung-defender.png"
   ],
-  "bosses/dung_defender/sleep": [
-    "dung_def_sleep0000.png",
-    "dung_def_sleep0001.png",
-    "dung_def_sleep0002.png"
-  ],
-  "bosses/grimm": [
-    "GG_grimm_bow0000.png",
-    "GG_grimm_bow0001.png",
-    "GG_grimm_bow0002.png",
-    "GG_grimm_bow0003.png",
-    "GG_grimm_bow0004.png",
-    "GG_grimm_bow0005.png",
-    "GG_grimm_bow0006.png",
-    "Grimm_sleep_heartbeat0000.png",
-    "Grimm_sleep_heartbeat0001.png",
-    "Grimm_sleep_heartbeat0002.png",
-    "Grimm_sleep_heartbeat0003.png",
-    "Nightmare_Grimm_eye_appear0000.png",
-    "Nightmare_Grimm_eye_appear0001.png",
-    "Nightmare_Grimm_eye_appear0002.png"
-  ],
-  "bosses/grimm/bow": [
-    "GG_grimm_bow0000.png",
-    "GG_grimm_bow0001.png",
-    "GG_grimm_bow0002.png",
-    "GG_grimm_bow0003.png",
-    "GG_grimm_bow0004.png",
-    "GG_grimm_bow0005.png",
-    "GG_grimm_bow0006.png"
-  ],
-  "bosses/grimm/idle": [
-    "Grimm_sleep_heartbeat0000.png",
-    "Grimm_sleep_heartbeat0001.png",
-    "Grimm_sleep_heartbeat0002.png",
-    "Grimm_sleep_heartbeat0003.png"
-  ],
-  "bosses/hornet": [
-    "Hornet - idle0000.png",
-    "Hornet - idle0001.png",
-    "Hornet - jump0000.png",
-    "Hornet - jump0001.png",
-    "Hornet - jump0002.png",
-    "Hornet - jump0003.png",
-    "Hornet - jump0004.png",
-    "Hornet - jump0005.png",
-    "Hornet - jump0006.png",
-    "Hornet - jump0007.png",
-    "Hornet - jump0008.png",
-    "Hornet - jump0009.png",
-    "Hornet - throw_side0000.png",
-    "Hornet - throw_side0001.png",
-    "Hornet - throw_side0002.png",
-    "Hornet - throw_side0003.png",
-    "Hornet - throw_side0004.png",
-    "Hornet - throw_side0005.png",
-    "Hornet - throw_side0006.png",
-    "Hornet - throw_side0007.png"
-  ],
-  "bosses/hornet/attack": [
-    "Hornet - throw_side0000.png",
-    "Hornet - throw_side0001.png",
-    "Hornet - throw_side0002.png",
-    "Hornet - throw_side0003.png",
-    "Hornet - throw_side0004.png",
-    "Hornet - throw_side0005.png",
-    "Hornet - throw_side0006.png",
-    "Hornet - throw_side0007.png"
+  "bosses/dung_defender/attack": [
+    "Dung Defender - bestiary__0005_dung-defender.png",
+    "White Defender - bestiary_White_Defender_full.png",
+    "dung_statues_0006_1.png"
   ],
   "bosses/hornet/idle": [
     "Hornet - idle0000.png",
@@ -119,6 +111,18 @@
     "Hornet - jump0008.png",
     "Hornet - jump0009.png"
   ],
+  "bosses/hornet/attack": [
+    "Hornet - throw_side0000.png",
+    "Hornet - throw_side0001.png",
+    "Hornet - throw_side0002.png",
+    "Hornet - throw_side0003.png",
+    "Hornet - throw_side0004.png",
+    "Hornet - throw_side0005.png",
+    "Hornet - throw_side0006.png",
+    "Hornet - throw_side0007.png",
+    "Hornet - harpoon_side0000.png",
+    "Hornet - harpoon_side0001.png"
+  ],
   "bosses/hornet/land": [
     "Hornet - hard_land0000.png",
     "Hornet - hard_land0001.png",
@@ -127,106 +131,27 @@
     "Hornet - hard_land0004.png",
     "Hornet - hard_land0005.png"
   ],
-  "enemies/grimmkin": [
-    "Grimmkin Novice, Grimmkin Master, Grimmkin Nightmare, Troupe Master Grimm audience - Grimm_crowd0000.png",
-    "Grimmkin Novice, Grimmkin Master, Grimmkin Nightmare, Troupe Master Grimm audience - Grimm_crowd0001.png",
-    "Grimmkin Novice, Grimmkin Master, Grimmkin Nightmare, Troupe Master Grimm audience - Grimm_crowd0002.png",
-    "Grimmkin Novice, Grimmkin Master, Grimmkin Nightmare, Troupe Master Grimm audience - Grimm_crowd0003.png",
-    "Grimmkin Novice, Grimmkin Master, Grimmkin Nightmare, Troupe Master Grimm audience - Grimm_crowd0004.png",
-    "Grimmkin Novice, Grimmkin Master, Grimmkin Nightmare, Troupe Master Grimm audience - Grimm_crowd0005.png",
-    "Grimmkin Novice, Grimmkin Master, Grimmkin Nightmare, Troupe Master Grimm audience - Grimm_crowd0006.png",
-    "Grimmkin Novice, Grimmkin Master, Grimmkin Nightmare, Troupe Master Grimm audience - Grimm_crowd0007.png"
+  "bosses/grimm/idle": [
+    "GG_grimm_bow0000.png",
+    "GG_grimm_bow0001.png",
+    "Troupe Master Grimm - Bestiary_Grimm_boss.png"
   ],
-  "enemies/grimmkin/float": [
-    "Grimmkin Novice, Grimmkin Master, Grimmkin Nightmare, Troupe Master Grimm audience - Grimm_crowd0000.png",
-    "Grimmkin Novice, Grimmkin Master, Grimmkin Nightmare, Troupe Master Grimm audience - Grimm_crowd0001.png",
-    "Grimmkin Novice, Grimmkin Master, Grimmkin Nightmare, Troupe Master Grimm audience - Grimm_crowd0002.png",
-    "Grimmkin Novice, Grimmkin Master, Grimmkin Nightmare, Troupe Master Grimm audience - Grimm_crowd0003.png",
-    "Grimmkin Novice, Grimmkin Master, Grimmkin Nightmare, Troupe Master Grimm audience - Grimm_crowd0004.png",
-    "Grimmkin Novice, Grimmkin Master, Grimmkin Nightmare, Troupe Master Grimm audience - Grimm_crowd0005.png",
-    "Grimmkin Novice, Grimmkin Master, Grimmkin Nightmare, Troupe Master Grimm audience - Grimm_crowd0006.png",
-    "Grimmkin Novice, Grimmkin Master, Grimmkin Nightmare, Troupe Master Grimm audience - Grimm_crowd0007.png"
+  "bosses/grimm/bow": [
+    "GG_grimm_bow0000.png",
+    "GG_grimm_bow0001.png",
+    "GG_grimm_bow0002.png",
+    "GG_grimm_bow0003.png",
+    "GG_grimm_bow0004.png",
+    "GG_grimm_bow0005.png",
+    "GG_grimm_bow0006.png"
   ],
-  "enemies/hiveling": [
-    "Hiveling - fly0000.png",
-    "Hiveling - fly0001.png",
-    "Hiveling - fly0002.png",
-    "Hiveling - fly0003.png",
-    "Hiveling - fly0004.png"
-  ],
-  "enemies/hiveling/fly": [
-    "Hiveling - fly0000.png",
-    "Hiveling - fly0001.png",
-    "Hiveling - fly0002.png",
-    "Hiveling - fly0003.png",
-    "Hiveling - fly0004.png"
-  ],
-  "enemies/mantis/attack": [
-    "Mantis_Scout_attack_00.png",
-    "Mantis_Scout_attack_01.png",
-    "Mantis_Scout_attack_02.png",
-    "Mantis_Scout_attack_03.png",
-    "Mantis_Scout_attack_04.png",
-    "Mantis_Scout_attack_05.png"
-  ],
-  "enemies/mantis/idle": [
-    "Mantis_Scout_idle_00.png",
-    "Mantis_Scout_idle_01.png",
-    "Mantis_Scout_idle_02.png",
-    "Mantis_Scout_idle_03.png",
-    "Mantis_Scout_idle_04.png",
-    "Mantis_Scout_idle_05.png"
-  ],
-  "knight": [
-    "attack.png",
-    "cast.png",
-    "hurt.png",
-    "idle.png",
-    "slash_wave.png",
-    "walk.png"
-  ],
-  "knight/attack": [
-    "knight_attack_00.png",
-    "knight_attack_01.png",
-    "knight_attack_02.png",
-    "knight_attack_03.png",
-    "knight_attack_04.png"
-  ],
-  "knight/cast": [
-    "knight_cast_00.png",
-    "knight_cast_01.png",
-    "knight_cast_02.png",
-    "knight_cast_03.png",
-    "knight_cast_04.png"
-  ],
-  "knight/idle": [
-    "knight_idle_00.png",
-    "knight_idle_01.png",
-    "knight_idle_02.png",
-    "knight_idle_03.png"
-  ],
-  "knight/jump": [
-    "knight_jump_00.png",
-    "knight_jump_01.png",
-    "knight_jump_02.png",
-    "knight_jump_03.png",
-    "knight_jump_04.png"
-  ],
-  "knight/run": [
-    "knight_run_00.png",
-    "knight_run_01.png",
-    "knight_run_02.png",
-    "knight_run_03.png",
-    "knight_run_04.png",
-    "knight_run_05.png",
-    "knight_run_06.png"
-  ],
-  "ui": [
-    "mask_empty.png",
-    "mask_full.png"
-  ],
-  "vfx": [
-    "soul_orb.png"
+  "bosses/grimm/attack": [
+    "GG_grimm_bow0002.png",
+    "GG_grimm_bow0003.png",
+    "GG_grimm_bow0004.png",
+    "GG_grimm_bow0005.png",
+    "GG_grimm_bow0006.png",
+    "Nightmare King Grimm - Bestiary_Grimm_Nightmare_boss.png"
   ],
   "vfx/slashes": [
     "Radiance_GG_slashes0000.png",
@@ -240,5 +165,45 @@
     "Radiance_GG_slashes0008.png",
     "Radiance_GG_slashes0009.png",
     "Radiance_GG_slashes0010.png"
+  ],
+  "vfx/dash": [
+    "dash_effect_020000.png",
+    "dash_effect_020001.png",
+    "dash_effect_020002.png",
+    "dash_effect_020003.png",
+    "dash_effect_020004.png"
+  ],
+  "vfx/soul": [
+    "soul_orb.png",
+    "Soul_burst0000.png",
+    "Soul_burst0001.png",
+    "Soul_burst0002.png",
+    "Soul_burst0003.png",
+    "Soul_burst0004.png",
+    "Pure Vessel focus ring -  focus_ring.png"
+  ],
+  "bg": [
+    "Nailmaster_03__0001_Floor.png",
+    "nailmaster_03_0008_BG.png",
+    "nailmaster_03_0006_curtain_MID.png",
+    "nailmaster_03_0003_FG.png",
+    "nailmaster_03_0007_door.png",
+    "nailmaster_fung_hut_02.png",
+    "tram_BG_wrecked.png",
+    "Ruins_Houses_0004_1bg.png",
+    "Divine_Room_0005_1.png",
+    "Area_Hive.png",
+    "Area_Art_Mantis_Village.png",
+    "Area_Waterways.png",
+    "Area_Art_City_of_Tears.png",
+    "Area_Art_Godshome.png"
+  ],
+  "ui": [
+    "select_game_HUD_0001_health.png",
+    "select_game_HUD_0001_health_steel.png",
+    "soul_orb_full_v020000.png",
+    "Geo - HUD_coin_v020004.png",
+    "Spell, Vengeful Spirit - Inv_0025_spell_fireball_01.png",
+    "Inv_0021_inv_dash_strike_skill.png"
   ]
 }

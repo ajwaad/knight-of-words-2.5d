@@ -564,12 +564,20 @@ class BattleManager {
     const maskRow = document.getElementById('masks-row');
     if (maskRow) {
       maskRow.innerHTML = '';
-      const fullSrc = (window.ASSET_DATA_URIS && window.ASSET_DATA_URIS['assets/ui/mask_full.png']) || 'assets/ui/mask_full.png';
-      const emptySrc = (window.ASSET_DATA_URIS && window.ASSET_DATA_URIS['assets/ui/mask_empty.png']) || 'assets/ui/mask_empty.png';
+      const fullPath = 'assets/Inventory & UI/select_game_HUD_0001_health.png';
+      const emptyPath = 'assets/Inventory & UI/select_game_HUD_0001_health_steel.png';
+      const fullSrc = (this.game25d && this.game25d.resolveAssetUrl) ? this.game25d.resolveAssetUrl(fullPath) : fullPath;
+      const emptySrc = (this.game25d && this.game25d.resolveAssetUrl) ? this.game25d.resolveAssetUrl(emptyPath) : emptyPath;
       for (let i = 0; i < this.playerMaxMasks; i++) {
         const img = document.createElement('img');
         img.className = 'mask-icon';
         img.alt = i < this.playerMasks ? 'Full Mask' : 'Empty Mask';
+        const targetPath = i < this.playerMasks ? fullPath : emptyPath;
+        img.onerror = () => {
+          if (window.FALLBACK_DATA_URIS && window.FALLBACK_DATA_URIS[targetPath] && img.src !== window.FALLBACK_DATA_URIS[targetPath]) {
+            img.src = window.FALLBACK_DATA_URIS[targetPath];
+          }
+        };
         if (i < this.playerMasks) {
           img.src = fullSrc;
         } else {

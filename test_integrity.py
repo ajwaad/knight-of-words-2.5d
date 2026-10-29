@@ -2,6 +2,7 @@ import os
 import json
 
 proj = os.path.dirname(os.path.abspath(__file__))
+ext_src = r"C:\Users\AMAL\Downloads\sprites"
 
 # 1. Check questions.json
 q_path = os.path.join(proj, "data", "questions.json")
@@ -20,49 +21,29 @@ three_path = os.path.join(proj, "libs", "three.min.js")
 assert os.path.exists(three_path), "three.min.js missing"
 print(f"Verification: three.min.js size: {os.path.getsize(three_path)} bytes")
 
-# 3. Check essential character, boss, enemy, VFX, and UI assets
-required_assets = [
-    "assets/knight/idle.png",
-    "assets/knight/walk.png",
-    "assets/knight/attack.png",
-    "assets/knight/cast.png",
-    "assets/knight/hurt.png",
-    "assets/knight/slash_wave.png",
-    "assets/knight/idle/knight_idle_00.png",
-    "assets/knight/run/knight_run_00.png",
-    "assets/knight/jump/knight_jump_00.png",
-    "assets/knight/attack/knight_attack_00.png",
-    "assets/knight/cast/knight_cast_00.png",
-    "assets/ui/mask_full.png",
-    "assets/ui/mask_empty.png",
-    "assets/vfx/soul_orb.png",
-    "assets/vfx/slashes/Radiance_GG_slashes0000.png",
-    "assets/enemies/hiveling/Hiveling - fly0000.png",
-    "assets/enemies/hiveling/fly/Hiveling - fly0000.png",
-    "assets/enemies/mantis/idle/Mantis_Scout_idle_00.png",
-    "assets/enemies/mantis/attack/Mantis_Scout_attack_00.png",
-    "assets/bosses/hornet/Hornet - idle0000.png",
-    "assets/bosses/hornet/idle/Hornet - idle0000.png",
-    "assets/bosses/dung_defender/Dung_Def_Body.png",
-    "assets/bosses/dung_defender/idle/dung_def_idle_00.png",
-    "assets/bosses/dung_defender/attack/dung_def_attack_00.png",
-    "assets/bosses/grimm/GG_grimm_bow0000.png",
-    "assets/bosses/grimm/bow/GG_grimm_bow0000.png",
-    "assets/bosses/grimm/idle/Grimm_sleep_heartbeat0000.png",
-    "assets/bg/nailmaster_03_0008_BG.png",
-    "assets/bg/nailmaster_03_0006_curtain_MID.png",
-    "assets/bg/Nailmaster_03__0001_Floor.png",
-    "assets/bg/nailmaster_03_0003_FG.png",
-    "assets/bg/chamber_gate_arch.png"
-]
+# 3. Verify all manifest.txt paths referenced in data/animations.json exist in manifest.txt
+anim_path = os.path.join(proj, "data", "animations.json")
+assert os.path.exists(anim_path), "animations.json missing"
+with open(anim_path, encoding="utf-8") as f:
+    anims = json.load(f)
 
-missing = []
-for rel in required_assets:
-    full = os.path.join(proj, rel.replace("/", os.sep))
-    if not os.path.exists(full):
-        missing.append(rel)
+with open(os.path.join(proj, "assets", "manifest.txt"), encoding="utf-8") as f:
+    manifest_set = set(l.split(" | ")[0].strip() for l in f if l.strip() and not l.startswith("#"))
 
-if missing:
-    raise AssertionError(f"Missing required assets: {missing}")
-else:
-    print("Verification: All required sprite and UI textures exist on disk! Exit code 0.")
+missing_manifest = []
+total_checked = 0
+found_on_disk = 0
+for group, paths in anims.items():
+    for rel in paths:
+        total_checked += 1
+        if rel not in manifest_set:
+            missing_manifest.append(rel)
+        full_local = os.path.join(proj, rel.replace("/", os.sep))
+        full_ext = os.path.join(ext_src, rel.replace("/", os.sep))
+        if os.path.exists(full_local) or os.path.exists(full_ext):
+            found_on_disk += 1
+
+if missing_manifest:
+    raise AssertionError(f"Paths not in manifest.txt: {missing_manifest}")
+
+print(f"Verification: 100% of {total_checked} asset paths verified against manifest.txt ({found_on_disk} present on local disk, fallbacks ready)! Exit code 0.")

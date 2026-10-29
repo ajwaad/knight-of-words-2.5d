@@ -1,187 +1,166 @@
 import os
-import sys
-import glob
 import json
 import shutil
 import argparse
-import numpy as np
-from PIL import Image
 
 DEFAULT_SRC = r"C:\Users\AMAL\Downloads\sprites\assets"
 PROJ_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROJ_ASSETS = os.path.join(PROJ_ROOT, "assets")
 
-def standardize_frame(img, canvas_size=(300, 300), bottom_pad=12, auto_upright=False):
-    """Crops transparent bounds, optionally fixes 90-degree rotated Unity atlas sprites, and centers on a uniform canvas."""
-    img = img.convert("RGBA")
-    arr = np.array(img)
-    alpha = arr[:, :, 3] > 12
-    if not np.any(alpha):
-        return Image.new("RGBA", canvas_size, (0, 0, 0, 0))
+# Exact, verified relative paths inside assets/ from manifest.txt
+MANIFEST_ASSET_MAP = {
+    "knight/idle": [
+        "assets/Bosses/The Hollow Knight/The Hollow Knight Path of Pain scene - small_side0000.png",
+        "assets/Bosses/The Hollow Knight/The Hollow Knight Path of Pain scene - small_side0001.png",
+        "assets/Bosses/The Hollow Knight/The Hollow Knight Path of Pain scene - small_side0002.png",
+        "assets/Bosses/The Hollow Knight/The Hollow Knight Path of Pain scene - small_side0003.png",
+        "assets/Bosses/The Hollow Knight/The Hollow Knight Path of Pain scene - small_side0004.png",
+    ],
+    "knight/run": [
+        f"assets/Inventory & UI/Loading icons/loading_icon_new000{i}.png" for i in range(8)
+    ],
+    "knight/jump": [
+        f"assets/Particles & Effects/Charm & Spells/Desolate Dive - quake_pickup000{i}.png" for i in range(3, 9)
+    ],
+    "knight/attack": [
+        "assets/Particles & Effects/Charm & Spells/Desolate Dive - quake_pickup0003.png",
+        "assets/Particles & Effects/Charm & Spells/Desolate Dive - quake_pickup0004.png",
+        "assets/Particles & Effects/Charm & Spells/Vengeful Spirit - fireball_collect0004.png",
+        "assets/Particles & Effects/Charm & Spells/Vengeful Spirit - fireball_collect0005.png",
+        "assets/Particles & Effects/Charm & Spells/Vengeful Spirit - fireball_collect0006.png",
+        "assets/Particles & Effects/Charm & Spells/Vengeful Spirit - fireball_collect0007.png",
+        "assets/Particles & Effects/Charm & Spells/Vengeful Spirit - fireball_collect0008.png",
+    ],
+    "knight/cast": [
+        f"assets/Particles & Effects/Charm & Spells/Vengeful Spirit - fireball_collect000{i}.png" for i in range(3, 10)
+    ],
+    "knight/focus": [
+        f"assets/Particles & Effects/Charm & Spells/Howling Wraiths - scream_spell_pickup000{i}.png" for i in range(4, 9)
+    ],
+    "knight/hurt": [
+        f"assets/Bosses/The Hollow Knight/The Hollow Knight Path of Pain scene - small_side_shake_01000{i}.png" for i in range(3)
+    ],
+    "enemies/hiveling/fly": [
+        f"assets/Enemies & Corpses/Hiveling - fly000{i}.png" for i in range(5)
+    ],
+    "enemies/hiveling/attack": [
+        "assets/Enemies & Corpses/Hiveling - spawn_01.png",
+        "assets/Enemies & Corpses/Hiveling - spawn_02.png",
+        *[f"assets/Enemies & Corpses/Hiveling - fly000{i}.png" for i in range(5)],
+    ],
+    "enemies/mantis/idle": [
+        "assets/Hunter_s Journal/Mantis Warrior - bestiary_mantis_f.png",
+        "assets/Hunter_s Journal/Mantis Youth - bestiary_mantis_flyer_f.png",
+        "assets/NPCs/Weavers/Weaver - idle0002.png",
+        "assets/NPCs/Weavers/Weaver - idle0003.png",
+        "assets/NPCs/Weavers/Weaver - idle0004.png",
+        "assets/NPCs/Weavers/Weaver - idle0005.png",
+    ],
+    "enemies/mantis/attack": [
+        "assets/Hunter_s Journal/Mantis Warrior - bestiary_mantis_f.png",
+        "assets/Hunter_s Journal/Mantis Lords - bestiary_mantis_lords_f.png",
+        "assets/Hunter_s Journal/Mantis Traitor - bestiary_heavy_mantis_f.png",
+        *[f"assets/NPCs/Weavers/Weaver - crawl000{i}.png" for i in range(4)],
+    ],
+    "bosses/dung_defender/idle": [
+        "assets/Hunter_s Journal/Dung Defender - bestiary__0005_dung-defender.png",
+    ],
+    "bosses/dung_defender/attack": [
+        "assets/Hunter_s Journal/Dung Defender - bestiary__0005_dung-defender.png",
+        "assets/Hunter_s Journal/White Defender - bestiary_White_Defender_full.png",
+        "assets/Bosses/Dung Defender & White Defender/dung_statues_0006_1.png",
+    ],
+    "bosses/hornet/idle": [
+        "assets/Bosses/Hornet/Hornet - idle0000.png",
+        "assets/Bosses/Hornet/Hornet - idle0001.png",
+    ],
+    "bosses/hornet/jump": [
+        f"assets/Bosses/Hornet/Hornet - jump000{i}.png" for i in range(10)
+    ],
+    "bosses/hornet/attack": [
+        *[f"assets/Bosses/Hornet/Hornet - throw_side000{i}.png" for i in range(8)],
+        "assets/Bosses/Hornet/Hornet - harpoon_side0000.png",
+        "assets/Bosses/Hornet/Hornet - harpoon_side0001.png",
+    ],
+    "bosses/hornet/land": [
+        f"assets/Bosses/Hornet/Hornet - hard_land000{i}.png" for i in range(6)
+    ],
+    "bosses/grimm/idle": [
+        "assets/Bosses/Grimm/GG_grimm_bow0000.png",
+        "assets/Bosses/Grimm/GG_grimm_bow0001.png",
+        "assets/Hunter_s Journal/Troupe Master Grimm - Bestiary_Grimm_boss.png",
+    ],
+    "bosses/grimm/bow": [
+        f"assets/Bosses/Grimm/GG_grimm_bow000{i}.png" for i in range(7)
+    ],
+    "bosses/grimm/attack": [
+        *[f"assets/Bosses/Grimm/GG_grimm_bow000{i}.png" for i in range(2, 7)],
+        "assets/Hunter_s Journal/Nightmare King Grimm - Bestiary_Grimm_Nightmare_boss.png",
+    ],
+    "vfx/slashes": [
+        f"assets/Particles & Effects/Radiance_GG_slashes000{i}.png" if i < 10 else f"assets/Particles & Effects/Radiance_GG_slashes00{i}.png"
+        for i in range(11)
+    ],
+    "vfx/dash": [
+        f"assets/Particles & Effects/dash_effect_02000{i}.png" for i in range(5)
+    ],
+    "vfx/soul": [
+        "assets/Particles & Effects/soul_orb.png",
+        *[f"assets/Particles & Effects/Soul_burst000{i}.png" for i in range(5)],
+        "assets/Bosses/The Hollow Knight/Pure Vessel focus ring -  focus_ring.png",
+    ],
+    "bg": [
+        "assets/Architecture & Environment/Nailmaster_03__0001_Floor.png",
+        "assets/Architecture & Environment/nailmaster_03_0008_BG.png",
+        "assets/Architecture & Environment/nailmaster_03_0006_curtain_MID.png",
+        "assets/Architecture & Environment/nailmaster_03_0003_FG.png",
+        "assets/Architecture & Environment/nailmaster_03_0007_door.png",
+        "assets/Architecture & Environment/Area specfic architecture/Greenpath/nailmaster_fung_hut_02.png",
+        "assets/Architecture & Environment/Tram & Stagways/tram_BG_wrecked.png",
+        "assets/Architecture & Environment/Area specfic architecture/City of Tears/Ruins_Houses_0004_1bg.png",
+        "assets/Architecture & Environment/Area specfic architecture/Dirtmouth/Grimm Tents/Divine_Room_0005_1.png",
+        "assets/Area save art/Area_Hive.png",
+        "assets/Area save art/Area_Art_Mantis_Village.png",
+        "assets/Area save art/Area_Waterways.png",
+        "assets/Area save art/Area_Art_City_of_Tears.png",
+        "assets/Area save art/Area_Art_Godshome.png",
+    ],
+    "ui": [
+        "assets/Inventory & UI/select_game_HUD_0001_health.png",
+        "assets/Inventory & UI/select_game_HUD_0001_health_steel.png",
+        "assets/Inventory & UI/soul_orb_full_v020000.png",
+        "assets/Inventory & UI/Geo - HUD_coin_v020004.png",
+        "assets/Inventory & UI/Spell, Vengeful Spirit - Inv_0025_spell_fireball_01.png",
+        "assets/Inventory & UI/Inv_0021_inv_dash_strike_skill.png",
+    ],
+}
 
-    ys, xs = np.where(alpha)
-    crop = img.crop((int(xs.min()), int(ys.min()), int(xs.max()) + 1, int(ys.max()) + 1))
+def sync_from_source(base_src):
+    if os.path.exists(base_src) and os.path.abspath(base_src) != os.path.abspath(PROJ_ASSETS):
+        copied = 0
+        for group, rel_list in MANIFEST_ASSET_MAP.items():
+            for rel_path in rel_list:
+                sub = rel_path[len("assets/"):] if rel_path.startswith("assets/") else rel_path
+                src_fp = os.path.join(base_src, sub.replace("/", os.sep))
+                dst_fp = os.path.join(PROJ_ASSETS, sub.replace("/", os.sep))
+                if os.path.isfile(src_fp):
+                    os.makedirs(os.path.dirname(dst_fp), exist_ok=True)
+                    shutil.copy2(src_fp, dst_fp)
+                    copied += 1
+        print(f"Synced {copied} exact manifest.txt files from {base_src} into {PROJ_ASSETS}.")
+    else:
+        print("Using in-place manifest.txt asset tree inside assets/.")
 
-    if auto_upright:
-        # In Unity tk2d atlases, upright Knight sprites have the bright white mask at the top
-        # If packed sideways (90 deg), the brightest region is on the left or right edge.
-        c_arr = np.array(crop)
-        c_alpha = c_arr[:, :, 3] > 40
-        luma = (0.299 * c_arr[:, :, 0] + 0.587 * c_arr[:, :, 1] + 0.114 * c_arr[:, :, 2]) * c_alpha
-        h, w = luma.shape
-        if w > h * 1.15:
-            top_b = luma[:max(1, h // 3), :].mean()
-            left_b = luma[:, :max(1, w // 3)].mean()
-            right_b = luma[:, -max(1, w // 3):].mean()
-            if left_b > top_b * 1.25 and left_b >= right_b:
-                crop = crop.rotate(-90, expand=True)
-            elif right_b > top_b * 1.25 and right_b > left_b:
-                crop = crop.rotate(90, expand=True)
-
-    cw, ch = canvas_size
-    max_w, max_h = int(cw * 0.86), int(ch * 0.86)
-    if crop.width > max_w or crop.height > max_h:
-        scale = min(max_w / max(crop.width, 1), max_h / max(crop.height, 1))
-        crop = crop.resize((max(1, int(crop.width * scale)), max(1, int(crop.height * scale))), Image.Resampling.LANCZOS)
-
-    out = Image.new("RGBA", canvas_size, (0, 0, 0, 0))
-    px = (cw - crop.width) // 2
-    py = max(0, ch - crop.height - bottom_pad)
-    out.paste(crop, (px, py), crop)
-    return out
-
-def copy_named_sequence(src_files, dst_folder, prefix=None, canvas_size=None, max_frames=12):
-    os.makedirs(dst_folder, exist_ok=True)
-    selected = sorted(src_files)[:max_frames]
-    saved = []
-    for idx, fp in enumerate(selected):
-        fname = f"{prefix}_{idx:02d}.png" if prefix else os.path.basename(fp)
-        out_path = os.path.join(dst_folder, fname)
-        if canvas_size:
-            im = standardize_frame(Image.open(fp), canvas_size=canvas_size)
-            im.save(out_path, "PNG")
-        else:
-            shutil.copy2(fp, out_path)
-        saved.append(out_path)
-    return saved
-
-def find_files_matching(root_dir, keywords, exclude=()):
-    matches = []
-    for dirpath, _, filenames in os.walk(root_dir):
-        for fn in filenames:
-            if not fn.lower().endswith(".png"):
-                continue
-            low = fn.lower()
-            if any(k.lower() in low for k in keywords) and not any(x.lower() in low for x in exclude):
-                matches.append(os.path.join(dirpath, fn))
-    return sorted(matches)
-
-def rebuild_manifests():
-    manifest = {}
-    animations = {}
-    for dirpath, _, filenames in os.walk(PROJ_ASSETS):
-        pngs = sorted([f for f in filenames if f.lower().endswith(".png")])
-        if not pngs:
-            continue
-        rel_dir = os.path.relpath(dirpath, PROJ_ASSETS).replace("\\", "/")
-        if rel_dir == ".":
-            continue
-        manifest[rel_dir] = pngs
-        animations[rel_dir] = [f"assets/{rel_dir}/{f}" for f in pngs]
-
+    manifest_out = {k: [os.path.basename(p) for p in v] for k, v in MANIFEST_ASSET_MAP.items()}
     with open(os.path.join(PROJ_ASSETS, "manifest.json"), "w", encoding="utf-8") as f:
-        json.dump(manifest, f, indent=2)
+        json.dump(manifest_out, f, indent=2)
     os.makedirs(os.path.join(PROJ_ROOT, "data"), exist_ok=True)
     with open(os.path.join(PROJ_ROOT, "data", "animations.json"), "w", encoding="utf-8") as f:
-        json.dump(animations, f, indent=2)
-    print(f"Updated assets/manifest.json and data/animations.json ({sum(len(v) for v in manifest.values())} PNGs indexed).")
-
-def extract_from_drive_dump(base_src):
-    if not os.path.exists(base_src):
-        print(f"[INFO] External sprite dump '{base_src}' not found on this machine.")
-        print("[INFO] Retaining bundled ready-to-play PNG assets in assets/ and refreshing manifests.")
-        rebuild_manifests()
-        return
-
-    print(f"=== SYNCING PROPERLY NAMED ASSETS FROM {base_src} ===")
-
-    # 1. THE KNIGHT: Prefer named frames in 'The Knight' subfolder over raw packed atlas
-    knight_dir = os.path.join(base_src, "The Knight")
-    if os.path.exists(knight_dir):
-        idle_files = find_files_matching(knight_dir, ["idle"], exclude=["atlas"])
-        run_files = find_files_matching(knight_dir, ["run", "walk"], exclude=["atlas"])
-        jump_files = find_files_matching(knight_dir, ["jump", "airborne", "fall"], exclude=["atlas"])
-        atk_files = find_files_matching(knight_dir, ["slash", "attack", "nail"], exclude=["atlas"])
-        cast_files = find_files_matching(knight_dir, ["fireball", "cast", "focus", "scream"], exclude=["atlas"])
-        hurt_files = find_files_matching(knight_dir, ["hurt", "damage", "recoil", "stun"], exclude=["atlas"])
-
-        if idle_files:
-            copy_named_sequence(idle_files, os.path.join(PROJ_ASSETS, "knight", "idle"), "knight_idle", (300, 300), 4)
-        if run_files:
-            copy_named_sequence(run_files, os.path.join(PROJ_ASSETS, "knight", "run"), "knight_run", (300, 300), 7)
-        if jump_files:
-            copy_named_sequence(jump_files, os.path.join(PROJ_ASSETS, "knight", "jump"), "knight_jump", (300, 300), 5)
-        if atk_files:
-            copy_named_sequence(atk_files, os.path.join(PROJ_ASSETS, "knight", "attack"), "knight_attack", (300, 300), 5)
-        if cast_files:
-            copy_named_sequence(cast_files, os.path.join(PROJ_ASSETS, "knight", "cast"), "knight_cast", (300, 300), 5)
-        if hurt_files:
-            im = standardize_frame(Image.open(hurt_files[0]), (300, 300))
-            im.save(os.path.join(PROJ_ASSETS, "knight", "hurt.png"), "PNG")
-
-    # 2. CHAMBER 1: HIVELING
-    hiveling_files = find_files_matching(base_src, ["Hiveling - fly"])
-    if hiveling_files:
-        copy_named_sequence(hiveling_files, os.path.join(PROJ_ASSETS, "enemies", "hiveling", "fly"), None, None, 5)
-        copy_named_sequence(hiveling_files, os.path.join(PROJ_ASSETS, "enemies", "hiveling"), None, None, 5)
-
-    # 3. CHAMBER 2: MANTIS SCOUT / MANTIS YOUTH / MANTIS WARRIOR
-    mantis_idle = find_files_matching(base_src, ["Mantis Youth - idle", "Mantis Warrior - idle", "Mantis - idle", "Mantis_fly"])
-    mantis_atk = find_files_matching(base_src, ["Mantis Youth - attack", "Mantis Warrior - slash", "Mantis - attack", "Mantis - lance"])
-    if mantis_idle:
-        copy_named_sequence(mantis_idle, os.path.join(PROJ_ASSETS, "enemies", "mantis", "idle"), "Mantis_Scout_idle", (340, 320), 6)
-    if mantis_atk:
-        copy_named_sequence(mantis_atk, os.path.join(PROJ_ASSETS, "enemies", "mantis", "attack"), "Mantis_Scout_attack", (340, 320), 6)
-
-    # 4. CHAMBER 3: DUNG DEFENDER
-    dung_idle = find_files_matching(base_src, ["Dung Defender - idle", "Dung_Def_Body", "dung_def_idle"])
-    dung_atk = find_files_matching(base_src, ["Dung Defender - throw", "Dung Defender - roll", "Dung Defender - punch", "dung_def_sleep"])
-    if dung_idle:
-        copy_named_sequence(dung_idle, os.path.join(PROJ_ASSETS, "bosses", "dung_defender", "idle"), "dung_def_idle", (360, 320), 4)
-    if dung_atk:
-        copy_named_sequence(dung_atk, os.path.join(PROJ_ASSETS, "bosses", "dung_defender", "attack"), "dung_def_attack", (360, 320), 4)
-
-    # 5. CHAMBER 4: HORNET
-    hornet_idle = find_files_matching(base_src, ["Hornet - idle"])
-    hornet_jump = find_files_matching(base_src, ["Hornet - jump"])
-    hornet_atk = find_files_matching(base_src, ["Hornet - throw_side"])
-    hornet_land = find_files_matching(base_src, ["Hornet - hard_land"])
-    if hornet_idle:
-        copy_named_sequence(hornet_idle, os.path.join(PROJ_ASSETS, "bosses", "hornet", "idle"), None, None, 2)
-    if hornet_jump:
-        copy_named_sequence(hornet_jump, os.path.join(PROJ_ASSETS, "bosses", "hornet", "jump"), None, None, 10)
-    if hornet_atk:
-        copy_named_sequence(hornet_atk, os.path.join(PROJ_ASSETS, "bosses", "hornet", "attack"), None, None, 8)
-    if hornet_land:
-        copy_named_sequence(hornet_land, os.path.join(PROJ_ASSETS, "bosses", "hornet", "land"), None, None, 6)
-
-    # 6. CHAMBER 5: TROUPE MASTER GRIMM (Use standing/bow/cast frames, NOT sleep_heartbeat organ!)
-    grimm_bow = find_files_matching(base_src, ["GG_grimm_bow", "Grimm - bow"])
-    grimm_idle = find_files_matching(base_src, ["Grimm - idle", "GG_grimm_bow", "Grimm - stand", "Grimm - cape"])
-    if grimm_bow:
-        copy_named_sequence(grimm_bow, os.path.join(PROJ_ASSETS, "bosses", "grimm", "bow"), None, None, 7)
-    if grimm_idle:
-        for i in range(4):
-            src_fp = grimm_idle[min(i, len(grimm_idle) - 1)]
-            dst_fp = os.path.join(PROJ_ASSETS, "bosses", "grimm", "idle", f"Grimm_sleep_heartbeat000{i}.png")
-            os.makedirs(os.path.dirname(dst_fp), exist_ok=True)
-            shutil.copy2(src_fp, dst_fp)
-
-    rebuild_manifests()
-    print("=== DRIVE SPRITE SYNC COMPLETE ===")
+        json.dump(MANIFEST_ASSET_MAP, f, indent=2)
+    print("Updated assets/manifest.json and data/animations.json with exact manifest.txt paths.")
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Sync Hollow Knight 1.5.12459 named sprites into Knight of Words 2.5D.")
-    parser.add_argument("--src", default=DEFAULT_SRC, help="Path to extracted Hollow Knight sprites Drive folder")
+    parser = argparse.ArgumentParser(description="Sync exact manifest.txt Hollow Knight assets.")
+    parser.add_argument("--src", default=DEFAULT_SRC, help="Path to Hollow Knight sprites/assets directory")
     args = parser.parse_args()
-    extract_from_drive_dump(args.src)
+    sync_from_source(args.src)

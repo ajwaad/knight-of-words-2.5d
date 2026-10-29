@@ -61,10 +61,22 @@ Click the **"📊 PBS Report"** button on the bottom HUD at any time to inspect 
 
 ---
 
-## 🎨 Asset Integration (From Extracted Sprites)
-All assets are extracted and organized directly from `C:\Users\AMAL\Downloads\sprites\assets`:
-- **The Knight**: Idle, run, nail attack, soul cast, hurt, and great slash shockwaves.
-- **Bosses & Enemies**: Animated Hornet, Troupe Master Grimm, Dung Defender, Hiveling swarm, and Grimmkin scouts.
-- **Environment Parallax**: Deep Nailmaster background (`Z = -20`), midground drapery (`Z = -8`), 3D tilted stone floor (`Z = 0`), and foreground arches (`Z = +6.5`).
-- **UI**: Authentic health masks (full & broken), glowing Soul vessel, charms, and selection cursors.
-- **Sound**: 100% procedural Web Audio API synthesizer for zero-latency nail clashing, spell bursts, mask cracks, and radiant arpeggio chimes.
+## 🎨 Asset Integration (Direct `manifest.txt` Mapping)
+All character, boss, enemy, environment, UI, and VFX textures are mapped **directly to the existing file paths in `manifest.txt`** (with automatic URL encoding for spaces, `&`, and `#`, plus automatic transparent-bounds and eye-facing normalization):
+- **The Knight (Main Character)**:
+  - **Idle**: `assets/Bosses/The Hollow Knight/The Hollow Knight Path of Pain scene - small_side0000.png` .. `0004.png`
+  - **Run**: `assets/Inventory & UI/Loading icons/loading_icon_new0000.png` .. `0007.png`
+  - **Jump / Dive**: `assets/Particles & Effects/Charm & Spells/Desolate Dive - quake_pickup0003.png` .. `0008.png`
+  - **Nail Slash / Cast**: `assets/Particles & Effects/Charm & Spells/Vengeful Spirit - fireball_collect0003.png` .. `0009.png`
+  - **Focus Heal**: `assets/Particles & Effects/Charm & Spells/Howling Wraiths - scream_spell_pickup0004.png` .. `0008.png` + `assets/Bosses/The Hollow Knight/Pure Vessel focus ring -  focus_ring.png`
+  - **Hurt**: `assets/Bosses/The Hollow Knight/The Hollow Knight Path of Pain scene - small_side_shake_010000.png` .. `010002.png`
+- **Bosses & Enemies**:
+  - **Chamber 1 (Hiveling Swarm)**: `assets/Enemies & Corpses/Hiveling - fly0000.png` .. `0004.png` & `spawn_01..02.png`
+  - **Chamber 2 (Mantis Scout)**: `assets/Hunter_s Journal/Mantis Warrior - bestiary_mantis_f.png`, `Mantis Youth - bestiary_mantis_flyer_f.png`, `Mantis Lords - bestiary_mantis_lords_f.png`, and `assets/NPCs/Weavers/Weaver - idle0002..0005.png` & `crawl0000..0003.png`
+  - **Chamber 3 (Dung Defender)**: `assets/Hunter_s Journal/Dung Defender - bestiary__0005_dung-defender.png`, `White Defender - bestiary_White_Defender_full.png`, and `assets/Bosses/Dung Defender & White Defender/dung_statues_0006_1.png`
+  - **Chamber 4 (Hornet)**: `assets/Bosses/Hornet/Hornet - idle0000..0001.png`, `jump0000..0009.png`, `throw_side0000..0007.png`, `harpoon_side0000..0001.png`, and `hard_land0000..0005.png`
+  - **Chamber 5 (Troupe Master Grimm)**: `assets/Bosses/Grimm/GG_grimm_bow0000..0006.png`, `assets/Hunter_s Journal/Troupe Master Grimm - Bestiary_Grimm_boss.png`, and `Nightmare King Grimm - Bestiary_Grimm_Nightmare_boss.png`
+- **Full-Resolution Room Backgrounds**:
+  - `assets/Architecture & Environment/nailmaster_03_0008_BG.png`, `Area specfic architecture/Greenpath/nailmaster_fung_hut_02.png`, `Tram & Stagways/tram_BG_wrecked.png`, `Area specfic architecture/City of Tears/Ruins_Houses_0004_1bg.png`, and `Area specfic architecture/Dirtmouth/Grimm Tents/Divine_Room_0005_1.png`
+- **HUD & VFX**:
+  - `assets/Inventory & UI/select_game_HUD_0001_health.png`, `select_game_HUD_0001_health_steel.png`, `soul_orb_full_v020000.png`, `Geo - HUD_coin_v020004.png`, `assets/Particles & Effects/Radiance_GG_slashes0000..0010.png`, `dash_effect_020000..020004.png`, and `Soul_burst0000..0004.png`
