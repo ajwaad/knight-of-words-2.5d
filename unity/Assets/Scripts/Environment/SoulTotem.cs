@@ -13,6 +13,10 @@ namespace KnightOfWords
         private void Awake()
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
+            if (spriteRenderer.sprite == null)
+            {
+                spriteRenderer.sprite = RuntimeSpriteFactory.GetTotemSprite();
+            }
             totemCollider = GetComponent<Collider2D>();
         }
 
@@ -31,7 +35,7 @@ namespace KnightOfWords
 
         private IEnumerator FlashWhite()
         {
-            spriteRenderer.color = new Color(1f, 1f, 1.5f);
+            spriteRenderer.color = new Color(0.75f, 0.95f, 1f, 1f);
             yield return new WaitForSeconds(0.12f);
             if (hitsRemaining > 0)
             {

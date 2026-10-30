@@ -30,7 +30,7 @@ namespace KnightOfWords
         public float moveSpeed = 4.5f;
         public float jumpForce = 13f;
         public Transform arenaCenter;
-        public float arenaHalfWidth = 8f;
+        public float arenaHalfWidth = 12f;
 
         private Rigidbody2D rb;
         private BoxCollider2D boxCollider;
@@ -39,9 +39,7 @@ namespace KnightOfWords
         public HornetState currentState = HornetState.Idle;
         private Transform playerTarget;
         private bool isFacingRight = false;
-        private float stateTimer = 0f;
 
-        // Sprites
         public Sprite[] idleFrames;
         public Sprite[] jumpFrames;
         public Sprite[] throwFrames;
@@ -64,6 +62,10 @@ namespace KnightOfWords
 
             currentHealth = maxHealth;
             LoadFrames();
+            if (idleFrames != null && idleFrames.Length > 0 && spriteRenderer.sprite == null)
+            {
+                spriteRenderer.sprite = idleFrames[0];
+            }
         }
 
         private void Start()
@@ -80,31 +82,51 @@ namespace KnightOfWords
 
         private void LoadFrames()
         {
-            idleFrames = LoadNamedFrames("Hornet - idle");
-            jumpFrames = LoadNamedFrames("Hornet - jump");
-            throwFrames = LoadNamedFrames("Hornet - throw_side");
-            landFrames = LoadNamedFrames("Hornet - hard_land");
+            idleFrames = LoadNamedFrames("Hornet - idle", "idle");
+            jumpFrames = LoadNamedFrames("Hornet - jump", "jump");
+            throwFrames = LoadNamedFrames("Hornet - throw_side", "throw");
+            landFrames = LoadNamedFrames("Hornet - hard_land", "land");
         }
 
-        private Sprite[] LoadNamedFrames(string prefix)
+        private Sprite[] LoadNamedFrames(string prefix, string fallbackKey)
         {
             var list = new List<Sprite>();
-            var all = Resources.FindObjectsOfTypeAll<Sprite>();
-            foreach (var s in all)
+            var resSprites = Resources.LoadAll<Sprite>("Sprites");
+            if (resSprites != null)
             {
-                if (s != null && s.name.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+                foreach (var s in resSprites)
                 {
-                    list.Add(s);
+                    if (s != null && s.name.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+                        list.Add(s);
                 }
             }
-            list.Sort((a, b) => string.Compare(a.name, b.name, StringComparison.Ordinal));
-            return list.ToArray();
+            if (list.Count == 0)
+            {
+                var all = Resources.FindObjectsOfTypeAll<Sprite>();
+                foreach (var s in all)
+                {
+                    if (s != null && s.name.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+                        list.Add(s);
+                }
+            }
+            if (list.Count > 0)
+            {
+                list.Sort((a, b) => string.Compare(a.name, b.name, StringComparison.Ordinal));
+                return list.ToArray();
+            }
+            return RuntimeSpriteFactory.GetHornetFrames(fallbackKey);
         }
 
         private void Update()
         {
             UpdateAnimation();
             UpdateFacing();
+
+            // Clamp within arena walls so Hornet never escapes
+            Vector3 pos = transform.position;
+            pos.x = Mathf.Clamp(pos.x, -arenaHalfWidth, arenaHalfWidth);
+            if (pos.y > 6.5f) pos.y = 6.5f;
+            transform.position = pos;
         }
 
         private void UpdateFacing()
@@ -117,7 +139,7 @@ namespace KnightOfWords
                 if (shouldFaceRight != isFacingRight && currentState != HornetState.NeedleThrow)
                 {
                     isFacingRight = shouldFaceRight;
-                    spriteRenderer.flipX = !isFacingRight;
+                    spriteRenderer.flipX = isFacingRight;
                 }
             }
         }
@@ -168,7 +190,6 @@ namespace KnightOfWords
                     continue;
                 }
 
-                // Pick action
                 float roll = UnityEngine.Random.value;
                 if (roll < 0.45f)
                 {
@@ -179,7 +200,7 @@ namespace KnightOfWords
                     yield return StartCoroutine(DoAcrobaticLeap());
                 }
 
-                yield return StartCoroutine(DoPacing(UnityEngine.Random.Range(1.0f, 2.0f)));
+                yield return StartCoroutine(DoPacing(UnityEngine.Random.Range(1.0f, 1.8f)));
             }
         }
 
@@ -187,7 +208,6 @@ namespace KnightOfWords
         {
             currentState = HornetState.Pacing;
             float timer = 0f;
-            int dir = isFacingRight ? 1 : -1;
 
             while (timer < duration)
             {
@@ -197,6 +217,10 @@ namespace KnightOfWords
                     yield return null;
                     continue;
                 }
+
+                int dir = isFacingRight ? 1 : -1;
+                if (transform.position.x > arenaHalfWidth - 1.5f) dir = -1;
+                if (transform.position.x < -arenaHalfWidth + 1.5f) dir = 1;
 
                 rb.linearVelocity = new Vector2(dir * moveSpeed, rb.linearVelocity.y);
                 timer += Time.deltaTime;
@@ -213,12 +237,10 @@ namespace KnightOfWords
             rb.linearVelocity = Vector2.zero;
             ProceduralAudio.Instance?.PlaySlash();
 
-            // Telegraph pause
             yield return new WaitForSeconds(0.35f);
 
-            // Needle thrust forward
             float lungeDir = isFacingRight ? 1f : -1f;
-            rb.linearVelocity = new Vector2(lungeDir * 12f, 0f);
+            rb.linearVelocity = new Vector2(lungeDir * 11.5f, 0f);
             yield return new WaitForSeconds(0.3f);
 
             rb.linearVelocity = Vector2.zero;
@@ -231,18 +253,18 @@ namespace KnightOfWords
             currentState = HornetState.AcrobaticJump;
             ProceduralAudio.Instance?.PlayJump();
 
-            // Jump high
-            float horizontalTarget = playerTarget != null ? (playerTarget.position.x - transform.position.x) * 0.8f : 0f;
+            float horizontalTarget = playerTarget != null ? Mathf.Clamp((playerTarget.position.x - transform.position.x) * 0.7f, -7f, 7f) : 0f;
             rb.linearVelocity = new Vector2(horizontalTarget, jumpForce);
 
-            yield return new WaitForSeconds(0.6f);
+            yield return new WaitForSeconds(0.55f);
 
-            // Dive toward player
             currentState = HornetState.DiveAttack;
-            Vector2 diveDir = playerTarget != null ? ((Vector2)playerTarget.position - (Vector2)transform.position).normalized : Vector2.down;
-            rb.linearVelocity = diveDir * 16f;
+            Vector2 targetFloorPos = playerTarget != null ? new Vector2(playerTarget.position.x, -1.8f) : new Vector2(transform.position.x, -1.8f);
+            Vector2 diveDir = (targetFloorPos - (Vector2)transform.position).normalized;
+            if (diveDir.y > -0.35f) diveDir = new Vector2(diveDir.x, -0.75f).normalized;
+            rb.linearVelocity = diveDir * 15f;
 
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.45f);
             rb.linearVelocity = Vector2.zero;
             currentState = HornetState.Idle;
         }
@@ -251,6 +273,7 @@ namespace KnightOfWords
         {
             if (currentState == HornetState.Defeated) return;
 
+            bool wasStaggered = (currentState == HornetState.Staggered);
             currentHealth = Mathf.Clamp(currentHealth - amount, 0, maxHealth);
             OnBossHealthChanged?.Invoke(currentHealth, maxHealth);
 
@@ -262,11 +285,14 @@ namespace KnightOfWords
                 return;
             }
 
-            staggerCounter++;
-            if (staggerCounter >= hitsBeforeStagger && currentState != HornetState.Staggered)
+            if (!wasStaggered)
             {
-                staggerCounter = 0;
-                TriggerBossStaggerTrial();
+                staggerCounter++;
+                if (staggerCounter >= hitsBeforeStagger)
+                {
+                    staggerCounter = 0;
+                    TriggerBossStaggerTrial();
+                }
             }
         }
 
@@ -283,22 +309,31 @@ namespace KnightOfWords
             rb.linearVelocity = Vector2.zero;
             StopAllCoroutines();
 
-            // Trigger Combat Trial through GameManager
             if (GameManager.Instance != null)
             {
                 GameManager.Instance.OpenCombatTrial(
                     onCorrect: () =>
                     {
-                        // Critical Strike!
+                        var player = FindFirstObjectByType<PlayerCombat>();
+                        if (player != null)
+                        {
+                            player.RestoreHealth(1);
+                            player.AddSoul(50);
+                        }
                         TakeDamage(5, transform.position);
                         ProceduralAudio.Instance?.PlayCorrect();
-                        StartCoroutine(RecoverFromStagger(1.2f));
+                        if (currentHealth > 0)
+                        {
+                            StartCoroutine(RecoverFromStagger(1.2f));
+                        }
                     },
                     onWrong: () =>
                     {
-                        // Immediate counterattack
                         ProceduralAudio.Instance?.PlayWrong();
-                        StartCoroutine(RecoverFromStagger(0.2f));
+                        if (currentHealth > 0)
+                        {
+                            StartCoroutine(RecoverFromStagger(0.2f));
+                        }
                     }
                 );
             }
@@ -311,7 +346,7 @@ namespace KnightOfWords
         private IEnumerator RecoverFromStagger(float delay)
         {
             yield return new WaitForSeconds(delay);
-            if (currentHealth > 0)
+            if (currentHealth > 0 && currentState != HornetState.Defeated)
             {
                 currentState = HornetState.Idle;
                 StartCoroutine(BehaviorFSM());
@@ -336,9 +371,19 @@ namespace KnightOfWords
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
+            TryDealContactDamage(collision.gameObject);
+        }
+
+        private void OnCollisionStay2D(Collision2D collision)
+        {
+            TryDealContactDamage(collision.gameObject);
+        }
+
+        private void TryDealContactDamage(GameObject target)
+        {
             if (currentState == HornetState.Staggered || currentState == HornetState.Defeated) return;
 
-            var player = collision.gameObject.GetComponent<PlayerCombat>();
+            var player = target.GetComponent<PlayerCombat>();
             if (player != null)
             {
                 player.TakeDamage(1, transform.position);

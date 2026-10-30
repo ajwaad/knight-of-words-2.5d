@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace KnightOfWords
 {
@@ -14,8 +15,8 @@ namespace KnightOfWords
 
         [Header("Ground Check")]
         public Transform groundCheck;
-        public Vector2 groundCheckSize = new Vector2(0.6f, 0.15f);
-        public LayerMask groundLayer;
+        public Vector2 groundCheckSize = new Vector2(0.65f, 0.2f);
+        public LayerMask groundLayer = ~0;
 
         [Header("Combat Spawn Points")]
         public Transform forwardSlashPoint;
@@ -33,7 +34,6 @@ namespace KnightOfWords
         private bool isGrounded = false;
         private bool isFacingRight = true;
 
-        // Juiciness & feel
         private float coyoteTimeCounter = 0f;
         private const float CoyoteTimeDuration = 0.12f;
         private float jumpBufferCounter = 0f;
@@ -50,9 +50,15 @@ namespace KnightOfWords
             playerAnim = GetComponent<PlayerAnimation>();
             playerCombat = GetComponent<PlayerCombat>();
 
-            defaultGravity = rb.gravityScale;
+            defaultGravity = rb.gravityScale > 0f ? rb.gravityScale : 3f;
+            rb.gravityScale = defaultGravity;
             rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
             rb.freezeRotation = true;
+
+            if (groundLayer.value == 0)
+            {
+                groundLayer = ~0;
+            }
 
             EnsureSpawnPoints();
         }
@@ -63,35 +69,35 @@ namespace KnightOfWords
             {
                 var go = new GameObject("GroundCheck");
                 go.transform.SetParent(transform);
-                go.transform.localPosition = new Vector3(0, -0.6f, 0);
+                go.transform.localPosition = new Vector3(0, -0.65f, 0);
                 groundCheck = go.transform;
             }
             if (forwardSlashPoint == null)
             {
                 var go = new GameObject("ForwardSlashPoint");
                 go.transform.SetParent(transform);
-                go.transform.localPosition = new Vector3(0.8f, 0, 0);
+                go.transform.localPosition = new Vector3(0.9f, 0, 0);
                 forwardSlashPoint = go.transform;
             }
             if (upSlashPoint == null)
             {
                 var go = new GameObject("UpSlashPoint");
                 go.transform.SetParent(transform);
-                go.transform.localPosition = new Vector3(0, 0.8f, 0);
+                go.transform.localPosition = new Vector3(0, 0.9f, 0);
                 upSlashPoint = go.transform;
             }
             if (downSlashPoint == null)
             {
                 var go = new GameObject("DownSlashPoint");
                 go.transform.SetParent(transform);
-                go.transform.localPosition = new Vector3(0, -0.8f, 0);
+                go.transform.localPosition = new Vector3(0, -0.9f, 0);
                 downSlashPoint = go.transform;
             }
             if (castPoint == null)
             {
                 var go = new GameObject("CastPoint");
                 go.transform.SetParent(transform);
-                go.transform.localPosition = new Vector3(0.6f, 0.1f, 0);
+                go.transform.localPosition = new Vector3(0.7f, 0.1f, 0);
                 castPoint = go.transform;
             }
         }
@@ -100,7 +106,6 @@ namespace KnightOfWords
         {
             if (GameManager.Instance != null && GameManager.Instance.IsTrialActive)
             {
-                // Freeze player during full trial popup
                 rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
                 playerAnim.SetState(KnightAnimState.Idle);
                 return;
@@ -149,8 +154,19 @@ namespace KnightOfWords
 
         private void HandleGrounding()
         {
-            Vector2 checkPos = groundCheck != null ? (Vector2)groundCheck.position : (Vector2)transform.position + Vector2.down * 0.6f;
-            isGrounded = Physics2D.OverlapBox(checkPos, groundCheckSize, 0f, groundLayer);
+            Vector2 checkPos = groundCheck != null ? (Vector2)groundCheck.position : (Vector2)transform.position + Vector2.down * 0.65f;
+            int mask = groundLayer.value == 0 ? ~0 : groundLayer.value;
+            var hits = Physics2D.OverlapBoxAll(checkPos, groundCheckSize, 0f, mask);
+
+            isGrounded = false;
+            foreach (var hit in hits)
+            {
+                if (hit != null && hit.gameObject != gameObject && !hit.isTrigger)
+                {
+                    isGrounded = true;
+                    break;
+                }
+            }
 
             if (isGrounded)
             {
@@ -202,16 +218,30 @@ namespace KnightOfWords
 
         private void HandleCombatInputs()
         {
-            // Attack (J, Z, or Mouse 0)
-            if ((Input.GetKeyDown(KeyCode.J) || Input.GetKeyDown(KeyCode.Z) || Input.GetMouseButtonDown(0)) && !isAttacking)
+            bool pointerOverUI = EventSystem.current != null && EventSystem.current.IsPointerOverGameObject();
+
+            // Attack (J, Z, or Mouse 0 when not clicking UI)
+            if ((Input.GetKeyDown(KeyCode.J) || Input.GetKeyDown(KeyCode.Z) || (!pointerOverUI && Input.GetMouseButtonDown(0))) && !isAttacking)
             {
                 ExecuteNailAttack();
             }
 
             // Cast Spell (K, X, or Mouse 1)
-            if ((Input.GetKeyDown(KeyCode.K) || Input.GetKeyDown(KeyCode.X) || Input.GetMouseButtonDown(1)) && !isCasting)
+            if ((Input.GetKeyDown(KeyCode.K) || Input.GetKeyDown(KeyCode.X) || (!pointerOverUI && Input.GetMouseButtonDown(1))) && !isCasting)
             {
                 ExecuteSpellCast();
+            }
+
+            // Focus Heal (L or F)
+            if ((Input.GetKeyDown(KeyCode.L) || Input.GetKeyDown(KeyCode.F)) && !isCasting && !isAttacking)
+            {
+                if (playerCombat.CanCastSpell() && playerCombat.currentHealth < playerCombat.maxHealth)
+                {
+                    playerCombat.ConsumeSoulForSpell();
+                    playerCombat.RestoreHealth(1);
+                    ProceduralAudio.Instance?.PlayCorrect();
+                    playerAnim.PlayAction(KnightAnimState.Focus, 10f);
+                }
             }
 
             // Interact with Altar (E)
@@ -244,7 +274,6 @@ namespace KnightOfWords
 
             playerCombat.SpawnSlash(spawnPoint.position, slashDir, isDown, () =>
             {
-                // Pogo bounce!
                 rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce * 0.85f);
                 coyoteTimeCounter = CoyoteTimeDuration;
             });
@@ -277,7 +306,7 @@ namespace KnightOfWords
 
         private void TryInteractAltar()
         {
-            var hits = Physics2D.OverlapCircleAll(transform.position, 1.5f);
+            var hits = Physics2D.OverlapCircleAll(transform.position, 1.8f);
             foreach (var h in hits)
             {
                 var altar = h.GetComponent<LoreTabletAltar>();
@@ -294,7 +323,6 @@ namespace KnightOfWords
             isFacingRight = !isFacingRight;
             playerAnim.SetFacingDirection(isFacingRight);
 
-            // Invert x offsets for forward spawn points
             if (forwardSlashPoint != null)
             {
                 var p = forwardSlashPoint.localPosition;

@@ -29,6 +29,60 @@ namespace KnightOfWords
                 return;
             }
             Instance = this;
+
+            EnsureUIAndArenaVisuals();
+        }
+
+        private void EnsureUIAndArenaVisuals()
+        {
+            // Ensure full-screen RectTransform if GameHUD was serialized without one
+            var rt = GetComponent<RectTransform>();
+            if (rt != null)
+            {
+                rt.anchorMin = Vector2.zero;
+                rt.anchorMax = Vector2.one;
+                rt.sizeDelta = Vector2.zero;
+                rt.anchoredPosition = Vector2.zero;
+            }
+
+            if (fullMaskSprite == null) fullMaskSprite = RuntimeSpriteFactory.GetMaskSprite(true);
+            if (emptyMaskSprite == null) emptyMaskSprite = RuntimeSpriteFactory.GetMaskSprite(false);
+
+            // Unity Image.Type.Filled requires a non-null sprite to honour fillAmount
+            if (soulFillImage != null && soulFillImage.sprite == null)
+            {
+                soulFillImage.sprite = RuntimeSpriteFactory.GetWhiteSprite();
+            }
+            if (bossHealthFill != null && bossHealthFill.sprite == null)
+            {
+                bossHealthFill.sprite = RuntimeSpriteFactory.GetWhiteSprite();
+            }
+
+            // Ensure Ground and Platforms have visible sprites
+            var env = GameObject.Find("Environment");
+            if (env != null)
+            {
+                foreach (Transform child in env.transform)
+                {
+                    var sr = child.GetComponent<SpriteRenderer>();
+                    var col = child.GetComponent<BoxCollider2D>();
+                    if (child.name == "Ground" && sr == null && col != null)
+                    {
+                        sr = child.gameObject.AddComponent<SpriteRenderer>();
+                        sr.sprite = RuntimeSpriteFactory.GetPlatformSprite();
+                        sr.drawMode = SpriteDrawMode.Tiled;
+                        sr.size = col.size;
+                        sr.color = new Color(0.22f, 0.28f, 0.38f, 1f);
+                        sr.sortingOrder = 1;
+                    }
+                    else if (child.name.StartsWith("Platform_") && sr != null && sr.sprite == null && col != null)
+                    {
+                        sr.sprite = RuntimeSpriteFactory.GetPlatformSprite();
+                        sr.drawMode = SpriteDrawMode.Tiled;
+                        sr.size = col.size;
+                    }
+                }
+            }
         }
 
         private void Start()
@@ -67,6 +121,7 @@ namespace KnightOfWords
                     if (fullMaskSprite != null && emptyMaskSprite != null)
                     {
                         maskImages[i].sprite = (i < current) ? fullMaskSprite : emptyMaskSprite;
+                        maskImages[i].color = Color.white;
                     }
                     else
                     {

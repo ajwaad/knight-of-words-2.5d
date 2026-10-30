@@ -56,8 +56,15 @@ namespace KnightOfWords
                     list.Add(s);
                 }
             }
-            list.Sort((a, b) => string.Compare(a.name, b.name, StringComparison.Ordinal));
-            cachedVfxSpellFrames = list.ToArray();
+            if (list.Count > 0)
+            {
+                list.Sort((a, b) => string.Compare(a.name, b.name, StringComparison.Ordinal));
+                cachedVfxSpellFrames = list.ToArray();
+            }
+            else
+            {
+                cachedVfxSpellFrames = RuntimeSpriteFactory.GetFireballSprites();
+            }
         }
 
         public bool CanCastSpell()
@@ -96,7 +103,14 @@ namespace KnightOfWords
                 slashObj.transform.position = position;
                 var col = slashObj.AddComponent<BoxCollider2D>();
                 col.isTrigger = true;
-                col.size = new Vector2(1.2f, 1.0f);
+                col.size = new Vector2(1.4f, 1.1f);
+
+                var sr = slashObj.AddComponent<SpriteRenderer>();
+                sr.sortingOrder = 8;
+                sr.sprite = RuntimeSpriteFactory.GetSlashArcSprite();
+                if (direction.x < 0) sr.flipX = true;
+                else if (direction.y > 0) slashObj.transform.rotation = Quaternion.Euler(0, 0, 90f);
+                else if (direction.y < 0) slashObj.transform.rotation = Quaternion.Euler(0, 0, -90f);
             }
 
             var slash = slashObj.GetComponent<SlashHitbox>() ?? slashObj.AddComponent<SlashHitbox>();
@@ -104,7 +118,7 @@ namespace KnightOfWords
             slash.damage = 1;
             slash.onHitEnemy = () =>
             {
-                AddSoul(11);
+                AddSoul(15);
             };
             slash.onPogoSuccess = onPogo;
         }
@@ -123,6 +137,10 @@ namespace KnightOfWords
 
                 var sr = spiritObj.AddComponent<SpriteRenderer>();
                 sr.sortingOrder = 10;
+                if (cachedVfxSpellFrames != null && cachedVfxSpellFrames.Length > 0)
+                {
+                    sr.sprite = cachedVfxSpellFrames[0];
+                }
                 var col = spiritObj.AddComponent<CircleCollider2D>();
                 col.radius = 0.5f;
                 col.isTrigger = true;
@@ -154,7 +172,6 @@ namespace KnightOfWords
             isInvulnerable = true;
             playerAnim.PlayAction(KnightAnimState.Hurt, 12f);
 
-            // Small knockback
             var rb = GetComponent<Rigidbody2D>();
             if (rb != null)
             {
@@ -162,7 +179,6 @@ namespace KnightOfWords
                 rb.linearVelocity = new Vector2(knockDir * 5f, 4f);
             }
 
-            // Flashing
             float timer = 0f;
             while (timer < invulnerabilityDuration)
             {
@@ -183,7 +199,6 @@ namespace KnightOfWords
 
         private void Die()
         {
-            // Reset to 5 masks, restart scene
             StartCoroutine(RespawnRoutine());
         }
 
@@ -192,7 +207,7 @@ namespace KnightOfWords
             yield return new WaitForSeconds(1.0f);
             currentHealth = maxHealth;
             currentSoul = 33;
-            transform.position = new Vector3(-6f, 0f, 0f);
+            transform.position = new Vector3(-6f, -1.5f, 0f);
             OnHealthChanged?.Invoke(currentHealth, maxHealth);
             OnSoulChanged?.Invoke(currentSoul, maxSoul);
         }

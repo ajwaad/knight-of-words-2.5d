@@ -8,16 +8,28 @@ class SoundEngine {
     this.ctx = null;
     this.ambientGain = null;
     this.isMuted = false;
+    this.hasGesture = false;
+    const unlock = () => {
+      this.hasGesture = true;
+      if (this.ctx && this.ctx.state === 'suspended') {
+        this.ctx.resume().catch(() => {});
+      }
+    };
+    window.addEventListener('pointerdown', unlock, { passive: true });
+    window.addEventListener('keydown', unlock, { passive: true });
+    window.addEventListener('touchstart', unlock, { passive: true });
   }
 
   init() {
+    if (!this.hasGesture) return false;
     if (!this.ctx) {
       const AudioCtx = window.AudioContext || window.webkitAudioContext;
       this.ctx = new AudioCtx();
     }
     if (this.ctx.state === 'suspended') {
-      this.ctx.resume();
+      this.ctx.resume().catch(() => {});
     }
+    return true;
   }
 
   get now() {
@@ -26,8 +38,7 @@ class SoundEngine {
   }
 
   playFootstep() {
-    if (this.isMuted) return;
-    this.init();
+    if (this.isMuted || !this.init()) return;
     const t = this.now;
 
     const osc = this.ctx.createOscillator();
@@ -53,8 +64,7 @@ class SoundEngine {
   }
 
   playJump() {
-    if (this.isMuted) return;
-    this.init();
+    if (this.isMuted || !this.init()) return;
     const t = this.now;
 
     const osc = this.ctx.createOscillator();
@@ -75,8 +85,7 @@ class SoundEngine {
   }
 
   playDash() {
-    if (this.isMuted) return;
-    this.init();
+    if (this.isMuted || !this.init()) return;
     const t = this.now;
 
     const bufferSize = this.ctx.sampleRate * 0.22;
@@ -107,8 +116,7 @@ class SoundEngine {
   }
 
   playSlash() {
-    if (this.isMuted) return;
-    this.init();
+    if (this.isMuted || !this.init()) return;
     const t = this.now;
 
     const bufferSize = this.ctx.sampleRate * 0.18;
@@ -139,8 +147,7 @@ class SoundEngine {
   }
 
   playParry() {
-    if (this.isMuted) return;
-    this.init();
+    if (this.isMuted || !this.init()) return;
     const t = this.now;
 
     const osc1 = this.ctx.createOscillator();
@@ -169,8 +176,7 @@ class SoundEngine {
   }
 
   playSpellCast() {
-    if (this.isMuted) return;
-    this.init();
+    if (this.isMuted || !this.init()) return;
     const t = this.now;
 
     const sub = this.ctx.createOscillator();
@@ -204,8 +210,7 @@ class SoundEngine {
   }
 
   playHit() {
-    if (this.isMuted) return;
-    this.init();
+    if (this.isMuted || !this.init()) return;
     const t = this.now;
 
     const osc = this.ctx.createOscillator();
@@ -226,8 +231,7 @@ class SoundEngine {
   }
 
   playMaskLost() {
-    if (this.isMuted) return;
-    this.init();
+    if (this.isMuted || !this.init()) return;
     const t = this.now;
 
     const osc = this.ctx.createOscillator();
@@ -248,8 +252,7 @@ class SoundEngine {
   }
 
   playFocusHeal() {
-    if (this.isMuted) return;
-    this.init();
+    if (this.isMuted || !this.init()) return;
     const notes = [523.25, 659.25, 783.99, 1046.5];
     notes.forEach((freq, i) => {
       const t = this.now + i * 0.08;
@@ -271,8 +274,7 @@ class SoundEngine {
   }
 
   playCorrect() {
-    if (this.isMuted) return;
-    this.init();
+    if (this.isMuted || !this.init()) return;
     const notes = [523.25, 659.25, 783.99, 1046.5];
     notes.forEach((freq, idx) => {
       const t = this.now + idx * 0.07;
@@ -294,8 +296,7 @@ class SoundEngine {
   }
 
   playWrong() {
-    if (this.isMuted) return;
-    this.init();
+    if (this.isMuted || !this.init()) return;
     const t = this.now;
 
     const osc = this.ctx.createOscillator();
@@ -316,8 +317,7 @@ class SoundEngine {
   }
 
   playVictory() {
-    if (this.isMuted) return;
-    this.init();
+    if (this.isMuted || !this.init()) return;
     const chord = [392.00, 523.25, 659.25, 783.99];
     chord.forEach((freq) => {
       const t = this.now;
@@ -339,8 +339,7 @@ class SoundEngine {
   }
 
   startAmbient() {
-    if (this.ambientGain || this.isMuted) return;
-    this.init();
+    if (this.ambientGain || this.isMuted || !this.init()) return;
     const t = this.now;
 
     const osc = this.ctx.createOscillator();

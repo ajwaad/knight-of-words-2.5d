@@ -39,40 +39,57 @@ namespace KnightOfWords
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
             AutoPopulateFramesIfEmpty();
+            if (idleFrames != null && idleFrames.Length > 0 && spriteRenderer.sprite == null)
+            {
+                spriteRenderer.sprite = idleFrames[0];
+            }
         }
 
         public void AutoPopulateFramesIfEmpty()
         {
             if (idleFrames == null || idleFrames.Length == 0)
-                idleFrames = LoadFrames("knight_idle_");
+                idleFrames = LoadFrames("knight_idle_", "idle");
             if (runFrames == null || runFrames.Length == 0)
-                runFrames = LoadFrames("knight_run_");
+                runFrames = LoadFrames("knight_run_", "run");
             if (jumpFrames == null || jumpFrames.Length == 0)
-                jumpFrames = LoadFrames("knight_jump_");
+                jumpFrames = LoadFrames("knight_jump_", "jump");
             if (attackFrames == null || attackFrames.Length == 0)
-                attackFrames = LoadFrames("knight_attack_");
+                attackFrames = LoadFrames("knight_attack_", "attack");
             if (castFrames == null || castFrames.Length == 0)
-                castFrames = LoadFrames("knight_cast_");
+                castFrames = LoadFrames("knight_cast_", "cast");
             if (hurtFrames == null || hurtFrames.Length == 0)
-                hurtFrames = LoadFrames("knight_hurt_");
+                hurtFrames = LoadFrames("knight_hurt_", "hurt");
             if (focusFrames == null || focusFrames.Length == 0)
-                focusFrames = LoadFrames("knight_focus_");
+                focusFrames = LoadFrames("knight_focus_", "focus");
         }
 
-        private Sprite[] LoadFrames(string prefix)
+        private Sprite[] LoadFrames(string prefix, string fallbackState)
         {
             var list = new List<Sprite>();
-            var allSprites = Resources.FindObjectsOfTypeAll<Sprite>();
-            // Also attempt to load from Resources if packaged, or via sorted search
-            foreach (var s in allSprites)
+            var resSprites = Resources.LoadAll<Sprite>("Sprites");
+            if (resSprites != null)
             {
-                if (s != null && s.name.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+                foreach (var s in resSprites)
                 {
-                    list.Add(s);
+                    if (s != null && s.name.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+                        list.Add(s);
                 }
             }
-            list.Sort((a, b) => string.Compare(a.name, b.name, StringComparison.Ordinal));
-            return list.ToArray();
+            if (list.Count == 0)
+            {
+                var allSprites = Resources.FindObjectsOfTypeAll<Sprite>();
+                foreach (var s in allSprites)
+                {
+                    if (s != null && s.name.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+                        list.Add(s);
+                }
+            }
+            if (list.Count > 0)
+            {
+                list.Sort((a, b) => string.Compare(a.name, b.name, StringComparison.Ordinal));
+                return list.ToArray();
+            }
+            return RuntimeSpriteFactory.GetKnightFrames(fallbackState);
         }
 
         private void Update()
@@ -102,7 +119,7 @@ namespace KnightOfWords
                     }
                     else
                     {
-                        currentFrame = 0; // Loop standard anims
+                        currentFrame = 0;
                     }
                 }
 

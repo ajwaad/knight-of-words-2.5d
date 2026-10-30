@@ -6,10 +6,23 @@ namespace KnightOfWords
     public class SlashHitbox : MonoBehaviour
     {
         public int damage = 1;
-        public float duration = 0.15f;
+        public float duration = 0.16f;
         public bool isDownwardSlash = false;
         public Action onHitEnemy;
         public Action onPogoSuccess;
+
+        private bool hasTriggered = false;
+
+        private void Awake()
+        {
+            var rb = GetComponent<Rigidbody2D>();
+            if (rb == null)
+            {
+                rb = gameObject.AddComponent<Rigidbody2D>();
+            }
+            rb.bodyType = RigidbodyType2D.Kinematic;
+            rb.gravityScale = 0f;
+        }
 
         private void Start()
         {
@@ -18,15 +31,12 @@ namespace KnightOfWords
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            // Check for Enemy
-            var enemy = collision.GetComponent<IEntityDamageable>();
-            if (enemy == null)
-            {
-                enemy = collision.GetComponentInParent<IEntityDamageable>();
-            }
+            if (hasTriggered) return;
 
-            if (enemy != null)
+            var enemy = collision.GetComponent<IEntityDamageable>() ?? collision.GetComponentInParent<IEntityDamageable>();
+            if (enemy != null && !(enemy is PlayerCombat))
             {
+                hasTriggered = true;
                 enemy.TakeDamage(damage, transform.position);
                 ProceduralAudio.Instance?.PlayHit();
                 onHitEnemy?.Invoke();
@@ -35,12 +45,13 @@ namespace KnightOfWords
                 {
                     onPogoSuccess?.Invoke();
                 }
+                return;
             }
 
-            // Check for Soul Totem
             var totem = collision.GetComponent<SoulTotem>();
             if (totem != null)
             {
+                hasTriggered = true;
                 totem.HitTotem();
                 ProceduralAudio.Instance?.PlayHit();
                 onHitEnemy?.Invoke();
@@ -49,6 +60,15 @@ namespace KnightOfWords
                 {
                     onPogoSuccess?.Invoke();
                 }
+                return;
+            }
+
+            var altar = collision.GetComponent<LoreTabletAltar>();
+            if (altar != null)
+            {
+                hasTriggered = true;
+                ProceduralAudio.Instance?.PlayHit();
+                altar.ActivateTrial();
             }
         }
     }

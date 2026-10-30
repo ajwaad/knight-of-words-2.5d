@@ -11,6 +11,10 @@ namespace KnightOfWords
         private void Awake()
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
+            if (spriteRenderer.sprite == null)
+            {
+                spriteRenderer.sprite = RuntimeSpriteFactory.GetAltarSprite();
+            }
             GetComponent<Collider2D>().isTrigger = true;
             if (promptIndicator != null)
             {
@@ -22,6 +26,7 @@ namespace KnightOfWords
         {
             if (collision.GetComponent<PlayerController>() != null)
             {
+                spriteRenderer.color = new Color(0.8f, 0.95f, 1f, 1f);
                 if (promptIndicator != null)
                 {
                     promptIndicator.SetActive(true);
@@ -33,6 +38,7 @@ namespace KnightOfWords
         {
             if (collision.GetComponent<PlayerController>() != null)
             {
+                spriteRenderer.color = Color.white;
                 if (promptIndicator != null)
                 {
                     promptIndicator.SetActive(false);

@@ -1,14 +1,14 @@
 /**
  * Hallownest 2.5D Engine (Three.js WebGL)
  * Directly uses existing Hollow Knight assets from manifest.txt with
- * automatic transparent-bounds normalization, eye-direction alignment,
- * ground-locked baselines, and full 2.5D combat choreography.
+ * uniform baseline normalization, 2.5D platforms, Soul Totem, Lore Tablet Altar,
+ * downward Pogo bounce, real-time boss AI choreography, and KSSR Word Trials.
  */
 
 class SpriteAnimator {
   constructor(mesh, animations, defaultAnim = 'idle', baseHeight = 2.5, isFlying = false) {
     this.mesh = mesh;
-    this.animations = animations; // { animName: { frames: [tex...], fps: 12, loop: true } }
+    this.animations = animations;
     this.baseHeight = baseHeight;
     this.isFlying = isFlying;
     this.facing = 1; // +1 = right (+X), -1 = left (-X)
@@ -73,7 +73,7 @@ class SpriteAnimator {
     } else if (tex.image && tex.image.width && tex.image.height) {
       aspect = tex.image.width / tex.image.height;
     }
-    const nativeDir = (tex.userData && tex.userData.nativeFacing) ? tex.userData.nativeFacing : (anim.nativeFacing || 1);
+    const nativeDir = (tex.userData && tex.userData.nativeFacing) ? tex.userData.nativeFacing : (anim.nativeFacing || -1);
     const h = this.baseHeight * this.scaleMultiplier;
     const w = h * aspect;
     const signX = (this.facing >= 0 ? 1 : -1) * (nativeDir >= 0 ? 1 : -1);
@@ -116,13 +116,37 @@ class Game25D {
       groundY: 1.15,
       isGrounded: true,
       facing: 1,
-      speed: 8.8,
-      jumpForce: 14.0,
-      gravity: -35.0,
+      speed: 9.2,
+      jumpForce: 15.2,
+      gravity: -36.0,
       isDashing: false,
       dashTimer: 0,
+      invulnTimer: 0,
+      quickAttackCooldown: 0,
       isLunging: false,
       state: 'idle'
+    };
+
+    // 2.5D Platforms (matching Unity arena layout)
+    this.platforms = [
+      { x: -6.2, y: 2.75, w: 3.8, h: 0.32, mesh: null },
+      { x: 5.8,  y: 2.75, w: 3.8, h: 0.32, mesh: null },
+      { x: -0.2, y: 4.35, w: 4.6, h: 0.32, mesh: null }
+    ];
+
+    // Interactive Props (Soul Totem & Lore Tablet Altar)
+    this.soulTotem = { x: -9.2, y: 1.25, hitsLeft: 5, maxHits: 5, mesh: null, glowLight: null };
+    this.loreAltar = { x: -0.8, y: 1.35, mesh: null, glowLight: null, isPlayerNear: false };
+
+    // Real-Time Boss AI State
+    this.bossAI = {
+      enabled: true,
+      baseX: 4.8,
+      patrolDir: -1,
+      actionTimer: 2.8,
+      state: 'patrol', // 'patrol' | 'telegraph' | 'lunge' | 'leap' | 'recover'
+      staggerHits: 0,
+      hitsToStagger: 3
     };
 
     // Actors & Meshes
@@ -156,7 +180,6 @@ class Game25D {
     this.particlesData = [];
     this.shakeIntensity = 0;
     this.hitstopTimer = 0;
-    this.hornetIdleTimer = 0;
 
     this.init();
   }
@@ -167,12 +190,12 @@ class Game25D {
 
     // 1. Scene & Fog
     this.scene = new THREE.Scene();
-    this.scene.fog = new THREE.FogExp2(0x060810, 0.02);
+    this.scene.fog = new THREE.FogExp2(0x060810, 0.018);
 
     // 2. Camera: Angled 2.5D perspective
     this.camera = new THREE.PerspectiveCamera(36, width / height, 0.1, 100);
-    this.camera.position.set(0, 3.1, 15.2);
-    this.camera.lookAt(0, 1.55, 0);
+    this.camera.position.set(0, 3.25, 15.6);
+    this.camera.lookAt(0, 1.7, 0);
 
     // 3. Renderer
     this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false, powerPreference: 'high-performance' });
@@ -180,32 +203,33 @@ class Game25D {
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     if (THREE.ACESFilmicToneMapping) {
       this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
-      this.renderer.toneMappingExposure = 1.15;
+      this.renderer.toneMappingExposure = 1.2;
     }
 
     this.container.appendChild(this.renderer.domElement);
 
     // 4. Lights
-    const ambientLight = new THREE.AmbientLight(0x64748b, 1.55);
+    const ambientLight = new THREE.AmbientLight(0x8496b0, 1.75);
     this.scene.add(ambientLight);
 
-    const dirLight = new THREE.DirectionalLight(0xe0f2fe, 1.35);
+    const dirLight = new THREE.DirectionalLight(0xe0f2fe, 1.45);
     dirLight.position.set(2, 14, 8);
     this.scene.add(dirLight);
 
-    this.knightLight = new THREE.PointLight(0x00d4ff, 2.4, 11);
+    this.knightLight = new THREE.PointLight(0x00d4ff, 2.5, 12);
     this.scene.add(this.knightLight);
 
-    this.enemyLight = new THREE.PointLight(0xff4444, 2.2, 11);
+    this.enemyLight = new THREE.PointLight(0xff4444, 2.3, 12);
     this.scene.add(this.enemyLight);
 
-    // 5. Build Stages & Preload Animations using exact manifest.txt paths
+    // 5. Build Stage, Props, Animations, and VFX
     this.buildStage();
+    this.buildArenaPropsAndPlatforms();
     await this.setupCharacterAnimations();
     this.buildVFX();
     this.buildParticleDust();
 
-    // 6. Bind Keyboard, Touch & Folder Upload Controls
+    // 6. Bind Controls
     this.bindControls();
     window.addEventListener('resize', () => this.onResize());
 
@@ -227,86 +251,55 @@ class Game25D {
     if (window.ASSET_DATA_URIS && window.ASSET_DATA_URIS[path]) {
       return window.ASSET_DATA_URIS[path];
     }
+    if (window.FALLBACK_DATA_URIS && window.FALLBACK_DATA_URIS[path]) {
+      return window.FALLBACK_DATA_URIS[path];
+    }
     return this.encodeAssetUrl(path);
   }
 
   /**
-   * Normalizes a character/boss frame onto a uniform canvas so transparent padding
-   * differences between manifest.txt sprites never cause scale jumps or floating feet.
+   * Preserves pre-normalized character canvases without shrinking wide slash/cast frames,
+   * while still normalizing external raw sprites if loaded from a user folder.
    */
   normalizeSpriteCanvas(img, opts = {}) {
     const cw = opts.canvasWidth || 320;
     const ch = opts.canvasHeight || 320;
     const bottomPad = opts.bottomPad !== undefined ? opts.bottomPad : 12;
+    const defaultDir = opts.defaultNativeFacing || -1;
 
+    // If this image is already a pre-normalized uniform Knight (280x280) or Boss canvas,
+    // scale by vertical height only so horizontal weapon swings never shrink the character!
     const tmp = document.createElement('canvas');
     tmp.width = img.width || 256;
     tmp.height = img.height || 256;
     const tctx = tmp.getContext('2d');
     tctx.drawImage(img, 0, 0);
 
-    let minX = 0, minY = 0, maxX = tmp.width - 1, maxY = tmp.height - 1;
-    let detectedFacing = opts.defaultNativeFacing || 1;
+    if (opts.isKnight && tmp.width === 280 && tmp.height === 280) {
+      return { canvas: tmp, nativeFacing: -1, aspect: 1.0 };
+    }
 
+    let minX = 0, minY = 0, maxX = tmp.width - 1, maxY = tmp.height - 1;
     try {
       const data = tctx.getImageData(0, 0, tmp.width, tmp.height).data;
       let x0 = tmp.width, y0 = tmp.height, x1 = 0, y1 = 0;
       let found = false;
-
-      // Also track bright mask pixels and dark eye pixels inside the upper mask for Knight auto-facing
-      let whiteSumX = 0, whiteCount = 0;
-      let wMinX = tmp.width, wMaxX = 0, wMinY = tmp.height, wMaxY = 0;
-
       for (let y = 0; y < tmp.height; y++) {
         for (let x = 0; x < tmp.width; x++) {
-          const idx = (y * tmp.width + x) * 4;
-          const r = data[idx], g = data[idx + 1], b = data[idx + 2], a = data[idx + 3];
+          const a = data[(y * tmp.width + x) * 4 + 3];
           if (a > 18) {
             if (x < x0) x0 = x;
             if (x > x1) x1 = x;
             if (y < y0) y0 = y;
             if (y > y1) y1 = y;
             found = true;
-
-            if (opts.isKnight && r > 205 && g > 205 && b > 205 && a > 180) {
-              whiteSumX += x;
-              whiteCount++;
-              if (x < wMinX) wMinX = x;
-              if (x > wMaxX) wMaxX = x;
-              if (y < wMinY) wMinY = y;
-              if (y > wMaxY) wMaxY = y;
-            }
           }
         }
       }
-
       if (found && x1 >= x0 && y1 >= y0) {
         minX = x0; minY = y0; maxX = x1; maxY = y1;
       }
-
-      if (opts.isKnight && whiteCount > 30 && wMaxX > wMinX + 8) {
-        const maskCx = whiteSumX / whiteCount;
-        let eyeSumX = 0, eyeCount = 0;
-        const yMid = wMinY + (wMaxY - wMinY) * 0.78;
-        for (let y = wMinY + 2; y <= yMid; y++) {
-          for (let x = wMinX + 2; x <= wMaxX - 2; x++) {
-            const idx = (y * tmp.width + x) * 4;
-            const r = data[idx], g = data[idx + 1], b = data[idx + 2], a = data[idx + 3];
-            if (a > 180 && r < 55 && g < 55 && b < 55) {
-              eyeSumX += x;
-              eyeCount++;
-            }
-          }
-        }
-        if (eyeCount > 8) {
-          const eyeCx = eyeSumX / eyeCount;
-          if (eyeCx > maskCx + 1.1) detectedFacing = 1;
-          else if (eyeCx < maskCx - 1.1) detectedFacing = -1;
-        }
-      }
-    } catch (err) {
-      // Cross-origin fallback
-    }
+    } catch (err) {}
 
     const cropW = Math.max(1, maxX - minX + 1);
     const cropH = Math.max(1, maxY - minY + 1);
@@ -317,7 +310,7 @@ class Game25D {
     const octx = out.getContext('2d');
 
     const targetMaxH = ch * 0.84;
-    const targetMaxW = cw * 0.86;
+    const targetMaxW = cw * 0.88;
     const scale = Math.min(targetMaxW / cropW, targetMaxH / cropH);
     const drawW = Math.max(1, Math.round(cropW * scale));
     const drawH = Math.max(1, Math.round(cropH * scale));
@@ -326,7 +319,7 @@ class Game25D {
     const dy = Math.max(4, ch - drawH - bottomPad);
 
     octx.drawImage(tmp, minX, minY, cropW, cropH, dx, dy, drawW, drawH);
-    return { canvas: out, nativeFacing: detectedFacing, aspect: cw / ch };
+    return { canvas: out, nativeFacing: defaultDir, aspect: cw / ch };
   }
 
   applyColorSpace(tex) {
@@ -343,7 +336,7 @@ class Game25D {
 
     const url = this.resolveAssetUrl(path);
     const tex = new THREE.Texture();
-    tex.userData = { path, opts, nativeFacing: opts.defaultNativeFacing || 1, aspect: 1.0 };
+    tex.userData = { path, opts, nativeFacing: opts.defaultNativeFacing || -1, aspect: 1.0 };
     this.applyColorSpace(tex);
     this.textures[cacheKey] = tex;
 
@@ -424,6 +417,126 @@ class Game25D {
     return mesh;
   }
 
+  createProceduralPropTexture(type) {
+    const c = document.createElement('canvas');
+    c.width = 160;
+    c.height = 240;
+    const ctx = c.getContext('2d');
+    if (type === 'totem') {
+      // Ancient Hallownest Soul Totem with glowing cyan eyes
+      const grad = ctx.createLinearGradient(30, 20, 130, 220);
+      grad.addColorStop(0, '#64748b');
+      grad.addColorStop(1, '#1e293b');
+      ctx.fillStyle = grad;
+      ctx.strokeStyle = '#0f172a';
+      ctx.lineWidth = 5;
+      ctx.beginPath();
+      ctx.moveTo(52, 225);
+      ctx.lineTo(38, 85);
+      ctx.quadraticCurveTo(80, 18, 122, 85);
+      ctx.lineTo(108, 225);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+
+      // Glowing Soul eyes & runes
+      ctx.fillStyle = '#00d4ff';
+      ctx.shadowColor = '#00d4ff';
+      ctx.shadowBlur = 14;
+      ctx.beginPath();
+      ctx.arc(65, 92, 9, 0, Math.PI * 2);
+      ctx.arc(95, 92, 9, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = '#67e8f9';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(80, 125);
+      ctx.lineTo(80, 195);
+      ctx.moveTo(62, 150);
+      ctx.lineTo(98, 150);
+      ctx.stroke();
+    } else if (type === 'altar') {
+      // Glowing Hallownest Lore Tablet Altar
+      const grad = ctx.createLinearGradient(20, 15, 140, 225);
+      grad.addColorStop(0, '#475569');
+      grad.addColorStop(1, '#0f172a');
+      ctx.fillStyle = grad;
+      ctx.strokeStyle = '#f5bc46';
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.moveTo(35, 225);
+      ctx.lineTo(28, 70);
+      ctx.quadraticCurveTo(80, 10, 132, 70);
+      ctx.lineTo(125, 225);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+
+      // Inscribed glowing golden/white runes
+      ctx.strokeStyle = '#fde68a';
+      ctx.shadowColor = '#f5bc46';
+      ctx.shadowBlur = 12;
+      ctx.lineWidth = 3;
+      for (let ry = 68; ry <= 178; ry += 22) {
+        ctx.beginPath();
+        ctx.moveTo(48, ry);
+        ctx.lineTo(112, ry);
+        ctx.stroke();
+      }
+      ctx.fillStyle = '#fef08a';
+      ctx.font = 'bold 18px serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('[E] TRIAL', 80, 212);
+    }
+    const tex = new THREE.CanvasTexture(c);
+    this.applyColorSpace(tex);
+    return tex;
+  }
+
+  buildArenaPropsAndPlatforms() {
+    const floorTex = this.loadTexture('assets/Architecture & Environment/Nailmaster_03__0001_Floor.png');
+
+    // 1. 3 Floating 2.5D Platforms for vertical platforming & pogo
+    this.platforms.forEach((p) => {
+      const geo = new THREE.BoxGeometry(p.w, p.h, 1.3);
+      const mat = new THREE.MeshStandardMaterial({
+        map: floorTex,
+        color: 0x7dd3fc,
+        roughness: 0.5,
+        metalness: 0.3
+      });
+      const mesh = new THREE.Mesh(geo, mat);
+      mesh.position.set(p.x, p.y - p.h * 0.5, 0);
+      mesh.renderOrder = 4;
+      this.scene.add(mesh);
+      p.mesh = mesh;
+    });
+
+    // 2. Soul Totem on Left Side (-9.2)
+    const totemGeo = new THREE.PlaneGeometry(1.5, 2.3);
+    const totemMat = new THREE.MeshBasicMaterial({
+      map: this.createProceduralPropTexture('totem'),
+      transparent: true,
+      depthWrite: false
+    });
+    this.soulTotem.mesh = new THREE.Mesh(totemGeo, totemMat);
+    this.soulTotem.mesh.position.set(this.soulTotem.x, this.soulTotem.y, -0.25);
+    this.soulTotem.mesh.renderOrder = 5;
+    this.scene.add(this.soulTotem.mesh);
+
+    // 3. Lore Tablet Altar near Center (-0.8)
+    const altarGeo = new THREE.PlaneGeometry(1.75, 2.55);
+    const altarMat = new THREE.MeshBasicMaterial({
+      map: this.createProceduralPropTexture('altar'),
+      transparent: true,
+      depthWrite: false
+    });
+    this.loreAltar.mesh = new THREE.Mesh(altarGeo, altarMat);
+    this.loreAltar.mesh.position.set(this.loreAltar.x, this.loreAltar.y, -0.35);
+    this.loreAltar.mesh.renderOrder = 5;
+    this.scene.add(this.loreAltar.mesh);
+  }
+
   buildStage() {
     // A. 3D Stone Floor (Exact manifest.txt path: assets/Architecture & Environment/Nailmaster_03__0001_Floor.png)
     const floorGeo = new THREE.PlaneGeometry(36, 12);
@@ -482,7 +595,6 @@ class Game25D {
   }
 
   async setupCharacterAnimations() {
-    // 1. THE KNIGHT: Authentic frames extracted directly from The Knight master sprite atlas
     const knightOpts = { normalize: true, isKnight: true, defaultNativeFacing: -1, canvasWidth: 280, canvasHeight: 280, bottomPad: 15 };
 
     const knightIdleFrames = this.loadTextureArray([
@@ -574,7 +686,6 @@ class Game25D {
     this.player.pos.y = this.player.groundY;
     this.knightMesh.position.copy(this.player.pos);
 
-    // 2. The Adversary Mesh & Animations
     const enemyGeo = new THREE.PlaneGeometry(1, 1);
     const enemyMat = new THREE.MeshBasicMaterial({
       map: knightIdleFrames[0],
@@ -584,7 +695,7 @@ class Game25D {
       side: THREE.DoubleSide
     });
     this.enemyMesh = new THREE.Mesh(enemyGeo, enemyMat);
-    this.enemyMesh.position.set(4.5, 1.5, 0);
+    this.enemyMesh.position.set(4.8, 1.5, 0);
     this.enemyMesh.renderOrder = 9;
     this.scene.add(this.enemyMesh);
     this.enemyShadow = this.createGroundShadow(1.3, 0.58);
@@ -658,7 +769,7 @@ class Game25D {
         'assets/Bosses/Dung Defender & White Defender/dung_statues_0006_1.png'
       ], enemyOpts);
       animConfig = {
-        idle: { frames: idleFrames, fps: 3, loop: true, nativeFacing: -1 },
+        idle: { frames: idleFrames, fps: 4, loop: true, nativeFacing: -1 },
         attack: { frames: attackFrames, fps: 10, loop: false, nativeFacing: -1 }
       };
 
@@ -687,7 +798,6 @@ class Game25D {
       };
 
     } else {
-      // Hiveling Swarm (flying enemy)
       baseH = 2.15;
       isFlying = true;
       const flyFrames = [];
@@ -707,7 +817,7 @@ class Game25D {
     }
 
     this.enemyAnimator = new SpriteAnimator(this.enemyMesh, animConfig, 'idle', baseH, isFlying);
-    this.enemyAnimator.facing = -1; // Face left towards the Knight by default
+    this.enemyAnimator.facing = -1;
     this.enemyMesh.position.y = isFlying ? 2.05 : this.enemyAnimator.getGroundCenterY();
 
     if (enemyType === 'grimm') {
@@ -718,7 +828,7 @@ class Game25D {
   }
 
   buildVFX() {
-    // 1. Multi-Frame Radiance Slash Effect (11 animated frames from manifest.txt)
+    // 1. Multi-Frame Radiance Slash Effect
     const slashFrames = [];
     for (let i = 0; i <= 10; i++) {
       const numStr = i < 10 ? `000${i}` : `00${i}`;
@@ -741,7 +851,7 @@ class Game25D {
       slash: { frames: slashFrames, fps: 28, loop: false }
     }, null, 3.3);
 
-    // 2. Multi-Frame Dash Effect (5 animated frames from manifest.txt)
+    // 2. Multi-Frame Dash Effect
     const dashFrames = [];
     for (let i = 0; i <= 4; i++) {
       dashFrames.push(this.loadTexture(`assets/Particles & Effects/dash_effect_02000${i}.png`));
@@ -763,7 +873,7 @@ class Game25D {
       dash: { frames: dashFrames, fps: 24, loop: false }
     }, null, 2.2);
 
-    // 3. Focus Ring Aura (Pure Vessel focus ring from manifest.txt)
+    // 3. Focus Ring Aura
     const ringTex = this.loadTexture('assets/Bosses/The Hollow Knight/Pure Vessel focus ring -  focus_ring.png');
     const ringGeo = new THREE.PlaneGeometry(3.2, 3.2);
     const ringMat = new THREE.MeshBasicMaterial({
@@ -777,7 +887,7 @@ class Game25D {
     this.focusRingMesh.renderOrder = 13;
     this.scene.add(this.focusRingMesh);
 
-    // 4. Vengeful Spirit Spell Projectile (Soul_burst0000..0004.png + soul_orb.png)
+    // 4. Vengeful Spirit Spell Projectile
     const spellFrames = [];
     for (let i = 0; i <= 4; i++) {
       spellFrames.push(this.loadTexture(`assets/Particles & Effects/Soul_burst000${i}.png`));
@@ -845,6 +955,12 @@ class Game25D {
 
   triggerJump() {
     if (this.player.isGrounded && !window.battleManager.isTrialModalOpen()) {
+      // Allow dropping down through floating platform if holding S/Down
+      if ((this.keys['KeyS'] || this.keys['ArrowDown']) && this.player.pos.y > 1.5) {
+        this.player.pos.y -= 0.35;
+        this.player.isGrounded = false;
+        return;
+      }
       this.player.vel.y = this.player.jumpForce;
       this.player.isGrounded = false;
       window.soundEngine.playJump();
@@ -856,6 +972,7 @@ class Game25D {
     if (!this.player.isDashing && !window.battleManager.isTrialModalOpen()) {
       this.player.isDashing = true;
       this.player.dashTimer = 0.24;
+      this.player.invulnTimer = Math.max(this.player.invulnTimer, 0.32); // Shade Cloak i-frames!
       this.player.vel.x = this.player.facing * 18.5;
       window.soundEngine.playDash();
       this.triggerScreenShake(0.22);
@@ -868,6 +985,92 @@ class Game25D {
           this.dashMesh.material.opacity = 0;
         }, true);
       }
+    }
+  }
+
+  /**
+   * Real-time Quick Nail Slash & Downward Pogo (matching Unity PlayerController.ExecuteNailAttack)
+   */
+  triggerQuickAttack() {
+    if (window.battleManager.isTrialModalOpen() || this.player.isLunging || this.player.quickAttackCooldown > 0) return;
+    this.player.quickAttackCooldown = 0.28;
+    this.player.state = 'attack';
+    window.soundEngine.playSlash();
+
+    const isDown = (!this.player.isGrounded && (this.keys['KeyS'] || this.keys['ArrowDown']));
+    const isUp = (this.keys['KeyW'] || this.keys['ArrowUp']);
+
+    let sx = this.player.pos.x + this.player.facing * 1.35;
+    let sy = this.player.pos.y;
+    if (isDown) {
+      sx = this.player.pos.x;
+      sy = this.player.pos.y - 1.15;
+    } else if (isUp) {
+      sx = this.player.pos.x;
+      sy = this.player.pos.y + 1.15;
+    }
+
+    this.knightAnimator.play('attack', () => {
+      this.player.state = 'idle';
+      this.knightAnimator.play('idle');
+    }, true);
+
+    if (this.slashMesh && this.slashAnimator) {
+      this.slashMesh.position.set(sx, sy, 0.4);
+      this.slashAnimator.facing = this.player.facing;
+      this.slashAnimator.scaleMultiplier = 0.95;
+      this.slashMesh.material.color.setHex(0xe0f2fe);
+      this.slashMesh.material.opacity = 0.95;
+      this.slashAnimator.play('slash', () => {
+        this.slashMesh.material.opacity = 0;
+      }, true);
+    }
+
+    // 1. Check hit against Soul Totem
+    const distTotem = Math.hypot(sx - this.soulTotem.x, sy - this.soulTotem.y);
+    if (distTotem < 1.85) {
+      window.soundEngine.playHit();
+      this.triggerScreenShake(0.25);
+      if (isDown) {
+        this.player.vel.y = this.player.jumpForce * 0.88; // Pogo bounce!
+      }
+      if (window.battleManager) {
+        window.battleManager.playerSoul = Math.min(100, window.battleManager.playerSoul + 18);
+        window.battleManager.showFloatingText('+18 SOUL', new THREE.Vector3(this.soulTotem.x, this.soulTotem.y + 0.6, 0), 'heal');
+        window.battleManager.updateHUD();
+      }
+    }
+
+    // 2. Check hit against Lore Tablet Altar
+    const distAltar = Math.hypot(sx - this.loreAltar.x, sy - this.loreAltar.y);
+    if (distAltar < 1.85 && window.battleManager && !window.battleManager.isInputLocked) {
+      window.soundEngine.playParry();
+      window.battleManager.triggerAltarTrial();
+      return;
+    }
+
+    // 3. Check hit against Active Boss
+    if (this.enemyMesh && window.battleManager && !window.battleManager.chamberCleared) {
+      const distBoss = Math.hypot(sx - this.enemyMesh.position.x, sy - this.enemyMesh.position.y);
+      if (distBoss < 2.35) {
+        window.soundEngine.playHit();
+        if (isDown) {
+          this.player.vel.y = this.player.jumpForce * 0.92; // Pogo bounce off Boss!
+          window.battleManager.showFloatingText('POGO!', this.player.pos, 'crit');
+        }
+        window.battleManager.onQuickHitEnemy(isDown ? 10 : 8);
+      }
+    }
+  }
+
+  tryInteractAltar() {
+    if (window.battleManager.isTrialModalOpen() || window.battleManager.isInputLocked) return;
+    const dist = Math.hypot(this.player.pos.x - this.loreAltar.x, this.player.pos.y - this.loreAltar.y);
+    if (dist < 2.8) {
+      window.soundEngine.playParry();
+      window.battleManager.triggerAltarTrial();
+    } else {
+      window.battleManager.showFloatingText('MOVE TO CENTER ALTAR [E]', this.loreAltar.mesh.position, 'heal');
     }
   }
 
@@ -887,7 +1090,17 @@ class Game25D {
         this.triggerDash();
       }
 
-      // Combat Actions (Both [J/K/L/U] and [1/2/3/4] when modal is closed)
+      // Real-Time Quick Nail Strike / Pogo (F or Z)
+      if (e.code === 'KeyF' || e.code === 'KeyZ') {
+        this.triggerQuickAttack();
+      }
+
+      // Interact with Lore Tablet Altar (E)
+      if (e.code === 'KeyE') {
+        this.tryInteractAltar();
+      }
+
+      // Question Trial Actions ([J/K/L/U] and [1/2/3/4])
       if (e.code === 'KeyJ' || e.code === 'Digit1' || e.code === 'Enter') {
         window.battleManager.selectAction('slash');
       } else if (e.code === 'KeyK' || e.code === 'Digit2') {
@@ -903,7 +1116,13 @@ class Game25D {
       this.keys[e.code] = false;
     });
 
-    // On-screen mobile / mouse controls
+    // Clicking directly on the 3D WebGL canvas triggers Quick Nail Slash / Pogo!
+    this.renderer.domElement.addEventListener('pointerdown', (e) => {
+      if (e.button === 0 && !window.battleManager.isTrialModalOpen()) {
+        this.triggerQuickAttack();
+      }
+    });
+
     const bindHoldBtn = (id, keyCode) => {
       const btn = document.getElementById(id);
       if (!btn) return;
@@ -920,8 +1139,17 @@ class Game25D {
 
     document.getElementById('btn-jump')?.addEventListener('click', () => this.triggerJump());
     document.getElementById('btn-dash')?.addEventListener('click', () => this.triggerDash());
+    document.getElementById('btn-quick-slash')?.addEventListener('click', () => this.triggerQuickAttack());
+    document.getElementById('btn-altar-read')?.addEventListener('click', () => this.tryInteractAltar());
 
-    // Local assets/ folder linker for standalone browser / Canvas hot-reloading
+    const aiBtn = document.getElementById('btn-toggle-ai');
+    if (aiBtn) {
+      aiBtn.addEventListener('click', () => {
+        this.bossAI.enabled = !this.bossAI.enabled;
+        aiBtn.textContent = this.bossAI.enabled ? '⚔️ AI: Active' : '🛡️ AI: Calm';
+      });
+    }
+
     const linkBtn = document.getElementById('btn-link-assets');
     const folderInput = document.getElementById('assets-folder-input');
     if (linkBtn && folderInput) {
@@ -954,7 +1182,6 @@ class Game25D {
   }
 
   setChamberStage(chamberIndex, enemyType) {
-    // Full-resolution room backgrounds from manifest.txt (NOT stretched 732x117 save banners!)
     const bgTextures = [
       'assets/Architecture & Environment/nailmaster_03_0008_BG.png',
       'assets/Architecture & Environment/Area specfic architecture/Greenpath/nailmaster_fung_hut_02.png',
@@ -971,12 +1198,19 @@ class Game25D {
 
     this.setupEnemyAnimator(enemyType);
 
-    // Reset player position on stone floor
     const gy = this.knightAnimator ? this.knightAnimator.getGroundCenterY() : 1.15;
     this.player.groundY = gy;
     this.player.pos.set(-5.0, gy, 0);
     this.player.vel.set(0, 0, 0);
     this.player.facing = 1;
+
+    this.bossAI.baseX = 4.8;
+    this.bossAI.state = 'patrol';
+    this.bossAI.actionTimer = 2.6;
+    this.bossAI.staggerHits = 0;
+    if (this.enemyMesh) {
+      this.enemyMesh.position.x = 4.8;
+    }
   }
 
   setEnemyData(enemyData) {
@@ -1003,10 +1237,10 @@ class Game25D {
 
     const startX = this.player.pos.x;
     const strikeX = this.enemyMesh.position.x - 1.75;
+    const returnX = Math.max(-9.5, Math.min(startX, this.enemyMesh.position.x - 3.2));
     const lungeStart = performance.now();
     const lungeDuration = 160;
 
-    // 1. Lunge across arena to strike range
     const animateLungeIn = (now) => {
       const p = Math.min((now - lungeStart) / lungeDuration, 1.0);
       this.player.pos.x = startX + (strikeX - startX) * p;
@@ -1015,7 +1249,6 @@ class Game25D {
       if (p < 1.0) {
         requestAnimationFrame(animateLungeIn);
       } else {
-        // 2. Execute Slash at close range
         this.knightAnimator.play('attack', () => {
           this.player.state = 'idle';
           this.knightAnimator.play('idle');
@@ -1029,16 +1262,14 @@ class Game25D {
           this.slashMesh.material.opacity = 0;
         }, true);
 
-        this.applyHitstop(isGreatSlash ? 0.09 : 0.06);
+        this.applyHitstop(isGreatSlash ? 0.08 : 0.05);
         this.triggerScreenShake(isGreatSlash ? 0.72 : 0.42);
 
         if (callback) callback();
 
-        // 3. Vault back to fighting stance
         setTimeout(() => {
           const retStart = performance.now();
-          const retDuration = 210;
-          const returnX = -5.0;
+          const retDuration = 200;
           const animateRetreat = (tNow) => {
             const rp = Math.min((tNow - retStart) / retDuration, 1.0);
             this.player.pos.x = strikeX + (returnX - strikeX) * rp;
@@ -1050,7 +1281,7 @@ class Game25D {
             }
           };
           requestAnimationFrame(animateRetreat);
-        }, 230);
+        }, 220);
       }
     };
     requestAnimationFrame(animateLungeIn);
@@ -1067,7 +1298,7 @@ class Game25D {
     const startX = this.player.pos.x + 1.1;
     const targetX = this.enemyMesh.position.x - 0.3;
     const startTime = performance.now();
-    const duration = 450;
+    const duration = 420;
 
     this.spellProjectile.material.opacity = 1.0;
     this.triggerScreenShake(0.35);
@@ -1085,7 +1316,7 @@ class Game25D {
         requestAnimationFrame(animateSpell);
       } else {
         this.spellProjectile.material.opacity = 0;
-        this.applyHitstop(0.08);
+        this.applyHitstop(0.06);
         this.triggerScreenShake(0.65);
         if (callback) callback();
       }
@@ -1126,10 +1357,10 @@ class Game25D {
     if (this.enemyAnimator) {
       this.enemyAnimator.play('idle', null, true);
     }
-    const startX = 4.5;
-    const knockX = startX + 1.45;
+    const startX = this.enemyMesh.position.x;
+    const knockX = Math.min(9.5, startX + 1.35);
     const startTime = performance.now();
-    const duration = 280;
+    const duration = 260;
 
     if (this.enemyMesh && this.enemyMesh.material) {
       this.enemyMesh.material.color.setHex(0xff9999);
@@ -1164,10 +1395,8 @@ class Game25D {
   }
 
   triggerEnemyCounterAttack(callback) {
-    if (this.enemyAnimator) {
-      if (this.enemyAnimator.animations['attack']) {
-        this.enemyAnimator.play('attack', null, true);
-      }
+    if (this.enemyAnimator && this.enemyAnimator.animations['attack']) {
+      this.enemyAnimator.play('attack', null, true);
     }
 
     const startX = this.enemyMesh.position.x;
@@ -1217,6 +1446,7 @@ class Game25D {
 
   triggerKnightHurt() {
     this.player.state = 'hurt';
+    this.player.invulnTimer = 1.1;
     this.knightAnimator.play('hurt', null, true);
 
     const flash = document.getElementById('damage-flash');
@@ -1225,7 +1455,7 @@ class Game25D {
       setTimeout(() => flash.classList.remove('active'), 180);
     }
 
-    this.applyHitstop(0.06);
+    this.applyHitstop(0.05);
     this.triggerScreenShake(0.55);
 
     setTimeout(() => {
@@ -1243,10 +1473,75 @@ class Game25D {
   }
 
   // ========================================================================
+  // Real-Time Boss Patrol & Telegraph AI
+  // ========================================================================
+
+  updateBossAI(delta) {
+    if (!this.bossAI.enabled || !this.enemyMesh || !this.enemyAnimator) return;
+    if (window.battleManager.isTrialModalOpen() || window.battleManager.isInputLocked || window.battleManager.chamberCleared || this.player.isLunging) return;
+
+    if (this.bossAI.state === 'patrol') {
+      // Gentle pacing in right arena zone [2.4, 7.6]
+      this.enemyMesh.position.x += this.bossAI.patrolDir * 1.65 * delta;
+      if (this.enemyMesh.position.x < 2.5) this.bossAI.patrolDir = 1;
+      if (this.enemyMesh.position.x > 7.4) this.bossAI.patrolDir = -1;
+
+      this.bossAI.actionTimer -= delta;
+      if (this.bossAI.actionTimer <= 0) {
+        this.bossAI.state = 'telegraph';
+        this.bossAI.actionTimer = 0.65;
+        if (window.battleManager) {
+          window.battleManager.showFloatingText('⚠️ DODGE / JUMP!', this.enemyMesh.position, 'dmg');
+        }
+      }
+    } else if (this.bossAI.state === 'telegraph') {
+      this.bossAI.actionTimer -= delta;
+      if (this.bossAI.actionTimer <= 0) {
+        this.bossAI.state = 'lunge';
+        this.bossAI.lungeStartX = this.enemyMesh.position.x;
+        this.bossAI.lungeTargetX = Math.max(-7.5, this.player.pos.x);
+        this.bossAI.lungeProgress = 0;
+        if (this.enemyAnimator.animations['attack']) {
+          this.enemyAnimator.play('attack', null, true);
+        }
+        window.soundEngine.playSlash();
+      }
+    } else if (this.bossAI.state === 'lunge') {
+      this.bossAI.lungeProgress += delta * 1.85;
+      const p = Math.min(this.bossAI.lungeProgress, 1.0);
+      if (p < 0.5) {
+        const t = p / 0.5;
+        this.enemyMesh.position.x = this.bossAI.lungeStartX + (this.bossAI.lungeTargetX - this.bossAI.lungeStartX) * t;
+        // Check dodgable contact with player
+        const dx = Math.abs(this.player.pos.x - this.enemyMesh.position.x);
+        const dy = Math.abs(this.player.pos.y - this.enemyMesh.position.y);
+        if (dx < 1.1 && dy < 1.25 && this.player.invulnTimer <= 0 && !this.player.isDashing) {
+          this.triggerKnightHurt();
+          if (window.battleManager) {
+            window.battleManager.onPlayerHitByBoss();
+          }
+        }
+      } else {
+        const t = (p - 0.5) / 0.5;
+        this.enemyMesh.position.x = this.bossAI.lungeTargetX + (this.bossAI.baseX - this.bossAI.lungeTargetX) * t;
+      }
+      if (p >= 1.0) {
+        this.enemyMesh.position.x = this.bossAI.baseX;
+        this.bossAI.state = 'patrol';
+        this.bossAI.actionTimer = 3.6;
+        this.enemyAnimator.play('idle');
+      }
+    }
+  }
+
+  // ========================================================================
   // Physics & Animation Tick
   // ========================================================================
 
   updatePhysics(delta) {
+    if (this.player.invulnTimer > 0) this.player.invulnTimer -= delta;
+    if (this.player.quickAttackCooldown > 0) this.player.quickAttackCooldown -= delta;
+
     if (window.battleManager.isTrialModalOpen() || this.player.isLunging) {
       return;
     }
@@ -1266,25 +1561,43 @@ class Game25D {
         this.player.vel.x = moveX * this.player.speed;
         this.player.facing = moveX > 0 ? 1 : -1;
       } else {
-        this.player.vel.x *= 0.75;
+        this.player.vel.x *= 0.72;
       }
-
-      let moveZ = 0;
-      if (this.keys['KeyW'] || this.keys['ArrowUp']) moveZ -= 1;
-      if (this.keys['KeyS'] || this.keys['ArrowDown']) moveZ += 1;
-      this.player.pos.z = THREE.MathUtils.clamp(this.player.pos.z + moveZ * 3.5 * delta, -1.5, 1.5);
     }
 
-    // 2. Vertical Gravity & Ground Floor Collision
-    this.player.groundY = this.knightAnimator ? this.knightAnimator.getGroundCenterY() : 1.15;
+    // 2. Vertical Gravity & Platform / Ground Collision
+    const baseFloorY = this.knightAnimator ? this.knightAnimator.getGroundCenterY() : 1.15;
+    const prevY = this.player.pos.y;
+    const feetOffset = baseFloorY;
+
     this.player.vel.y += this.player.gravity * delta;
     this.player.pos.y += this.player.vel.y * delta;
     this.player.pos.x += this.player.vel.x * delta;
 
-    if (this.player.pos.y <= this.player.groundY) {
-      this.player.pos.y = this.player.groundY;
+    let landedPlatformY = null;
+    if (this.player.vel.y <= 0 && !(this.keys['KeyS'] || this.keys['ArrowDown'])) {
+      for (const plat of this.platforms) {
+        const halfW = plat.w * 0.5 + 0.25;
+        if (Math.abs(this.player.pos.x - plat.x) <= halfW) {
+          const platTopCenterY = plat.y + feetOffset;
+          if (prevY >= platTopCenterY - 0.15 && this.player.pos.y <= platTopCenterY) {
+            landedPlatformY = platTopCenterY;
+            break;
+          }
+        }
+      }
+    }
+
+    if (landedPlatformY !== null) {
+      this.player.pos.y = landedPlatformY;
       this.player.vel.y = 0;
       this.player.isGrounded = true;
+    } else if (this.player.pos.y <= baseFloorY) {
+      this.player.pos.y = baseFloorY;
+      this.player.vel.y = 0;
+      this.player.isGrounded = true;
+    } else {
+      this.player.isGrounded = false;
     }
 
     // Stage Bounds
@@ -1316,6 +1629,9 @@ class Game25D {
         this.knightAnimator.play('idle');
       }
     }
+
+    // 6. Update Real-Time Boss AI
+    this.updateBossAI(delta);
   }
 
   animate() {
@@ -1326,6 +1642,7 @@ class Game25D {
 
     if (this.hitstopTimer > 0) {
       this.hitstopTimer -= delta;
+      this.renderer.render(this.scene, this.camera);
       return;
     }
 
@@ -1350,7 +1667,7 @@ class Game25D {
     if (this.knightShadow && this.knightMesh) {
       this.knightShadow.position.x = this.knightMesh.position.x;
       this.knightShadow.position.z = this.knightMesh.position.z;
-      const hFactor = Math.max(0.4, 1.0 - (this.knightMesh.position.y - this.player.groundY) * 0.15);
+      const hFactor = Math.max(0.35, 1.0 - (this.knightMesh.position.y - 1.15) * 0.15);
       this.knightShadow.scale.set(0.9 * hFactor, 0.42 * hFactor, 1);
     }
     if (this.enemyShadow && this.enemyMesh) {
@@ -1395,7 +1712,7 @@ class Game25D {
 
     const targetCamX = THREE.MathUtils.clamp(this.player.pos.x * 0.35, -3.8, 3.8);
     this.camera.position.x += (targetCamX - this.camera.position.x) * 0.08 + shakeX;
-    this.camera.position.y = 3.1 + shakeY;
+    this.camera.position.y = 3.25 + shakeY;
 
     this.renderer.render(this.scene, this.camera);
   }

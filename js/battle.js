@@ -306,7 +306,8 @@ class BattleManager {
       'slash': '⚔️ NAIL SLASH (25 DMG)',
       'spell': '✨ VENGEFUL SPIRIT (50 DMG)',
       'heal': '🤍 FOCUS HEAL (+1 MASK)',
-      'great_slash': '⚡ GREAT SLASH (70 DMG)'
+      'great_slash': '⚡ GREAT SLASH (70 DMG)',
+      'altar': '📜 LORE ALTAR (+50 SOUL & +1 MASK)'
     };
     if (actionTag) actionTag.textContent = actionLabels[this.selectedAction] || 'TRIAL';
     if (badge) badge.textContent = `DSKP ${this.currentQuestion.dskp || '2.1.5'} • UNIT ${this.currentQuestion.unit || 1}`;
@@ -419,6 +420,15 @@ class BattleManager {
         this.isInputLocked = false;
       });
 
+    } else if (this.selectedAction === 'altar') {
+      this.playerSoul = Math.min(100, this.playerSoul + 50);
+      this.playerMasks = Math.min(this.playerMaxMasks, this.playerMasks + 1);
+      window.soundEngine.playFocusHeal();
+      this.showFloatingText('RADIANT TRUTH! +50 SOUL & +1 MASK', this.game25d.player.pos, 'heal');
+      this.updateHUD();
+      this.game25d.triggerKnightFocusHeal(() => {
+        this.isInputLocked = false;
+      });
     } else if (this.selectedAction === 'great_slash') {
       window.soundEngine.playSlash();
       this.game25d.triggerKnightNailSlash(() => {
@@ -445,6 +455,48 @@ class BattleManager {
         this.isInputLocked = false;
       }
     });
+  }
+
+
+  onQuickHitEnemy(dmg = 8) {
+    if (!this.activeEnemy || this.chamberCleared || this.isInputLocked) return;
+    this.playerSoul = Math.min(100, this.playerSoul + 12);
+    this.activeEnemy.hp = Math.max(0, this.activeEnemy.hp - dmg);
+    this.showFloatingText(`-${dmg} DMG (+12 SOUL)`, this.game25d.enemyMesh.position, 'dmg');
+    this.updateHUD();
+
+    this.game25d.bossAI.staggerHits = (this.game25d.bossAI.staggerHits || 0) + 1;
+    if (this.activeEnemy.hp <= 0) {
+      this.handleChamberVictory();
+      return;
+    }
+    if (this.game25d.bossAI.staggerHits >= this.game25d.bossAI.hitsToStagger) {
+      this.game25d.bossAI.staggerHits = 0;
+      this.showFloatingText('BOSS STAGGERED! WORD TRIAL!', this.game25d.enemyMesh.position, 'crit');
+      setTimeout(() => {
+        if (!this.chamberCleared && !this.isTrialModalOpen()) {
+          this.selectedAction = 'slash';
+          this.presentQuestion();
+        }
+      }, 320);
+    }
+  }
+
+  triggerAltarTrial() {
+    if (this.isInputLocked || this.chamberCleared || this.isTrialModalOpen()) return;
+    this.selectedAction = 'altar';
+    this.presentQuestion();
+  }
+
+  onPlayerHitByBoss() {
+    if (this.chamberCleared || this.isTrialModalOpen()) return;
+    window.soundEngine.playMaskLost();
+    this.playerMasks = Math.max(0, this.playerMasks - 1);
+    this.showFloatingText('-1 MASK!', this.game25d.player.pos, 'dmg');
+    this.updateHUD();
+    if (this.playerMasks <= 0) {
+      this.showGameOver();
+    }
   }
 
   applyDamageToEnemy(dmg) {

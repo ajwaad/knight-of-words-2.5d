@@ -43,6 +43,11 @@ namespace KnightOfWords.Editor
             groundObj.tag = "Ground";
             var groundCol = groundObj.AddComponent<BoxCollider2D>();
             groundCol.size = new Vector2(34f, 1.5f);
+            var groundSr = groundObj.AddComponent<SpriteRenderer>();
+            groundSr.sprite = RuntimeSpriteFactory.GetPlatformSprite();
+            groundSr.drawMode = SpriteDrawMode.Tiled;
+            groundSr.size = groundCol.size;
+            groundSr.sortingOrder = 1;
 
             // Left & Right Arena Walls
             var leftWall = new GameObject("LeftWall");
@@ -104,6 +109,7 @@ namespace KnightOfWords.Editor
             var knightAnim = knightObj.AddComponent<PlayerAnimation>();
             var knightCombat = knightObj.AddComponent<PlayerCombat>();
             var knightCtrl = knightObj.AddComponent<PlayerController>();
+            knightCtrl.groundLayer = ~0;
 
             // 6. Hornet Boss
             var hornetObj = new GameObject("HornetBoss");
@@ -135,15 +141,23 @@ namespace KnightOfWords.Editor
             canvasObj.AddComponent<GraphicRaycaster>();
 
             // Game HUD
-            var hudObj = new GameObject("GameHUD");
+            var hudObj = new GameObject("GameHUD", typeof(RectTransform));
             hudObj.transform.SetParent(canvasObj.transform, false);
+            var hudRect = hudObj.GetComponent<RectTransform>();
+            hudRect.anchorMin = Vector2.zero;
+            hudRect.anchorMax = Vector2.one;
+            hudRect.sizeDelta = Vector2.zero;
             var hud = hudObj.AddComponent<GameHUD>();
 
             BuildHUD(hudObj, hud);
 
             // Trial Canvas Popup
-            var trialObj = new GameObject("TrialCanvas");
+            var trialObj = new GameObject("TrialCanvas", typeof(RectTransform));
             trialObj.transform.SetParent(canvasObj.transform, false);
+            var trialRect = trialObj.GetComponent<RectTransform>();
+            trialRect.anchorMin = Vector2.zero;
+            trialRect.anchorMax = Vector2.one;
+            trialRect.sizeDelta = Vector2.zero;
             var trialCanvas = trialObj.AddComponent<TrialCanvas>();
 
             BuildTrialUI(trialObj, trialCanvas);
