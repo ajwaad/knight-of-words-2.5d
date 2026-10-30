@@ -482,70 +482,69 @@ class Game25D {
   }
 
   async setupCharacterAnimations() {
-    // 1. THE KNIGHT: 100% Existing Assets from manifest.txt!
-    const knightOpts = { normalize: true, isKnight: true, defaultNativeFacing: 1, canvasWidth: 320, canvasHeight: 320, bottomPad: 12 };
-    const knightRunOpts = { normalize: true, isKnight: true, defaultNativeFacing: -1, canvasWidth: 320, canvasHeight: 320, bottomPad: 12 };
+    // 1. THE KNIGHT: Authentic frames extracted directly from The Knight master sprite atlas
+    const knightOpts = { normalize: true, isKnight: true, defaultNativeFacing: -1, canvasWidth: 280, canvasHeight: 280, bottomPad: 15 };
 
     const knightIdleFrames = this.loadTextureArray([
-      'assets/Bosses/The Hollow Knight/The Hollow Knight Path of Pain scene - small_side0000.png',
-      'assets/Bosses/The Hollow Knight/The Hollow Knight Path of Pain scene - small_side0001.png',
-      'assets/Bosses/The Hollow Knight/The Hollow Knight Path of Pain scene - small_side0002.png',
-      'assets/Bosses/The Hollow Knight/The Hollow Knight Path of Pain scene - small_side0003.png',
-      'assets/Bosses/The Hollow Knight/The Hollow Knight Path of Pain scene - small_side0004.png'
+      'assets/The Knight/knight_idle_00.png',
+      'assets/The Knight/knight_idle_01.png',
+      'assets/The Knight/knight_idle_02.png',
+      'assets/The Knight/knight_idle_03.png'
     ], knightOpts);
 
     const knightRunFrames = this.loadTextureArray([
-      'assets/Inventory & UI/Loading icons/loading_icon_new0000.png',
-      'assets/Inventory & UI/Loading icons/loading_icon_new0001.png',
-      'assets/Inventory & UI/Loading icons/loading_icon_new0002.png',
-      'assets/Inventory & UI/Loading icons/loading_icon_new0003.png',
-      'assets/Inventory & UI/Loading icons/loading_icon_new0004.png',
-      'assets/Inventory & UI/Loading icons/loading_icon_new0005.png',
-      'assets/Inventory & UI/Loading icons/loading_icon_new0006.png',
-      'assets/Inventory & UI/Loading icons/loading_icon_new0007.png'
-    ], knightRunOpts);
+      'assets/The Knight/knight_run_00.png',
+      'assets/The Knight/knight_run_01.png',
+      'assets/The Knight/knight_run_02.png',
+      'assets/The Knight/knight_run_03.png',
+      'assets/The Knight/knight_run_04.png',
+      'assets/The Knight/knight_run_05.png',
+      'assets/The Knight/knight_run_06.png',
+      'assets/The Knight/knight_run_07.png',
+      'assets/The Knight/knight_run_08.png',
+      'assets/The Knight/knight_run_09.png'
+    ], knightOpts);
 
     const knightJumpFrames = this.loadTextureArray([
-      'assets/Particles & Effects/Charm & Spells/Desolate Dive - quake_pickup0003.png',
-      'assets/Particles & Effects/Charm & Spells/Desolate Dive - quake_pickup0004.png',
-      'assets/Particles & Effects/Charm & Spells/Desolate Dive - quake_pickup0005.png',
-      'assets/Particles & Effects/Charm & Spells/Desolate Dive - quake_pickup0006.png',
-      'assets/Particles & Effects/Charm & Spells/Desolate Dive - quake_pickup0007.png',
-      'assets/Particles & Effects/Charm & Spells/Desolate Dive - quake_pickup0008.png'
+      'assets/The Knight/knight_jump_00.png',
+      'assets/The Knight/knight_jump_01.png',
+      'assets/The Knight/knight_jump_02.png',
+      'assets/The Knight/knight_jump_03.png'
     ], knightOpts);
 
     const knightAttackFrames = this.loadTextureArray([
-      'assets/Particles & Effects/Charm & Spells/Desolate Dive - quake_pickup0003.png',
-      'assets/Particles & Effects/Charm & Spells/Desolate Dive - quake_pickup0004.png',
-      'assets/Particles & Effects/Charm & Spells/Vengeful Spirit - fireball_collect0004.png',
-      'assets/Particles & Effects/Charm & Spells/Vengeful Spirit - fireball_collect0005.png',
-      'assets/Particles & Effects/Charm & Spells/Vengeful Spirit - fireball_collect0006.png',
-      'assets/Particles & Effects/Charm & Spells/Vengeful Spirit - fireball_collect0007.png',
-      'assets/Particles & Effects/Charm & Spells/Vengeful Spirit - fireball_collect0008.png'
+      'assets/The Knight/knight_attack_00.png',
+      'assets/The Knight/knight_attack_01.png',
+      'assets/The Knight/knight_attack_02.png',
+      'assets/The Knight/knight_attack_03.png',
+      'assets/The Knight/knight_attack_04.png',
+      'assets/The Knight/knight_attack_05.png',
+      'assets/The Knight/knight_attack_06.png',
+      'assets/The Knight/knight_attack_07.png',
+      'assets/The Knight/knight_attack_08.png',
+      'assets/The Knight/knight_attack_09.png'
     ], knightOpts);
 
     const knightCastFrames = this.loadTextureArray([
-      'assets/Particles & Effects/Charm & Spells/Vengeful Spirit - fireball_collect0003.png',
-      'assets/Particles & Effects/Charm & Spells/Vengeful Spirit - fireball_collect0004.png',
-      'assets/Particles & Effects/Charm & Spells/Vengeful Spirit - fireball_collect0005.png',
-      'assets/Particles & Effects/Charm & Spells/Vengeful Spirit - fireball_collect0006.png',
-      'assets/Particles & Effects/Charm & Spells/Vengeful Spirit - fireball_collect0007.png',
-      'assets/Particles & Effects/Charm & Spells/Vengeful Spirit - fireball_collect0008.png',
-      'assets/Particles & Effects/Charm & Spells/Vengeful Spirit - fireball_collect0009.png'
+      'assets/The Knight/knight_cast_00.png',
+      'assets/The Knight/knight_cast_01.png',
+      'assets/The Knight/knight_cast_02.png',
+      'assets/The Knight/knight_cast_03.png',
+      'assets/The Knight/knight_cast_04.png'
     ], knightOpts);
 
     const knightFocusFrames = this.loadTextureArray([
-      'assets/Particles & Effects/Charm & Spells/Howling Wraiths - scream_spell_pickup0004.png',
-      'assets/Particles & Effects/Charm & Spells/Howling Wraiths - scream_spell_pickup0005.png',
-      'assets/Particles & Effects/Charm & Spells/Howling Wraiths - scream_spell_pickup0006.png',
-      'assets/Particles & Effects/Charm & Spells/Howling Wraiths - scream_spell_pickup0007.png',
-      'assets/Particles & Effects/Charm & Spells/Howling Wraiths - scream_spell_pickup0008.png'
+      'assets/The Knight/knight_focus_00.png',
+      'assets/The Knight/knight_focus_01.png',
+      'assets/The Knight/knight_focus_02.png',
+      'assets/The Knight/knight_focus_03.png'
     ], knightOpts);
 
     const knightHurtFrames = this.loadTextureArray([
-      'assets/Bosses/The Hollow Knight/The Hollow Knight Path of Pain scene - small_side_shake_010000.png',
-      'assets/Bosses/The Hollow Knight/The Hollow Knight Path of Pain scene - small_side_shake_010001.png',
-      'assets/Bosses/The Hollow Knight/The Hollow Knight Path of Pain scene - small_side_shake_010002.png'
+      'assets/The Knight/knight_hurt_00.png',
+      'assets/The Knight/knight_hurt_01.png',
+      'assets/The Knight/knight_hurt_02.png',
+      'assets/The Knight/knight_hurt_03.png'
     ], knightOpts);
 
     const knightGeo = new THREE.PlaneGeometry(1, 1);
@@ -562,13 +561,13 @@ class Game25D {
     this.knightShadow = this.createGroundShadow(0.9, 0.42);
 
     this.knightAnimator = new SpriteAnimator(this.knightMesh, {
-      idle: { frames: knightIdleFrames, fps: 7, loop: true, nativeFacing: 1 },
-      run: { frames: knightRunFrames, fps: 15, loop: true, nativeFacing: -1 },
-      jump: { frames: knightJumpFrames, fps: 12, loop: false, nativeFacing: 1 },
-      attack: { frames: knightAttackFrames, fps: 18, loop: false, nativeFacing: 1 },
-      cast: { frames: knightCastFrames, fps: 15, loop: false, nativeFacing: 1 },
-      focus: { frames: knightFocusFrames, fps: 12, loop: true, nativeFacing: 1 },
-      hurt: { frames: knightHurtFrames, fps: 10, loop: false, nativeFacing: 1 }
+      idle: { frames: knightIdleFrames, fps: 8, loop: true, nativeFacing: -1 },
+      run: { frames: knightRunFrames, fps: 16, loop: true, nativeFacing: -1 },
+      jump: { frames: knightJumpFrames, fps: 10, loop: false, nativeFacing: -1 },
+      attack: { frames: knightAttackFrames, fps: 22, loop: false, nativeFacing: -1 },
+      cast: { frames: knightCastFrames, fps: 16, loop: false, nativeFacing: -1 },
+      focus: { frames: knightFocusFrames, fps: 12, loop: true, nativeFacing: -1 },
+      hurt: { frames: knightHurtFrames, fps: 10, loop: false, nativeFacing: -1 }
     }, 'idle', 2.45, false);
 
     this.player.groundY = this.knightAnimator.getGroundCenterY();

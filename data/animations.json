@@ -1,58 +1,58 @@
 {
   "knight/idle": [
-    "assets/Bosses/The Hollow Knight/The Hollow Knight Path of Pain scene - small_side0000.png",
-    "assets/Bosses/The Hollow Knight/The Hollow Knight Path of Pain scene - small_side0001.png",
-    "assets/Bosses/The Hollow Knight/The Hollow Knight Path of Pain scene - small_side0002.png",
-    "assets/Bosses/The Hollow Knight/The Hollow Knight Path of Pain scene - small_side0003.png",
-    "assets/Bosses/The Hollow Knight/The Hollow Knight Path of Pain scene - small_side0004.png"
+    "assets/The Knight/knight_idle_00.png",
+    "assets/The Knight/knight_idle_01.png",
+    "assets/The Knight/knight_idle_02.png",
+    "assets/The Knight/knight_idle_03.png"
   ],
   "knight/run": [
-    "assets/Inventory & UI/Loading icons/loading_icon_new0000.png",
-    "assets/Inventory & UI/Loading icons/loading_icon_new0001.png",
-    "assets/Inventory & UI/Loading icons/loading_icon_new0002.png",
-    "assets/Inventory & UI/Loading icons/loading_icon_new0003.png",
-    "assets/Inventory & UI/Loading icons/loading_icon_new0004.png",
-    "assets/Inventory & UI/Loading icons/loading_icon_new0005.png",
-    "assets/Inventory & UI/Loading icons/loading_icon_new0006.png",
-    "assets/Inventory & UI/Loading icons/loading_icon_new0007.png"
+    "assets/The Knight/knight_run_00.png",
+    "assets/The Knight/knight_run_01.png",
+    "assets/The Knight/knight_run_02.png",
+    "assets/The Knight/knight_run_03.png",
+    "assets/The Knight/knight_run_04.png",
+    "assets/The Knight/knight_run_05.png",
+    "assets/The Knight/knight_run_06.png",
+    "assets/The Knight/knight_run_07.png",
+    "assets/The Knight/knight_run_08.png",
+    "assets/The Knight/knight_run_09.png"
   ],
   "knight/jump": [
-    "assets/Particles & Effects/Charm & Spells/Desolate Dive - quake_pickup0003.png",
-    "assets/Particles & Effects/Charm & Spells/Desolate Dive - quake_pickup0004.png",
-    "assets/Particles & Effects/Charm & Spells/Desolate Dive - quake_pickup0005.png",
-    "assets/Particles & Effects/Charm & Spells/Desolate Dive - quake_pickup0006.png",
-    "assets/Particles & Effects/Charm & Spells/Desolate Dive - quake_pickup0007.png",
-    "assets/Particles & Effects/Charm & Spells/Desolate Dive - quake_pickup0008.png"
+    "assets/The Knight/knight_jump_00.png",
+    "assets/The Knight/knight_jump_01.png",
+    "assets/The Knight/knight_jump_02.png",
+    "assets/The Knight/knight_jump_03.png"
   ],
   "knight/attack": [
-    "assets/Particles & Effects/Charm & Spells/Desolate Dive - quake_pickup0003.png",
-    "assets/Particles & Effects/Charm & Spells/Desolate Dive - quake_pickup0004.png",
-    "assets/Particles & Effects/Charm & Spells/Vengeful Spirit - fireball_collect0004.png",
-    "assets/Particles & Effects/Charm & Spells/Vengeful Spirit - fireball_collect0005.png",
-    "assets/Particles & Effects/Charm & Spells/Vengeful Spirit - fireball_collect0006.png",
-    "assets/Particles & Effects/Charm & Spells/Vengeful Spirit - fireball_collect0007.png",
-    "assets/Particles & Effects/Charm & Spells/Vengeful Spirit - fireball_collect0008.png"
+    "assets/The Knight/knight_attack_00.png",
+    "assets/The Knight/knight_attack_01.png",
+    "assets/The Knight/knight_attack_02.png",
+    "assets/The Knight/knight_attack_03.png",
+    "assets/The Knight/knight_attack_04.png",
+    "assets/The Knight/knight_attack_05.png",
+    "assets/The Knight/knight_attack_06.png",
+    "assets/The Knight/knight_attack_07.png",
+    "assets/The Knight/knight_attack_08.png",
+    "assets/The Knight/knight_attack_09.png"
   ],
   "knight/cast": [
-    "assets/Particles & Effects/Charm & Spells/Vengeful Spirit - fireball_collect0003.png",
-    "assets/Particles & Effects/Charm & Spells/Vengeful Spirit - fireball_collect0004.png",
-    "assets/Particles & Effects/Charm & Spells/Vengeful Spirit - fireball_collect0005.png",
-    "assets/Particles & Effects/Charm & Spells/Vengeful Spirit - fireball_collect0006.png",
-    "assets/Particles & Effects/Charm & Spells/Vengeful Spirit - fireball_collect0007.png",
-    "assets/Particles & Effects/Charm & Spells/Vengeful Spirit - fireball_collect0008.png",
-    "assets/Particles & Effects/Charm & Spells/Vengeful Spirit - fireball_collect0009.png"
+    "assets/The Knight/knight_cast_00.png",
+    "assets/The Knight/knight_cast_01.png",
+    "assets/The Knight/knight_cast_02.png",
+    "assets/The Knight/knight_cast_03.png",
+    "assets/The Knight/knight_cast_04.png"
   ],
   "knight/focus": [
-    "assets/Particles & Effects/Charm & Spells/Howling Wraiths - scream_spell_pickup0004.png",
-    "assets/Particles & Effects/Charm & Spells/Howling Wraiths - scream_spell_pickup0005.png",
-    "assets/Particles & Effects/Charm & Spells/Howling Wraiths - scream_spell_pickup0006.png",
-    "assets/Particles & Effects/Charm & Spells/Howling Wraiths - scream_spell_pickup0007.png",
-    "assets/Particles & Effects/Charm & Spells/Howling Wraiths - scream_spell_pickup0008.png"
+    "assets/The Knight/knight_focus_00.png",
+    "assets/The Knight/knight_focus_01.png",
+    "assets/The Knight/knight_focus_02.png",
+    "assets/The Knight/knight_focus_03.png"
   ],
   "knight/hurt": [
-    "assets/Bosses/The Hollow Knight/The Hollow Knight Path of Pain scene - small_side_shake_010000.png",
-    "assets/Bosses/The Hollow Knight/The Hollow Knight Path of Pain scene - small_side_shake_010001.png",
-    "assets/Bosses/The Hollow Knight/The Hollow Knight Path of Pain scene - small_side_shake_010002.png"
+    "assets/The Knight/knight_hurt_00.png",
+    "assets/The Knight/knight_hurt_01.png",
+    "assets/The Knight/knight_hurt_02.png",
+    "assets/The Knight/knight_hurt_03.png"
   ],
   "enemies/hiveling/fly": [
     "assets/Enemies & Corpses/Hiveling - fly0000.png",

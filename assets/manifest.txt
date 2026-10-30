@@ -10450,3 +10450,44 @@ assets/The Knight/Embrace the Void ending/lord of shades, shade lord, god of god
 assets/The Knight/Embrace the Void ending/lord of shades, shade lord, god of gods, void given focus - Radiance_GG_tendril0005.png | 38426 B | 443x515
 assets/The Knight/Embrace the Void ending/lord of shades, shade lord, god of gods, void given focus - Radiance_GG_tendril0006.png | 36147 B | 443x515
 assets/The Knight/Embrace the Void ending/lord of shades, shade lord, god of gods, void given focus - atlas0 #45814.png | 1251286 B | 2048x2048
+assets/The Knight/knight_idle_00.png | 11655 B | 280x280
+assets/The Knight/knight_idle_01.png | 10084 B | 280x280
+assets/The Knight/knight_idle_02.png | 10211 B | 280x280
+assets/The Knight/knight_idle_03.png | 9647 B | 280x280
+assets/The Knight/knight_run_00.png | 9703 B | 280x280
+assets/The Knight/knight_run_01.png | 9313 B | 280x280
+assets/The Knight/knight_run_02.png | 9351 B | 280x280
+assets/The Knight/knight_run_03.png | 9091 B | 280x280
+assets/The Knight/knight_run_04.png | 9840 B | 280x280
+assets/The Knight/knight_run_05.png | 8913 B | 280x280
+assets/The Knight/knight_run_06.png | 9436 B | 280x280
+assets/The Knight/knight_run_07.png | 10346 B | 280x280
+assets/The Knight/knight_run_08.png | 10426 B | 280x280
+assets/The Knight/knight_run_09.png | 10331 B | 280x280
+assets/The Knight/knight_jump_00.png | 9753 B | 280x280
+assets/The Knight/knight_jump_01.png | 12510 B | 280x280
+assets/The Knight/knight_jump_02.png | 20070 B | 280x280
+assets/The Knight/knight_jump_03.png | 13593 B | 280x280
+assets/The Knight/knight_attack_00.png | 15972 B | 280x280
+assets/The Knight/knight_attack_01.png | 13043 B | 280x280
+assets/The Knight/knight_attack_02.png | 13330 B | 280x280
+assets/The Knight/knight_attack_03.png | 23280 B | 280x280
+assets/The Knight/knight_attack_04.png | 15464 B | 280x280
+assets/The Knight/knight_attack_05.png | 19275 B | 280x280
+assets/The Knight/knight_attack_06.png | 18341 B | 280x280
+assets/The Knight/knight_attack_07.png | 7779 B | 280x280
+assets/The Knight/knight_attack_08.png | 19297 B | 280x280
+assets/The Knight/knight_attack_09.png | 9714 B | 280x280
+assets/The Knight/knight_cast_00.png | 20827 B | 280x280
+assets/The Knight/knight_cast_01.png | 22032 B | 280x280
+assets/The Knight/knight_cast_02.png | 18895 B | 280x280
+assets/The Knight/knight_cast_03.png | 23961 B | 280x280
+assets/The Knight/knight_cast_04.png | 4799 B | 280x280
+assets/The Knight/knight_focus_00.png | 7748 B | 280x280
+assets/The Knight/knight_focus_01.png | 21432 B | 280x280
+assets/The Knight/knight_focus_02.png | 9758 B | 280x280
+assets/The Knight/knight_focus_03.png | 15536 B | 280x280
+assets/The Knight/knight_hurt_00.png | 10085 B | 280x280
+assets/The Knight/knight_hurt_01.png | 10097 B | 280x280
+assets/The Knight/knight_hurt_02.png | 10422 B | 280x280
+assets/The Knight/knight_hurt_03.png | 9548 B | 280x280
